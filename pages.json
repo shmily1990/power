@@ -1,0 +1,228 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		// {
+		// 	"path": "pages/login/index",
+		// 	"style": {
+		// 		"navigationStyle": "custom"
+		// 		// "navigationBarTitleText": "登录",
+		// 		// "navigationBarTextStyle": "#fff", //导航栏标题颜色
+		// 		// "navigationBarBackgroundColor": "#00B0F0",
+		// 		// "enablePullDownRefresh": false,
+		// 		// "app-plus": {
+		// 		// 	"autoBackButton": false
+		// 		// }
+		// 	}
+
+		// },
+		{
+			"path": "pages/cockpit/index",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "驾驶舱",
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+		},
+	
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "数元电力",
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/orders/viewOrder/viewOrder",
+			"style": {
+				"navigationBarTitleText": "巡检工单",
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/orders/viewOrder/routine",
+			"style": {
+				"navigationBarTitleText": "巡检项目登记",
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+
+		},
+		{
+			"path": "pages/orders/index",
+			"style": {
+				"navigationBarTitleText": "工单中心",
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+
+		},
+		{
+			"path": "pages/orders/check",
+			"style": {
+				"navigationBarTitleText": "验收工单",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+
+		},
+		{
+			"path": "pages/orders/construction",
+			"style": {
+				"navigationBarTitleText": "施工工单",
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0",
+				"enablePullDownRefresh": false
+
+			}
+
+		},
+		{
+			"path": "pages/my/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/updatePassword",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+
+		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+
+		}, {
+			"path": "pages/screen/screen",
+			"style": {
+				"navigationBarTitleText": "筛选",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+
+		}, {
+			"path": "pages/orders/viewOrder/equipment/equipment",
+			"style": {
+				"navigationBarTitleText": "设备巡检",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+
+		}, {
+			"path": "pages/orders/viewOrder/equipment/equipmentDetail",
+			"style": {
+				"navigationBarTitleText": "设备信息登记",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+
+		}, {
+			"path": "pages/billEquipment/billEquipment",
+			"style": {
+				"navigationBarTitleText": "设备台帐",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+
+		}, {
+			"path": "pages/billEquipment/editDevices",
+			"style": {
+				"navigationBarTitleText": "设备信息登记",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "#fff", //导航栏标题颜色
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+
+		}
+	    ,{
+            "path" : "pages/orders/viewOrder/components/routineSee",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "巡检项目登记",
+                "enablePullDownRefresh": false,
+                "navigationBarTextStyle": "#fff", //导航栏标题颜色
+                "navigationBarBackgroundColor": "#00B0F0"
+            }
+            
+        }
+        ,{
+            "path" : "pages/orders/viewOrder/components/equipmentSee",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设备信息登记",
+                "enablePullDownRefresh": false,
+                "navigationBarTextStyle": "#fff", //导航栏标题颜色
+                "navigationBarBackgroundColor": "#00B0F0"
+            }
+            
+        }
+        ,{
+            "path" : "pages/orders/viewOrder/components/equipmentDetailSee",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设备信息登记",
+               "enablePullDownRefresh": false,
+               "navigationBarTextStyle": "#fff", //导航栏标题颜色
+               "navigationBarBackgroundColor": "#00B0F0"
+            }
+            
+        }
+        ,{
+            "path" : "pages/orders/businessSupport",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商务支持工单",
+                "enablePullDownRefresh": false,
+                "navigationBarTextStyle": "#fff", //导航栏标题颜色
+                "navigationBarBackgroundColor": "#00B0F0"
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"onReachBottomDistance": 30, // 距离底部的触底间距
+		"enablePullDownRefresh": true, //是否开启下拉刷新
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {},
+	"tabBar": {
+		"color": "#333333",
+		"selectedColor": "#00B0F0",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/cockpit/index",
+			"iconPath": "static/home.png",
+			"selectedIconPath": "static/home-select.png",
+			"text": "驾驶舱"
+		}, {
+			"pagePath": "pages/my/index",
+			"iconPath": "static/my.png",
+			"selectedIconPath": "static/my-select.png",
+			"text": "快速邀约"
+		}]
+	}
+}
