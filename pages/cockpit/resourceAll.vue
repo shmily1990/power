@@ -1,121 +1,141 @@
 <template>
   <view class="resource-all">
     <view class="lists">
-      <view class="item user-item">
-        <text class="big iconfont icon-login-zu"></text>
-        <view class="item-wrap">
-          <text class="big title"> 接入用户总览</text>
-          <view class="ul">
-            <view class="li">
-              <text class="iconfont icon-login-zu"></text>
-              <view class="txt">
-                <view>接入用户</view>
-                <view class="num">232</view>
-              </view>
+      <List titleTxt="接入用户总览" fontClass="icon-iconJSC_1_0-title">
+        <view class="ul indent">
+          <view class="li">
+            <text class="iconfont icon-iconJSC_1_1"></text>
+            <view class="txt">
+              <view>接入设备</view>
+              <view class="num">232</view>
             </view>
-            <view class="li">
-              <text class="iconfont icon-login-zu"></text>
-              <view class="txt">
-                <view>响应用户</view>
-                <view class="num">230</view>
-              </view>
+          </view>
+          <view class="li">
+            <text class="iconfont icon-iconJSC_1_2"></text>
+            <view class="txt">
+              <view>响应设备</view>
+              <view class="num">230</view>
             </view>
           </view>
         </view>
-
-        <!---->
-      </view>
-      <view class="item equip-item">
-        <text class="big iconfont icon-login-zu"></text>
-        <view class="item-wrap">
-          <text class="big title"> 接入设备总览</text>
-          <view class="ul">
-            <view class="li">
-              <text class="iconfont icon-login-zu"></text>
-              <view class="txt">
-                <view>接入设备</view>
-                <view class="num">232</view>
-              </view>
+      </List>
+      <List titleTxt="接入设备总览" fontClass="icon-iconJSC_2_0-title">
+        <view class="ul indent">
+          <view class="li">
+            <text class="iconfont icon-iconJSC_2_1"></text>
+            <view class="txt">
+              <view>接入用户</view>
+              <view class="num">232</view>
             </view>
-            <view class="li">
-              <text class="iconfont icon-login-zu"></text>
-              <view class="txt">
-                <view>响应设备</view>
-                <view class="num">230</view>
-              </view>
+          </view>
+          <view class="li">
+            <text class="iconfont icon-iconJSC_2_2"></text>
+            <view class="txt">
+              <view>响应用户</view>
+              <view class="num">230</view>
             </view>
           </view>
         </view>
-      </view>
-      <view class="item response-item">
-        <view class="item-wrap">
-          <text class="big title iconfont icon-login-zu"> 接入设备总览</text>
-          <view class="ul">
-            <view class="li">
-              <text class="iconfont icon-login-zu"></text>
-              <view class="txt">
-                <view>可调负荷</view>
-                <view class="num">266 <text>kW</text></view>
-              </view>
+      </List>
+      <List titleTxt="响应能力总览" fontClass="icon-iconJSC_3_0-title">
+        <view class="ul resopnse-ul">
+          <view class="li">
+            <text class="iconfont icon-xingzhuangjiehe"></text>
+            <view class="txt">
+              <view>可调负荷</view>
+              <view class="num">266 <text>kW</text></view>
             </view>
-            <view class="li">
-              <text class="iconfont icon-login-zu"></text>
-              <view class="txt">
-                <view>日内响应</view>
-                <view class="num">230<text>kW</text></view>
-              </view>
+          </view>
+          <view class="li">
+            <text class="iconfont icon-xingzhuangjiehe"></text>
+            <view class="txt">
+              <view>日内响应</view>
+              <view class="num">230<text>kW</text></view>
             </view>
-            <view class="li">
-              <text class="iconfont icon-login-zu"></text>
-              <view class="txt">
-                <view>最大响应</view>
-                <view class="num">230<text>kW</text></view>
-              </view>
+          </view>
+          <view class="li">
+            <text class="iconfont icon-xingzhuangjiehe"></text>
+            <view class="txt">
+              <view>最大响应</view>
+              <view class="num">230<text>kW</text></view>
             </view>
           </view>
         </view>
-      </view>
-      <view class="item chartbox">
-       <view class="item-wrap">
-         <view class="top">
-            <text class="big title iconfont icon-login-zu"> 年度响应统计</text>
-            <view class="legnd"><i>响应负荷</i><i>用户数量</i></view>
-         </view>
-          <!-- <qiun-data-charts type="column" :chartData="opts" /> -->
-      </view>
+      </List>
+      <List titleTxt="年度响应统计" fontClass="icon-iconJSC_4_0-title">
+        <view class="chart-box">
+          <qiun-data-charts type="mix" :opts="opts" :chartData="chartData" />
+        </view>
+      </List>
     </view>
   </view>
 </template>
 
 <script>
+import List from "@/components/list.vue";
 export default {
-  components: {},
+  components: { List },
   data() {
     return {
       opts: {
-        categories: ["2016", "2017", "2018", "2019", "2020", "2021"],
-        series: [
-          {
-            name: "目标值",
-            data: [35, 36, 31, 33, 13, 34],
-          },
-          {
-            name: "完成量",
-            data: [18, 27, 21, 24, 6, 28],
-          },
+        color: [
+          "#0091FF",
+          "#91CB74",
+          "#FAC858",
+          "#EE6666",
+          "#73C0DE",
+          "#3CA272",
+          "#FC8452",
+          "#9A60B4",
+          "#ea7ccc",
         ],
-      },
-      chartData: {
-        categories: ["g", "gg", "ggg"],
-        series: [
-          {
-            name: "",
-            data: [2, 2, 4],
-            textColor: "#747E85",
-            textSize: "12",
+        padding: [0, 0, 0, 0],
+        enableScroll: false,
+        legend: {
+          position: "top",
+          float: "right",
+          fontColor: "#9FA6AF",
+          fontSize: 12,
+          lineHeight: 60,
+          // show:false
+        },
+        xAxis: {
+          disableGrid: true,
+          // title: "单位：年"
+          axisLineColor: "rgba(255,255,255,0.1)",
+          fontColor: "#D8D8D8",
+          fontSize: 12,
+        },
+        yAxis: {
+          disabled: false,
+          disableGrid: true,
+          // splitNumber: 5,
+          gridColor: "#9FA6AF",
+          padding: 10,
+          showTitle: true,
+          data: [
+            {
+              position: "left",
+              title: "负荷 kWh",
+              axisLineColor: "rgba(255,255,255,0.1)",
+              fontColor: "#D8D8D8",
+              fontSize: 12,
+              titleFontColor: "#9FA6AF",
+              titleOffsetY: -6,
+            },
+          ],
+        },
+        extra: {
+          mix: {
+            column: {
+              width: 10,
+              linearOpacity: 0.5,
+              customColor: ["#32C5FF", "#32C5FF"],
+            },
           },
-        ],
+        },
       },
+      chartData: {},
     };
   },
   methods: {
@@ -124,15 +144,26 @@ export default {
       setTimeout(() => {
         //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
         let res = {
-          categories: ["2018", "2019", "2020", "2021", "2022", "2023"],
+          categories: ["1", "2", "3", "4", "5", "6"],
           series: [
             {
-              name: "目标值",
-              data: [35, 36, 31, 33, 13, 34],
+              index: 0,
+              name: "响应负荷",
+              type: "column",
+              textSize: 1,
+              // show: false,
+              // data: [40,{"value":30,"color":"#f04864"},55,110,24,58]
+              data: [120, 140, 105, 170, 95, 160],
             },
             {
-              name: "完成量",
-              data: [18, 27, 21, 24, 6, 28],
+              name: "用户数量",
+              index: 0,
+              type: "line",
+              lineType: "solid",
+              color: "#2fc25b",
+              textSize: 1,
+              pointShape: "none",
+              data: [40, 60, 55, 110, 24, 58],
             },
           ],
         };
@@ -148,111 +179,58 @@ export default {
 
 <style lang="scss" scoped>
 .lists {
-  .item {
-    background: rgba(0, 142, 181, 0.15);
-    border-radius: 16px;
-    padding: 30rpx 36rpx;
-    box-sizing: border-box;
+  .ul {
     display: flex;
-    margin-top: 20rpx;
-    .big {
-      font-size: 32rpx;
-      color: #fff;
-      margin-right: 18rpx;
-      font-weight: bold;
-      display: block;
-      &.iconfont {
-        font-size: 48rpx;
-        margin-top: 10rpx;
-      }
+    justify-content: space-between;
+    &.indent {
+      padding-left: 66rpx;
     }
-    .item-wrap {
-      flex: 1;
-      .big {
-        &.iconfont {
-          font-size: 40rpx;
-
-          &::before {
-            margin-right: 18rpx;
-          }
-        }
-      }
-      .ul {
-        margin-top: 34rpx;
-        display: flex;
-        justify-content: space-between;
-        .li {
-          display: flex;
-          .iconfont {
-            font-size: 64rpx;
-            margin-right: 20rpx;
-          }
-          .txt {
-            font-size: 24rpx;
-            color: rgba(255, 255, 255, 0.8);
-            .num {
-              font-size: 28rpx;
-              color: #19d8ff;
-              margin-top: 18rpx;
-            }
-          }
-        }
-      }
-    }
-    .item-title {
-      font-weight: bold;
-      color: #fff;
+    .li {
+      display: flex;
       .iconfont {
-        font-size: 42rpx;
-        &::before {
-          margin-right: 18rpx;
+        font-size: 64rpx;
+        margin-right: 20rpx;
+      }
+      .txt {
+        font-size: 24rpx;
+        color: rgba(255, 255, 255, 0.8);
+        .num {
+          font-size: 28rpx;
+          color: #19d8ff;
+          margin-top: 18rpx;
         }
       }
     }
-  }
-  .response-item {
-    .item-wrap {
-      .ul {
-        .li {
-          .iconfont {
-            font-size: 40rpx;
-          }
+    &.resopnse-ul {
+      .li {
+        &:first-child {
           .txt {
             .num {
-              text {
-                color: rgba(255, 255, 255, 0.8);
-                font-size: 24rpx;
-                margin-left: 10rpx;
-                display: inline-block;
-              }
+              color: #0dff9a;
             }
           }
-          &:first-child {
-            .txt {
-              .num {
-                color: #0dff9a;
-              }
+        }
+        &:nth-child(2) {
+          .txt {
+            .num {
+              color: #f7b500;
             }
           }
-          &:nth-child(2) {
-            .txt {
-              .num {
-                color: #f7b500;
-              }
-            }
-          }
-          &:last-child {
-            .txt {
-              .num {
-                color: #fa6400;
-              }
+        }
+        &:last-child {
+          .txt {
+            .num {
+              color: #fa6400;
             }
           }
         }
       }
     }
   }
-  .chartbox {
+  .chart-box {
+    width: 568rpx;
+    height: 350rpx;
+    margin-top: -124rpx;
     .top {
       display: flex;
       justify-content: space-between;

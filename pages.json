@@ -23,7 +23,15 @@
 				"navigationBarBackgroundColor": "#00B0F0"
 			}
 		},
-	
+		{
+			"path": "pages/configManage/index",
+			"style": {
+				"enablePullDownRefresh": false,
+				// "navigationStyle": "custom",
+				"navigationBarTitleText": "配置管理",
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+		},
 		{
 			"path": "pages/home/index",
 			"style": {
@@ -213,17 +221,22 @@
 		"color": "#333333",
 		"selectedColor": "#00B0F0",
 		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
+		"backgroundColor": "#0d2944",
 		"list": [{
 			"pagePath": "pages/cockpit/index",
-			"iconPath": "static/home.png",
-			"selectedIconPath": "static/home-select.png",
+			"iconPath": "static/jsc.png",
+			"selectedIconPath": "static/jsc-select.png",
 			"text": "驾驶舱"
 		}, {
 			"pagePath": "pages/my/index",
-			"iconPath": "static/my.png",
-			"selectedIconPath": "static/my-select.png",
+			"iconPath": "static/ksyy.png",
+			"selectedIconPath": "static/ksyy-select.png",
 			"text": "快速邀约"
+		}, {
+			"pagePath": "pages/configManage/index",
+			"iconPath": "static/pzgl.png",
+			"selectedIconPath": "static/pzgl-select.png",
+			"text": "配置管理"
 		}]
 	}
 }

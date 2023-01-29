@@ -11,19 +11,22 @@
             class="curr-img"
             src="@/static/images/cockpit/tab_curr.png"
           ></image>
-          <text class="iconfont icon-xingzhuangjiehe">{{ item.name }}</text>
+          <view class="title">
+            <text :class="['iconfont', item.iconfont]"></text
+            >{{ item.name }}</view
+          >
         </view>
       </view>
     </view>
     <swiper :current="swiperCurrent" @change="transition" class="swipeHeiht">
-      <swiper-item class="swiper-item">
-        <slot name="tab0"></slot>
-      </swiper-item>
-      <swiper-item class="swiper-item">
-        <slot name="tab1"></slot>
-      </swiper-item>
-      <swiper-item class="swiper-item">
-        <slot name="tab2"></slot>
+      <swiper-item class="swiper-item" v-for="(item, index) in tabMenu">
+        <!-- <slot :name="tab" + index></slot> -->
+        <!-- #ifdef H5  -->
+        <slot :name="tab" + index></slot>
+        <!-- #endif -->
+        <!-- #ifdef MP -->
+        <slot name="tab{{index}}"></slot>
+        <!-- #endif -->
       </swiper-item>
     </swiper>
   </view>
@@ -90,7 +93,7 @@ export default {
       z-index: 0;
       opacity: 0;
     }
-    .iconfont {
+    .title {
       width: 200rpx;
       height: 80rpx;
       position: absolute;
@@ -100,6 +103,14 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      font-size: 28rpx;
+      font-weight: bold;
+    }
+    .iconfont {
+      &::before {
+        margin-right: 12rpx;
+        font-size: 40rpx;
+      }
     }
   }
 }

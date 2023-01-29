@@ -22,7 +22,7 @@
           <resourceScatter />
         </template>
         <template slot="tab2">
-          <text>99129</text>
+          <regulatoryAbility />
         </template>
       </CommTab>
     </view>
@@ -35,12 +35,14 @@ import { getUserInfo } from "@/api/login/index.js";
 import imgBgURL from "@/static/images/cockpit/bg.png";
 import CommTab from "@/components/tab.vue";
 import resourceAll from "./resourceAll.vue";
+import regulatoryAbility from "./regulatoryAbility.vue";
 import resourceScatter from "./resourceScatter.vue";
 export default {
   components: {
     CommTab,
     resourceAll,
     resourceScatter,
+    regulatoryAbility,
   },
   data() {
     return {
@@ -48,12 +50,15 @@ export default {
       tabMenu: [
         {
           name: "资源总览",
+          iconfont: "icon-iconJSC_active_ZYZL",
         },
         {
           name: "资源分布",
+          iconfont: "icon-iconJSC_inactive_ZYFB",
         },
         {
           name: "调控能力",
+          iconfont: "icon-iconJSC_inactive_TKNL",
         },
       ],
     };
