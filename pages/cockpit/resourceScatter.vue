@@ -16,9 +16,10 @@
       placeholder="输入最少6位业务编号"
       v-model="searchText"
       actionText=" "
+      v-if="!showDetail"
     ></u-search>
     <scroll-view scroll-y="true" class="scroll-Y" v-if="!showDetail">
-      <uni-card :isShadow="true" mode="basic">
+      <uni-card :isShadow="true" mode="basic" class="scatter-card">
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -65,7 +66,12 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic" @click="handleSelect">
+      <uni-card
+        :isShadow="true"
+        mode="basic"
+        class="scatter-card"
+        @click="handleSelect"
+      >
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -112,7 +118,7 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic">
+      <uni-card :isShadow="true" mode="basic" class="scatter-card">
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -159,7 +165,7 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic">
+      <uni-card :isShadow="true" mode="basic" class="scatter-card">
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -206,7 +212,7 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic">
+      <uni-card :isShadow="true" mode="basic" class="scatter-card">
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -253,7 +259,7 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic">
+      <uni-card :isShadow="true" mode="basic" class="scatter-card">
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -300,7 +306,7 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic">
+      <uni-card :isShadow="true" mode="basic" class="scatter-card">
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -348,7 +354,7 @@
         </view>
       </uni-card>
     </scroll-view>
-    <resourceUserDetail v-else />
+    <resourceUserDetail v-else @goBack="handleGoBack" />
   </view>
 </template>
 
@@ -392,6 +398,9 @@ export default {
   methods: {
     handleSelect() {
       this.showDetail = true;
+    },
+    handleGoBack() {
+      this.showDetail = false;
     },
   },
 };
@@ -449,7 +458,7 @@ export default {
       display: none;
     }
   }
-  ::v-deep .uni-card {
+  .scatter-card ::v-deep .uni-card {
     margin: 20rpx 0 !important;
     padding: 0 40rpx !important;
     background: rgba(0, 142, 181, 0.15);

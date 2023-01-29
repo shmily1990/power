@@ -6,6 +6,139 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "33836642",
+      "name": "iconMenu_inactive_PZGL",
+      "font_class": "iconMenu_inactive_PZGL",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "33836643",
+      "name": "iconMenu_inactive_KSYY",
+      "font_class": "iconMenu_inactive_KSYY",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "33836644",
+      "name": "iconJSC_inactive_TKNL",
+      "font_class": "iconJSC_inactive_TKNL",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "33836645",
+      "name": "iconMenu_active_JSC",
+      "font_class": "iconMenu_active_JSC",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "33836646",
+      "name": "iconJSC_active_ZYZL",
+      "font_class": "iconJSC_active_ZYZL",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "33836647",
+      "name": "iconMenu_inactive_PZGL",
+      "font_class": "iconMenu_inactive_PZGL1",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "33836648",
+      "name": "iconJSC_inactive_ZYFB",
+      "font_class": "iconJSC_inactive_ZYFB",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "33836650",
+      "name": "iconJSC_1_2",
+      "font_class": "iconJSC_1_2",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "33836651",
+      "name": "iconJSC_2_0-title",
+      "font_class": "iconJSC_2_0-title",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "33836652",
+      "name": "iconJSC_2_2",
+      "font_class": "iconJSC_2_2",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "33836653",
+      "name": "iconJSC_1_0-title",
+      "font_class": "iconJSC_1_0-title",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "33836654",
+      "name": "iconJSC_1_1",
+      "font_class": "iconJSC_1_1",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "33836655",
+      "name": "iconJSC_2_1",
+      "font_class": "iconJSC_2_1",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "33836656",
+      "name": "iconJSC_3_0-title",
+      "font_class": "iconJSC_3_0-title",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "33836657",
+      "name": "iconJSC_3_1",
+      "font_class": "iconJSC_3_1",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "33836658",
+      "name": "iconJSC_3_3",
+      "font_class": "iconJSC_3_3",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "33836659",
+      "name": "iconJSC_4_0-title",
+      "font_class": "iconJSC_4_0-title",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "33836660",
+      "name": "iconJSC_3_2",
+      "font_class": "iconJSC_3_2",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "33836604",
+      "name": "iconPwd",
+      "font_class": "iconPwd",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
       "icon_id": "33836601",
       "name": "形状结合",
       "font_class": "xingzhuangjiehe",
