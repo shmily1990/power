@@ -18,6 +18,7 @@
 			"path": "pages/cockpit/index",
 			"style": {
 				"enablePullDownRefresh": false,
+				// "navigationStyle": "custom",
 				"navigationBarTitleText": "驾驶舱",
 				"navigationBarBackgroundColor": "#00B0F0"
 			}

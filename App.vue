@@ -19,7 +19,7 @@ export default {
   box-sizing: border-box;
 }
 
-@import "@/uni_modules/uview-ui/index.scss";
+@import "uview-ui/index.scss";
 @import "@/assets/iconfonts/iconfont.css";
 
 page {
