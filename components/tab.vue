@@ -11,7 +11,7 @@
             class="curr-img"
             src="@/static/images/cockpit/tab_curr.png"
           ></image>
-          <text class="iconfont icon-gongdidingwei">{{ item.name }}</text>
+          <text class="iconfont icon-xingzhuangjiehe">{{ item.name }}</text>
         </view>
       </view>
     </view>
@@ -36,20 +36,15 @@ export default {
   data() {
     return {
       tab_curr,
-      tabMenu: [
-        {
-          name: "爱情",
-        },
-        {
-          name: "搞笑",
-        },
-        {
-          name: "科幻",
-        },
-      ],
       swiperCurrent: 0,
       current: 0,
     };
+  },
+  props: {
+    tabMenu: {
+      type: Array,
+      default: [],
+    },
   },
   methods: {
     //拿到tab栏的下标 绑定给轮播图的index
@@ -107,5 +102,8 @@ export default {
       align-items: center;
     }
   }
+}
+.swipeHeiht {
+  height: calc(100vh - 180rpx);
 }
 </style>

@@ -1,0 +1,131 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3729094 */
+  src: url('~@/assets/iconfonts/iconfont.woff2?t=1668132427950') format('woff2'),
+       url('~@/assets/iconfonts/iconfont.woff?t=1668132427950') format('woff'),
+       url('~@/assets/iconfonts/iconfont.ttf?t=1668132427950') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xinzeng:before {
+  content: "\e66c";
+}
+
+.icon-sousuokuang-shanchu:before {
+  content: "\e689";
+}
+
+.icon-yincang:before {
+  content: "\e687";
+}
+
+.icon-xianshi:before {
+  content: "\e688";
+}
+
+.icon-login-yong:before {
+  content: "\e684";
+}
+
+.icon-login-zu:before {
+  content: "\e685";
+}
+
+.icon-login-mi:before {
+  content: "\e686";
+}
+
+.icon-danxuan-xuanzhong:before {
+  content: "\e678";
+}
+
+.icon-duoxuan-xuanzhong:before {
+  content: "\e679";
+}
+
+.icon-fankui-chenggong:before {
+  content: "\e67a";
+}
+
+.icon-fankui-shibai:before {
+  content: "\e67b";
+}
+
+.icon-fankui-tijiaozhong:before {
+  content: "\e67c";
+}
+
+.icon-gongneng-choucha:before {
+  content: "\e67d";
+}
+
+.icon-gongneng-gongdiqingdan:before {
+  content: "\e67e";
+}
+
+.icon-gongneng-pingding:before {
+  content: "\e67f";
+}
+
+.icon-gongneng-pingjiguize:before {
+  content: "\e680";
+}
+
+.icon-gongneng-wodejilu:before {
+  content: "\e681";
+}
+
+.icon-shaixuan:before {
+  content: "\e682";
+}
+
+.icon-sousuo:before {
+  content: "\e683";
+}
+
+.icon-table-pingji1:before {
+  content: "\e672";
+}
+
+.icon-table-ditu2:before {
+  content: "\e673";
+}
+
+.icon-table-pingji2:before {
+  content: "\e674";
+}
+
+.icon-gongdidingwei:before {
+  content: "\e675";
+}
+
+.icon-table-ditu1:before {
+  content: "\e676";
+}
+
+.icon-a-Aji:before {
+  content: "\e6f2";
+}
+
+.icon-Aji:before {
+  content: "\e6f3";
+}
+
+.icon-Bji:before {
+  content: "\e6f4";
+}
+
+.icon-Cji:before {
+  content: "\e6f5";
+}
+
+.icon-pingjizhong:before {
+  content: "\e6f6";
+}
+

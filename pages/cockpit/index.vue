@@ -14,12 +14,12 @@
         backgroundSize: 'cover',
       }"
     >
-      <CommTab>
+      <CommTab :tabMenu="tabMenu">
         <template slot="tab0">
           <resourceAll />
         </template>
         <template slot="tab1">
-          <text>999</text>
+          <resourceScatter />
         </template>
         <template slot="tab2">
           <text>99129</text>
@@ -35,18 +35,16 @@ import { getUserInfo } from "@/api/login/index.js";
 import imgBgURL from "@/static/images/cockpit/bg.png";
 import CommTab from "@/components/tab.vue";
 import resourceAll from "./resourceAll.vue";
+import resourceScatter from "./resourceScatter.vue";
 export default {
   components: {
     CommTab,
     resourceAll,
+    resourceScatter,
   },
   data() {
     return {
       imgBgURL,
-      ab: {
-        ldd: "8",
-        dd: "20",
-      },
       tabMenu: [
         {
           name: "资源总览",
@@ -58,23 +56,10 @@ export default {
           name: "调控能力",
         },
       ],
-      swiperCurrent: 0,
-      current: 0,
     };
   },
   onLoad() {},
-  methods: {
-    //拿到tab栏的下标 绑定给轮播图的index
-    tabchange(e) {
-      console.log(e);
-      this.swiperCurrent = e.index;
-    },
-    //滑动swiper后的下标  绑定给tab栏index
-    transition(e) {
-      console.log(e);
-      this.current = e.detail.current;
-    },
-  },
+  methods: {},
 };
 </script>
 
