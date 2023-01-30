@@ -18,7 +18,12 @@
       actionText=" "
       v-if="!showDetail"
     ></u-search>
-    <scroll-view scroll-y="true" class="scroll-Y" v-if="!showDetail">
+    <scroll-view
+      scroll-y="true"
+      class="scroll-Y"
+      v-if="!showDetail"
+      style="height: 860rpx"
+    >
       <uni-card :isShadow="true" mode="basic" class="scatter-card">
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
@@ -476,6 +481,7 @@ export default {
       &-title {
         font-weight: bold;
         color: #e6f1ff;
+        font-size: 36rpx;
       }
       &-status {
         height: 52rpx;

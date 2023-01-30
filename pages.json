@@ -18,7 +18,6 @@
 			"path": "pages/cockpit/index",
 			"style": {
 				"enablePullDownRefresh": false,
-				// "navigationStyle": "custom",
 				"navigationBarTitleText": "驾驶舱",
 				"navigationBarBackgroundColor": "#00B0F0"
 			}
@@ -27,8 +26,15 @@
 			"path": "pages/configManage/index",
 			"style": {
 				"enablePullDownRefresh": false,
-				// "navigationStyle": "custom",
 				"navigationBarTitleText": "配置管理",
+				"navigationBarBackgroundColor": "#00B0F0"
+			}
+		},
+		{
+			"path": "pages/invite/index",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "快速邀约",
 				"navigationBarBackgroundColor": "#00B0F0"
 			}
 		},
@@ -228,7 +234,7 @@
 			"selectedIconPath": "static/jsc-select.png",
 			"text": "驾驶舱"
 		}, {
-			"pagePath": "pages/my/index",
+			"pagePath": "pages/invite/index",
 			"iconPath": "static/ksyy.png",
 			"selectedIconPath": "static/ksyy-select.png",
 			"text": "快速邀约"

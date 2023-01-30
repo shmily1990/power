@@ -8,14 +8,11 @@
       }"
     >
       <CommTab :tabMenu="tabMenu">
-        <template slot="tab0">
-          <invitation-management />
+        <template slot="tab0" class="content">
+          <eventDetail />
         </template>
-        <template slot="tab1">
-          <event-management />
-        </template>
-        <template slot="tab2">
-          <user-management />
+        <template slot="tab1" class="content">
+          <eventDetail />
         </template>
       </CommTab>
     </view>
@@ -24,34 +21,25 @@
 </template>
 
 <script>
-import { getUserInfo } from "@/api/login/index.js";
 import imgBgURL from "@/static/images/cockpit/bg.png";
 import CommTab from "@/components/tab.vue";
-import invitationManagement from "./InvitationManagement.vue";
-import userManagement from "./userManagement.vue";
-import eventManagement from "./eventManagement.vue";
+import eventDetail from "./eventDetail.vue";
+import inviteManage from "./inviteManage.vue";
 export default {
   components: {
     CommTab,
-    invitationManagement,
-    userManagement,
-    eventManagement,
+    eventDetail,
+    inviteManage,
   },
   data() {
     return {
       imgBgURL,
       tabMenu: [
         {
+          name: "事件详情",
+        },
+        {
           name: "邀约管理",
-          iconfont: "icon-iconJSC_active_ZYZL",
-        },
-        {
-          name: "事件管理",
-          iconfont: "icon-iconJSC_inactive_ZYFB",
-        },
-        {
-          name: "用户管理",
-          iconfont: "icon-iconJSC_inactive_TKNL",
         },
       ],
     };
@@ -62,6 +50,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .tab-box {
+  margin: 0 100rpx;
+}
+
+.content {
+  overflow-y: auto;
+  height: 100%;
+}
+
 .view-box {
   padding: 40rpx 60rpx;
   width: 100%;

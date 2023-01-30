@@ -22,7 +22,7 @@
       <swiper-item class="swiper-item" v-for="(item, index) in tabMenu">
         <!-- <slot :name="tab" + index></slot> -->
         <!-- #ifdef H5  -->
-        <slot :name="tab" + index></slot>
+        <!-- <slot :name="tab" + index></slot> -->
         <!-- #endif -->
         <!-- #ifdef MP -->
         <slot name="tab{{index}}"></slot>

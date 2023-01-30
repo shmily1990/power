@@ -111,7 +111,9 @@
       </view>
     </uni-card>
     <view class="back" @click="goBack">
-      <u-icon name="arrow-left" color="#0DFF9A" size="16"></u-icon>
+      <!-- <u-icon name="arrow-left" color="#0DFF9A" size="16"></u-icon> -->
+      <!-- <image src="imgBase64" mode="widthFix"></image> -->
+      <image src="~@/static/icon_back.png" class="img-back" />
       <text class="title">返回</text>
     </view>
   </view>
@@ -255,9 +257,15 @@ export default {
     display: flex;
     justify-content: center;
     margin-left: -40rpx;
+    margin-top: -11rpx;
     .title {
       font-size: 32rpx;
       padding-left: 26rpx;
+    }
+    .img-back {
+      width: 60rpx;
+      height: 60rpx;
+      display: flex;
     }
   }
 }

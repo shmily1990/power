@@ -37,6 +37,7 @@ import CommTab from "@/components/tab.vue";
 import resourceAll from "./resourceAll.vue";
 import regulatoryAbility from "./regulatoryAbility.vue";
 import resourceScatter from "./resourceScatter.vue";
+import { pathToBase64 } from "image-tools";
 export default {
   components: {
     CommTab,
@@ -46,25 +47,36 @@ export default {
   },
   data() {
     return {
-      imgBgURL,
+      imgBgURL: "",
       tabMenu: [
         {
           name: "资源总览",
           iconfont: "icon-iconJSC_active_ZYZL",
+          key: "1",
         },
         {
           name: "资源分布",
           iconfont: "icon-iconJSC_inactive_ZYFB",
+          key: "2",
         },
         {
           name: "调控能力",
           iconfont: "icon-iconJSC_inactive_TKNL",
+          key: "3",
         },
       ],
     };
   },
-  onLoad() {},
-  methods: {},
+  onLoad() {
+    this.getImage();
+  },
+  methods: {
+    getImage() {
+      pathToBase64(imgBgURL).then((data) => {
+        this.imgBgURL = data;
+      });
+    },
+  },
 };
 </script>
 

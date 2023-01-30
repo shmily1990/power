@@ -21,6 +21,7 @@
 	},
 	"homepage": "https://github.com/dcloudio/hello-uniapp#readme",
 	"dependencies": {
+		"image-tools": "^1.4.0",
 		"uview-ui": "^2.0.35"
 	},
 	"dcloudext": {
