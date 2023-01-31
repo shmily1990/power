@@ -40,31 +40,38 @@
       <List titleTxt="响应能力总览" fontClass="icon-iconJSC_3_0-title">
         <view class="ul resopnse-ul">
           <view class="li">
-            <text class="iconfont icon-xingzhuangjiehe"></text>
+            <image class="jsc-icon" src="/static/jsc-icon1.png" alt="" />
             <view class="txt">
               <view>可调负荷</view>
-              <view class="num">266 <text>kW</text></view>
+              <view class="num"> 266<text>kW</text></view>
             </view>
           </view>
           <view class="li">
-            <text class="iconfont icon-xingzhuangjiehe"></text>
+            <image class="jsc-icon" src="/static/jsc-icon2.png" alt="" />
             <view class="txt">
               <view>日内响应</view>
               <view class="num">230<text>kW</text></view>
             </view>
           </view>
           <view class="li">
-            <text class="iconfont icon-xingzhuangjiehe"></text>
+            <image class="jsc-icon" src="/static/jsc-icon3.png" alt="" />
             <view class="txt">
               <view>最大响应</view>
-              <view class="num">230<text>kW</text></view>
+              <view class="num">245<text>kW</text></view>
             </view>
           </view>
         </view>
       </List>
       <List titleTxt="年度响应统计" fontClass="icon-iconJSC_4_0-title">
         <view class="chart-box">
-          <qiun-data-charts type="mix" :opts="opts" :chartData="chartData" />
+          <!-- :canvas2d="true" -->
+          <qiun-data-charts
+            type="mix"
+            :opts="opts"
+            :chartData="chartData"
+            :canvas2d="true"
+            s
+          />
         </view>
       </List>
     </view>
@@ -75,6 +82,7 @@
 import List from "@/components/list.vue";
 export default {
   components: { List },
+  props: {},
   data() {
     return {
       opts: {
@@ -89,7 +97,7 @@ export default {
           "#9A60B4",
           "#ea7ccc",
         ],
-        padding: [0, 0, 0, 0],
+        padding: [0, 0, 0, 5],
         enableScroll: false,
         legend: {
           position: "top",
@@ -187,9 +195,15 @@ export default {
     }
     .li {
       display: flex;
-      .iconfont {
-        font-size: 64rpx;
+      .jsc-icon {
+        width: 40rpx;
+        height: 40rpx;
         margin-right: 20rpx;
+      }
+      .iconfont {
+        font-size: 60rpx;
+        margin-right: 20rpx;
+        color: #19d8ff;
       }
       .txt {
         font-size: 24rpx;
@@ -197,7 +211,13 @@ export default {
         .num {
           font-size: 28rpx;
           color: #19d8ff;
-          margin-top: 18rpx;
+          margin-top: 10rpx;
+          font-family: square-font;
+          text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 20rpx;
+            margin-left: 8rpx;
+          }
         }
       }
     }
@@ -237,8 +257,13 @@ export default {
       .legnd {
         font-size: 24rpx;
         display: flex;
-        i {
-          margin-left: 20rpx;
+        justify-content: space-between;
+        .legnd {
+          font-size: 24rpx;
+          display: flex;
+          i {
+            margin-left: 20rpx;
+          }
         }
       }
     }

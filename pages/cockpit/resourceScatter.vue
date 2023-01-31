@@ -18,13 +18,13 @@
       actionText=" "
       v-if="!showDetail"
     ></u-search>
-    <scroll-view
-      scroll-y="true"
-      class="scroll-Y"
-      v-if="!showDetail"
-      style="height: 860rpx"
-    >
-      <uni-card :isShadow="true" mode="basic" class="scatter-card">
+    <scroll-view scroll-y="true" class="scroll-Y" v-if="!showDetail">
+      <uni-card
+        :isShadow="true"
+        mode="basic"
+        class="scatter-card"
+        @click="handleSelect"
+      >
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -123,7 +123,12 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic" class="scatter-card">
+      <uni-card
+        :isShadow="true"
+        mode="basic"
+        class="scatter-card"
+        @click="handleSelect"
+      >
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -170,7 +175,12 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic" class="scatter-card">
+      <uni-card
+        :isShadow="true"
+        mode="basic"
+        class="scatter-card"
+        @click="handleSelect"
+      >
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -217,7 +227,12 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic" class="scatter-card">
+      <uni-card
+        :isShadow="true"
+        mode="basic"
+        class="scatter-card"
+        @click="handleSelect"
+      >
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -264,7 +279,12 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic" class="scatter-card">
+      <uni-card
+        :isShadow="true"
+        mode="basic"
+        class="scatter-card"
+        @click="handleSelect"
+      >
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -311,7 +331,12 @@
           </view>
         </view>
       </uni-card>
-      <uni-card :isShadow="true" mode="basic" class="scatter-card">
+      <uni-card
+        :isShadow="true"
+        mode="basic"
+        class="scatter-card"
+        @click="handleSelect"
+      >
         <view class="card-head">
           <view class="card-head-title">电管家某某某用户</view>
           <view class="card-head-status">
@@ -376,19 +401,19 @@ export default {
           name: "响应用户",
           value: 230,
           unit: "家",
-          icon: "icon-xingzhuangjiehe",
+          icon: "icon-iconJSC_1_2",
         },
         {
           name: "响应设备",
           value: 319,
           unit: "个",
-          icon: "icon-xingzhuangjiehe",
+          icon: "icon-iconJSC_2_2",
         },
         {
           name: "总最大响应",
           value: 821,
           unit: "kw",
-          icon: "icon-xingzhuangjiehe",
+          icon: "icon-iconJSC_2_2",
         },
       ],
       searchText: "",
@@ -414,6 +439,7 @@ export default {
 <style lang="scss" scoped>
 .resource-scatter {
   width: 100%;
+  overflow-y: auto;
   .top {
     display: flex;
     justify-content: space-between;
@@ -424,6 +450,7 @@ export default {
       align-items: center;
       .iconfont {
         font-size: 60rpx;
+        color: #32c5ff;
       }
       .key-value {
         margin-left: 14rpx;
@@ -440,6 +467,7 @@ export default {
           .count {
             font-size: 32rpx;
             color: #32c5ff;
+            font-family: square-font;
           }
           .unit {
             font-size: 20rpx;
@@ -481,7 +509,6 @@ export default {
       &-title {
         font-weight: bold;
         color: #e6f1ff;
-        font-size: 36rpx;
       }
       &-status {
         height: 52rpx;
@@ -510,6 +537,7 @@ export default {
           margin-bottom: 12rpx;
           font-size: 28rpx;
           margin-top: 7rpx;
+          font-family: square-font;
         }
       }
     }

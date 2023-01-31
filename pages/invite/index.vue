@@ -1,12 +1,13 @@
 <template>
   <view>
-    <view
-      class="view-box"
-      :style="{
-        backgroundImage: `url(${imgBgURL})`,
-        backgroundSize: 'cover',
-      }"
-    >
+    <!-- 使用组件  规范写法: top-nav -->
+    <!--注： 顶部导航组件一定要写在顶部 -->
+    <navbar
+      class="header customNavBar"
+      title="快速预约"
+      @onBack="goBack"
+    ></navbar>
+    <view class="view-box">
       <CommTab :tabMenu="tabMenu">
         <template slot="tab0" class="content">
           <eventDetail />
@@ -25,11 +26,14 @@ import imgBgURL from "@/static/images/cockpit/bg.png";
 import CommTab from "@/components/tab.vue";
 import eventDetail from "./eventDetail.vue";
 import inviteManage from "./inviteManage.vue";
+import navbar from "@/components/topNav.vue"; //引入组件
+
 export default {
   components: {
     CommTab,
     eventDetail,
     inviteManage,
+    navbar,
   },
   data() {
     return {

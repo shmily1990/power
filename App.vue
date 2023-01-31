@@ -21,7 +21,7 @@ export default {
 
 @import "uview-ui/index.scss";
 @import "@/assets/iconfonts/iconfont.css";
-
+@import "@/assets/styles/global.scss";
 page {
   background-color: #f2f2f2;
 }

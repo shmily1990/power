@@ -46,6 +46,9 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-bottom: 26rpx;
+    .title {
+      display: flex;
+    }
     .iconfont {
       font-size: 48rpx;
       margin-right: 18rpx;

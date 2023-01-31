@@ -92,35 +92,48 @@
             size="24"
           ></u-icon>
         </view>
-        <u-list>
-          <u-list-item v-for="(item, index) in currentEventList" :key="index">
-            <view class="left">
-              <text>{{ item.order }}</text>
+        <u-list class="list-info">
+          <u-list-item
+            v-for="(item, index) in currentEventList"
+            :key="index"
+            class="test"
+          >
+            <view class="left" @click="handleCurrentInvitatSelect(item)">
+              <text class="order">{{ item.order }}</text>
               <u-icon name="play-circle" color="#ffffff" size="16"></u-icon>
             </view>
             <view class="right">
-              <view class="key-value">
-                <text class="key">事件名称</text>
+              <view class="label-value">
+                <text class="label">事件名称</text>
                 <view class="value">
                   <text class="count">123</text>
                 </view>
               </view>
-              <view class="key-value">
-                <text class="key">调控指标</text>
-                <view class="value">
-                  <text class="count">123</text>
-                  <text class="unit">家</text>
-                </view>
-              </view>
-              <view class="key-value">
-                <text class="key">当前响应用户</text>
+              <view
+                class="label-value"
+                v-if="item.order === currentSelectOrder"
+              >
+                <text class="label">调控指标</text>
                 <view class="value">
                   <text class="count">123</text>
                   <text class="unit">家</text>
                 </view>
               </view>
-              <view class="key-value">
-                <text class="key">当前响应指标</text>
+              <view
+                class="label-value"
+                v-if="item.order === currentSelectOrder"
+              >
+                <text class="label">当前响应用户</text>
+                <view class="value">
+                  <text class="count">123</text>
+                  <text class="unit">家</text>
+                </view>
+              </view>
+              <view
+                class="label-value"
+                v-if="item.order === currentSelectOrder"
+              >
+                <text class="label">当前响应指标</text>
                 <view class="value">
                   <text class="count">123</text>
                   <text class="unit">家</text>
@@ -341,6 +354,7 @@ export default {
             line-height: 48rpx;
             padding-left: 20rpx;
             color: #00c8ff;
+            font-family: square-font;
           }
           .unit {
             margin-left: 16rpx;
@@ -350,6 +364,19 @@ export default {
         }
       }
     }
+  }
+  .bottom-btn {
+    width: 440rpx;
+    height: 90rpx;
+    background: linear-gradient(360deg, #0145d4 0%, #00b2fd 100%);
+    border-radius: 20rpx;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 90rpx;
+    font-weight: bold;
+    font-size: 40rpx;
+    margin-top: 66rpx;
+    color: #ffffff;
   }
 }
 </style>

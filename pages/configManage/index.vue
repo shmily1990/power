@@ -1,12 +1,13 @@
 <template>
   <view>
-    <view
-      class="view-box"
-      :style="{
-        backgroundImage: `url(${imgBgURL})`,
-        backgroundSize: 'cover',
-      }"
-    >
+    <!-- 使用组件  规范写法: top-nav -->
+    <!--注： 顶部导航组件一定要写在顶部 -->
+    <navbar
+      class="header customNavBar"
+      title="配置管理"
+      @onBack="goBack"
+    ></navbar>
+    <view class="view-box">
       <CommTab :tabMenu="tabMenu">
         <template slot="tab0">
           <invitation-management />
@@ -30,12 +31,15 @@ import CommTab from "@/components/tab.vue";
 import invitationManagement from "./InvitationManagement.vue";
 import userManagement from "./userManagement.vue";
 import eventManagement from "./eventManagement.vue";
+import navbar from "@/components/topNav.vue"; //引入组件
+
 export default {
   components: {
     CommTab,
     invitationManagement,
     userManagement,
     eventManagement,
+    navbar,
   },
   data() {
     return {

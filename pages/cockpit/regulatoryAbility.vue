@@ -6,7 +6,7 @@
           <view class="li">
             <!--左-->
             <view class="l">
-              <text class="iconfont icon-iconJSC_3_1"></text>
+              <image class="jsc-icon" src="/static/jsc-icon1.png" alt="" />
               <view class="txt">
                 <view class="top">总可调负荷</view>
                 <view class="num load">232<text class="unit">kW</text></view>
@@ -15,7 +15,8 @@
             <!--右-->
             <view class="r load">
               <view class="top">
-                <text>实际</text> <text>280kW</text> <text>申报比例 95%</text>
+                <text>实际</text> <text>280kW</text><text>申报比例</text>
+                <text> 95%</text>
               </view>
               <u-line-progress
                 :percent="70"
@@ -28,7 +29,7 @@
           <view class="li">
             <!--左-->
             <view class="l">
-              <text class="iconfont icon-iconJSC_3_2"></text>
+              <image class="jsc-icon" src="/static/jsc-icon2.png" alt="" />
               <view class="txt">
                 <view class="top">总可调负荷</view>
                 <view class="num response"
@@ -52,7 +53,7 @@
           <view class="li">
             <!--左-->
             <view class="l">
-              <text class="iconfont icon-iconJSC_3_3"></text>
+              <image class="jsc-icon" src="/static/jsc-icon3.png" alt="" />
               <view class="txt">
                 <view class="top">总可调负荷</view>
                 <view class="num max-response"
@@ -85,7 +86,12 @@
           >
         </template>
         <view class="chart-box">
-          <qiun-data-charts type="column" :opts="opts" :chartData="chartData" />
+          <qiun-data-charts
+            type="column"
+            :opts="opts"
+            :chartData="chartData"
+            :canvas2d="true"
+          />
         </view>
         <view class="range">
           <view class="max common">
@@ -266,9 +272,14 @@ export default {
     .li {
       display: flex;
       font-size: 24rpx;
+      margin-bottom: 26rpx;
       .l {
         width: 45%;
         display: flex;
+        .jsc-icon {
+          width: 40rpx;
+          height: 40rpx;
+        }
         .iconfont {
           font-size: 40rpx;
         }
@@ -280,7 +291,8 @@ export default {
           line-height: 32rpx;
           .num {
             font-size: 32rpx;
-            margin-top: 18rpx;
+            margin-top: 10rpx;
+            font-family: square-font;
             .unit {
               font-size: 16rpx;
               color: rgba(255, 255, 255, 0.8);
@@ -295,8 +307,61 @@ export default {
           display: flex;
           justify-content: space-between;
           margin-bottom: 18rpx;
+          text {
+            &:nth-child(2) {
+              font-family: square-font;
+            }
+            &:nth-child(4) {
+              font-family: square-font;
+            }
+          }
         }
         /deep/.u-line-progress {
+        }
+      }
+    }
+    .ul {
+      margin-top: 34rpx;
+      display: flex;
+      justify-content: space-between;
+      .li {
+        display: flex;
+        .iconfont {
+          font-size: 64rpx;
+          margin-right: 20rpx;
+        }
+        .txt {
+          font-size: 24rpx;
+          color: rgba(255, 255, 255, 0.8);
+          .num {
+            font-size: 32rpx;
+            margin-top: 18rpx;
+          }
+        }
+      }
+      &.resopnse-ul {
+        .li {
+          &:first-child {
+            .txt {
+              .num {
+                color: #0dff9a;
+              }
+            }
+          }
+          &:nth-child(2) {
+            .txt {
+              .num {
+                color: #f7b500;
+              }
+            }
+          }
+          &:last-child {
+            .txt {
+              .num {
+                color: #fa6400;
+              }
+            }
+          }
         }
       }
     }
@@ -329,6 +394,7 @@ export default {
         color: #00c8ff;
         margin-right: 8rpx;
         margin-left: 28rpx;
+        font-family: square-font;
       }
     }
   }

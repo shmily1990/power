@@ -1,28 +1,23 @@
 <template>
   <view>
-    <!-- <view
-      class="view-box"
-      :style="{
-        backgroundImage: `url(${imgBgURL})`,
-        backgroundSize: 'cover',
-      }"
-    > -->
-    <view
-      class="view-box"
-      :style="{
-        backgroundImage: `url(${imgBgURL})`,
-        backgroundSize: 'cover',
-      }"
-    >
-      <CommTab :tabMenu="tabMenu">
-        <template slot="tab0">
-          <resourceAll />
+    <!-- 使用组件  规范写法: top-nav -->
+    <!--注： 顶部导航组件一定要写在顶部 -->
+    <navbar
+      class="header customNavBar"
+      :background="backgroundColor"
+      title="驾驶舱"
+      @onBack="goBack"
+    ></navbar>
+    <view class="view-box">
+      <CommTab :tabMenu="tabMenu" @swiperCurrent="swiperCurrent">
+        <template slot="tab0" class="content">
+          <resourceAll :swiperIndex="swiperIndex" />
         </template>
-        <template slot="tab1">
+        <template slot="tab1" class="content">
           <resourceScatter />
         </template>
-        <template slot="tab2">
-          <regulatoryAbility />
+        <template slot="tab2" class="content">
+          <regulatoryAbility :swiperIndex="swiperIndex" />
         </template>
       </CommTab>
     </view>
@@ -31,50 +26,54 @@
 </template>
 
 <script>
-import { getUserInfo } from "@/api/login/index.js";
 import imgBgURL from "@/static/images/cockpit/bg.png";
 import CommTab from "@/components/tab.vue";
 import resourceAll from "./resourceAll.vue";
 import regulatoryAbility from "./regulatoryAbility.vue";
 import resourceScatter from "./resourceScatter.vue";
-import { pathToBase64 } from "image-tools";
+import navbar from "@/components/topNav.vue"; //引入组件
 export default {
   components: {
     CommTab,
     resourceAll,
     resourceScatter,
     regulatoryAbility,
+    navbar,
   },
   data() {
     return {
-      imgBgURL: "",
+      imgBgURL,
       tabMenu: [
         {
           name: "资源总览",
           iconfont: "icon-iconJSC_active_ZYZL",
-          key: "1",
         },
         {
           name: "资源分布",
           iconfont: "icon-iconJSC_inactive_ZYFB",
-          key: "2",
         },
         {
           name: "调控能力",
           iconfont: "icon-iconJSC_inactive_TKNL",
-          key: "3",
         },
       ],
+      backgroundColor: "linear-gradient(90deg, #102D58 0%, #144E6D 100%);",
+      swiperIndex: 0,
     };
   },
-  onLoad() {
-    this.getImage();
-  },
+  onLoad() {},
   methods: {
-    getImage() {
-      pathToBase64(imgBgURL).then((data) => {
-        this.imgBgURL = data;
+    goBack() {
+      // 返回函数，内容大家自行修改编写
+      // 返回顶部
+      uni.pageScrollTo({
+        scrollTop: 0,
+        duration: 300,
       });
+    },
+    swiperCurrent(value) {
+      console.log("sssss", value);
+      this.swiperIndex = value;
     },
   },
 };
@@ -88,5 +87,9 @@ export default {
   color: $uni-text-color;
   flex-wrap: wrap;
   box-sizing: border-box;
+  .content {
+    overflow: auto;
+    height: 100%;
+  }
 }
 </style>

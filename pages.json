@@ -1,25 +1,25 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		// {
-		// 	"path": "pages/login/index",
-		// 	"style": {
-		// 		"navigationStyle": "custom"
-		// 		// "navigationBarTitleText": "登录",
-		// 		// "navigationBarTextStyle": "#fff", //导航栏标题颜色
-		// 		// "navigationBarBackgroundColor": "#00B0F0",
-		// 		// "enablePullDownRefresh": false,
-		// 		// "app-plus": {
-		// 		// 	"autoBackButton": false
-		// 		// }
-		// 	}
-
-		// },
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationStyle": "custom"
+				// "navigationBarTitleText": "登录",
+				// "navigationBarTextStyle": "#fff", //导航栏标题颜色
+				// "navigationBarBackgroundColor": "#00B0F0",
+				// "enablePullDownRefresh": false,
+				// "app-plus": {
+				// 	"autoBackButton": false
+				// }
+			}
+		},
 		{
 			"path": "pages/cockpit/index",
 			"style": {
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": "驾驶舱",
 				"navigationBarBackgroundColor": "#00B0F0"
+				// "disableScroll": true
 			}
 		},
 		{
@@ -216,6 +216,7 @@
         }
     ],
 	"globalStyle": {
+		"navigationStyle": "custom",
 		"onReachBottomDistance": 30, // 距离底部的触底间距
 		"enablePullDownRefresh": true, //是否开启下拉刷新
 		"navigationBarTextStyle": "black",
@@ -224,7 +225,7 @@
 	},
 	"uniIdRouter": {},
 	"tabBar": {
-		"color": "#333333",
+		"color": "#0A496E",
 		"selectedColor": "#00B0F0",
 		"borderStyle": "black",
 		"backgroundColor": "#0d2944",

@@ -37,7 +37,7 @@
           <view class="title">发布时间</view>
           <!-- <input class="uni-input" /> -->
           <view class="uni-list-cell-db">
-            <picker
+            <!-- <picker
               mode="multiSelector"
               :value="dateTime"
               @change="changeDateTime($event, 'first')"
@@ -47,7 +47,8 @@
               <view class="lableBox">
                 <view class="choose-value uni-input">{{ timeStr }}</view>
               </view>
-            </picker>
+            </picker> -->
+            <datePicker :timeValue.sync="value" :disabled="false" />
           </view>
         </view>
       </view>
@@ -80,7 +81,7 @@
         <view class="uni-form-item flex">
           <view class="title">开始时间</view>
           <view class="uni-list-cell-db">
-            <picker
+            <!-- <picker
               mode="multiSelector"
               :value="dateTime1"
               @change="changeDateTime($event, 'second')"
@@ -90,7 +91,8 @@
               <view class="lableBox">
                 <view class="choose-value uni-input">{{ timeStr1 }}</view>
               </view>
-            </picker>
+            </picker> -->
+            <datePicker :timeValue.sync="value" :disabled="false" />
           </view>
         </view>
         <view class="uni-form-item flex">
@@ -112,7 +114,7 @@
         <view class="uni-form-item flex">
           <view class="title">开始时间</view>
           <view class="uni-list-cell-db">
-            <picker
+            <!-- <picker
               mode="multiSelector"
               :value="dateTime1"
               @change="changeDateTime($event, 'second')"
@@ -122,7 +124,8 @@
               <view class="lableBox">
                 <view class="choose-value uni-input">{{ timeStr1 }}</view>
               </view>
-            </picker>
+            </picker> -->
+            <datePicker :timeValue.sync="value" :disabled="false" />
           </view>
         </view>
         <view class="uni-form-item flex">
@@ -139,27 +142,24 @@
 </template>
 
 <script>
+// import datePicker from "@/components/datePicker.vue";
+import datePicker from "@/components/datePicker.vue";
 const { dateTimePicker, getMonthDay } = require("@/utils/date.js");
 
 export default {
-  components: {},
+  components: {
+    datePicker,
+  },
   data() {
     return {
       lists: ["select1", "select2", "select3", "select4"],
       show: false,
       target: "",
-      dateTime: null,
-      dateTimeArray: null,
-      dateTime1: null,
-      dateTimeArray1: null,
-      startYear: 2000,
-      endYear: 2100,
-      timeStr: "",
-      timeStr1: "",
+      value: "2021-02-03 12:22",
     };
   },
   mounted() {
-    this.initTime();
+    // this.initTime();
   },
   methods: {
     open() {
@@ -168,70 +168,6 @@ export default {
     choose(target) {
       this.target = target;
       this.show = false;
-    },
-    initTime() {
-      // 获取完整的年月日 时分秒，以及默认显示的数组
-      let obj = dateTimePicker(this.startYear, this.endYear);
-      this.dateTimeArray = obj.dateTimeArray;
-      this.dateTime = obj.dateTime;
-      this.timeStr = this.createTimeStr(this.dateTimeArray, this.dateTime);
-      this.dateTimeArray1 = obj.dateTimeArray;
-      this.dateTime1 = obj.dateTime;
-      this.timeStr1 = this.createTimeStr(this.dateTimeArray1, this.dateTime1);
-    },
-
-    changeDateTime(e, type) {
-      type == "first"
-        ? (this.dateTime = e.detail.value)
-        : (this.dateTime1 = e.detail.value);
-      type == "first"
-        ? (this.timeStr = this.createTimeStr(this.dateTimeArray, this.dateTime))
-        : (this.timeStr1 = this.createTimeStr(
-            this.dateTimeArray1,
-            this.dateTime1
-          ));
-      //ios时间不能用'-'解析成时间戳
-    },
-
-    /*年,月切换时重新更新计算*/
-    changeDateTimeColumn(e, type) {
-      let { column, value } = e.detail;
-      if (column == 0 || column == 1) {
-        //直接修改数组下标视图不更新,用深拷贝之后替换数组
-        let dateTime = JSON.parse(
-          JSON.stringify(type == "first" ? this.dateTime : this.dateTime1)
-        );
-        let dateTimeArray = JSON.parse(
-          JSON.stringify(
-            type == "first" ? this.dateTimeArray : this.dateTimeArray1
-          )
-        );
-        dateTime[column] = value;
-        dateTimeArray[2] = getMonthDay(
-          dateTimeArray[0][dateTime[0]],
-          dateTimeArray[1][dateTime[1]]
-        );
-        type == "first"
-          ? (this.dateTime = dateTime)
-          : (this.dateTime1 = dateTime);
-        type == "first"
-          ? (this.dateTimeArray = dateTimeArray)
-          : (this.dateTimeArray1 = dateTimeArray);
-      }
-    },
-    // 格式化后的时间
-    createTimeStr(dateTimeArray, dateTime) {
-      let timeStr =
-        dateTimeArray[0][dateTime[0]] +
-        "." +
-        dateTimeArray[1][dateTime[1]] +
-        "." +
-        dateTimeArray[2][dateTime[2]] +
-        " " +
-        dateTimeArray[3][dateTime[3]] +
-        ":" +
-        dateTimeArray[4][dateTime[4]];
-      return timeStr;
     },
   },
 };
@@ -316,7 +252,8 @@ export default {
     margin-right: 16rpx;
   }
 
-  .uni-input {
+  .uni-input,
+  .uni-list-cell-db {
     border-radius: 16rpx;
     border: 2rpx solid rgba(230, 241, 255, 0.2);
     padding: 6rpx 20rpx;

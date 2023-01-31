@@ -74,6 +74,7 @@
 import { mapState, mapMutations, mapActions } from "vuex";
 import { login } from "@/api/login/index.js";
 import loginBg from "@/static/login_bg.png";
+import { pathToBase64 } from "image-tools";
 export default {
   name: "login",
   onReady() {
@@ -108,13 +109,16 @@ export default {
         loginPwd: "",
       },
       chartData: {},
-      imageURL: loginBg,
+      imageURL: "",
       // 设置没用，后面再研究
       // loginBtn: {
       //   fontSize:'36rpx',
       // 	fontWeight:'bold',
       // }
     };
+  },
+  onLoad() {
+    this.getImage();
   },
   computed: {
     ...mapState([
@@ -125,6 +129,11 @@ export default {
     ]),
   },
   methods: {
+    getImage() {
+      pathToBase64(loginBg).then((data) => {
+        this.imageURL = data;
+      });
+    },
     getServerData() {
       console.log(this.colorList);
       //模拟从服务器获取数据时的延时
@@ -150,36 +159,39 @@ export default {
       this.elementId = id;
     },
     loginConfirm() {
-      this.$refs.form
-        .validate()
-        .then(async (res) => {
-          // this.loading = true;
-          // const { loginName, loginPwd } = this.form;
-          // try {
-          //   const res = await login({
-          //     loginName,
-          //     loginPwd,
-          //   });
-          //   if (res.resultCode == 0) {
-          //     uni.setStorageSync("token", res.userToken);
-          //     uni.setStorageSync("userInfo", res);
-          //     uni.switchTab({
-          //       url: "/pages/home/index",
-          //     });
-          //   }
-          //   this.loading = false;
-          // } catch (e) {
-          //   this.loading = false;
-          //   console.log(e);
-          // }
-          uni.redirectTo({
-            url: "/pages/cockpit/index",
-          });
-        })
-        .catch((errors) => {
-          this.loading = false;
-          uni.$u.toast("校验失败");
-        });
+      // this.$refs.form
+      //   .validate()
+      //   .then(async (res) => {
+      //     // this.loading = true;
+      //     // const { loginName, loginPwd } = this.form;
+      //     // try {
+      //     //   const res = await login({
+      //     //     loginName,
+      //     //     loginPwd,
+      //     //   });
+      //     //   if (res.resultCode == 0) {
+      //     //     uni.setStorageSync("token", res.userToken);
+      //     //     uni.setStorageSync("userInfo", res);
+      //     //     uni.switchTab({
+      //     //       url: "/pages/home/index",
+      //     //     });
+      //     //   }
+      //     //   this.loading = false;
+      //     // } catch (e) {
+      //     //   this.loading = false;
+      //     //   console.log(e);
+      //     // }
+      //     uni.redirectTo({
+      //       url: "/pages/cockpit/index",
+      //     });
+      //   })
+      //   .catch((errors) => {
+      //     this.loading = false;
+      //     uni.$u.toast("校验失败");
+      //   });
+      uni.switchTab({
+        url: "/pages/cockpit/index",
+      });
     },
   },
 };

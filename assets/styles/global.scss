@@ -1,0 +1,15 @@
+// sass变量定义模块
+@font-face {
+    font-family: square-font;
+    src: url('~@/assets/styles/Square-721-BT.ttf');
+}
+$mainColor: #19D8FF;
+$hoverColor: #5cd0d2;
+$activeColor: #139ea0;
+
+.view-box{
+    background: linear-gradient(90deg, #102d58 0%, #144e6d 100%);
+}
+.square-font{
+    font-family:square-font ;
+}

@@ -5,7 +5,7 @@
         <view
           class="tab-item"
           @click="tabchange(index)"
-          :class="{ curr: current == index }"
+          :class="{ curr: swiperCurrent == index }"
         >
           <image
             class="curr-img"
@@ -18,15 +18,25 @@
         </view>
       </view>
     </view>
-    <swiper :current="swiperCurrent" @change="transition" class="swipeHeiht">
-      <swiper-item class="swiper-item" v-for="(item, index) in tabMenu">
-        <!-- <slot :name="tab" + index></slot> -->
-        <!-- #ifdef H5  -->
-        <!-- <slot :name="tab" + index></slot> -->
-        <!-- #endif -->
-        <!-- #ifdef MP -->
-        <slot name="tab{{index}}"></slot>
-        <!-- #endif -->
+    <swiper
+      :current="swiperCurrent"
+      @change="transition"
+      :style="{ height: swiperHeight + 50 + 'px' }"
+    >
+      <swiper-item
+        class="swiper-item"
+        v-for="(item, index) in tabMenu"
+        :key="`swiper${index}`"
+      >
+        <view :id="'content-wrap' + index">
+          <!-- <slot :name="tab" + index></slot> -->
+          <!-- #ifdef H5  -->
+          <slot :name="tab" + index></slot>
+          <!-- #endif -->
+          <!-- #ifdef MP -->
+          <slot name="tab{{index}}"></slot>
+          <!-- #endif -->
+        </view>
       </swiper-item>
     </swiper>
   </view>
@@ -40,7 +50,7 @@ export default {
     return {
       tab_curr,
       swiperCurrent: 0,
-      current: 0,
+      swiperHeight: 0, //滑块的高度
     };
   },
   props: {
@@ -49,17 +59,39 @@ export default {
       default: [],
     },
   },
+  created() {
+    //动态设置swiper的高度
+    this.$nextTick(() => {
+      this.setSwiperHeight();
+    });
+  },
+  onLoad(args) {},
   methods: {
+    // 设置划块高度
+    setSwiperHeight() {
+      let element = "#content-wrap" + this.swiperCurrent;
+      let query = uni.createSelectorQuery().in(this);
+      query.select(element).boundingClientRect();
+      query.exec((res) => {
+        if (res && res[0]) {
+          this.swiperHeight = res[0].height;
+        }
+      });
+    },
     //拿到tab栏的下标 绑定给轮播图的index
     tabchange(e) {
       console.log(e);
       this.active = e;
       this.swiperCurrent = e;
+      this.$emit("swiperCurrent", this.swiperCurrent);
     },
     //滑动swiper后的下标  绑定给tab栏index
     transition(e) {
       console.log(e);
-      this.current = e.detail.current;
+      this.swiperCurrent = e.detail.current;
+      this.$nextTick(() => {
+        this.setSwiperHeight();
+      });
     },
   },
 };
@@ -115,6 +147,6 @@ export default {
   }
 }
 .swipeHeiht {
-  height: calc(100vh - 180rpx);
+  // height: calc(100vh - 180rpx);
 }
 </style>

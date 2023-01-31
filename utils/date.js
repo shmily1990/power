@@ -65,7 +65,6 @@ function dateTimePicker(startYear, endYear, date) {
       [],
       [],
       [],
-      [],
       []
     ];
   var start = startYear || 2000;
@@ -86,4 +85,9 @@ function dateTimePicker(startYear, endYear, date) {
     dateTimeArray: dateTimeArray,
     dateTime: dateTime
   }
+}
+
+module.exports = {
+  dateTimePicker,
+  getMonthDay
 }
