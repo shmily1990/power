@@ -13,7 +13,7 @@
           <eventDetail />
         </template>
         <template slot="tab1" class="content">
-          <eventDetail />
+          <inviteManage />
         </template>
       </CommTab>
     </view>

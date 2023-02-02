@@ -81,7 +81,7 @@ export default {
 
 <style lang="scss" scoped>
 .view-box {
-  padding: 40rpx 60rpx;
+  padding: 40rpx 50rpx;
   width: 100%;
   min-height: 100vh;
   color: $uni-text-color;

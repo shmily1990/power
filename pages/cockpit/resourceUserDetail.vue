@@ -1,6 +1,6 @@
 <template>
   <view class="resource-user-detail">
-    <uni-card :isShadow="true" mode="basic">
+    <card>
       <view class="card-head">
         <view class="card-head-title">电管家某某某用户</view>
         <view class="card-head-status">
@@ -42,9 +42,9 @@
           </view>
         </view>
       </view>
-    </uni-card>
-    <view class="preview-info">
-      <view class="preview-info-item">
+    </card>
+    <view class="sub-tab">
+      <view class="sub-tab-item" @click="() => (currentTab = 1)">
         <u-icon
           label="可调负荷"
           name="setting"
@@ -52,9 +52,13 @@
           label-color="#9FA6AF"
           label-size="12"
         ></u-icon>
-        <text class="value" :style="{ color: '#0DFF9A' }">360</text>
+        <text
+          class="value"
+          :style="{ color: currentTab === 1 ? '#0DFF9A' : '#00C8FF' }"
+          >360</text
+        >
       </view>
-      <view class="preview-info-item">
+      <view class="sub-tab-item" @click="() => (currentTab = 2)">
         <u-icon
           label="日内响应"
           name="setting"
@@ -62,9 +66,13 @@
           label-color="#9FA6AF"
           label-size="12"
         ></u-icon>
-        <text class="value" :style="{ color: '#F7B500' }">360</text>
+        <text
+          class="value"
+          :style="{ color: currentTab === 2 ? '#0DFF9A' : '#00C8FF' }"
+          >360</text
+        >
       </view>
-      <view class="preview-info-item">
+      <view class="sub-tab-item" @click="() => (currentTab = 3)">
         <u-icon
           label="最大响应"
           name="setting"
@@ -72,10 +80,15 @@
           label-color="#9FA6AF"
           label-size="12"
         ></u-icon>
-        <text class="value" :style="{ color: '#FA6400' }">360</text>
+        <text
+          class="value"
+          :style="{ color: currentTab === 3 ? '#0DFF9A' : '#00C8FF' }"
+          >360</text
+        >
       </view>
     </view>
-    <uni-card :isShadow="true" mode="basic">
+    <!-- <overview :data="data" /> -->
+    <card>
       <view class="device-info">
         <view class="device-info-head">
           <text>序号</text>
@@ -109,23 +122,51 @@
           </view>
         </view>
       </view>
-    </uni-card>
-    <view class="back" @click="goBack">
-      <!-- <u-icon name="arrow-left" color="#0DFF9A" size="16"></u-icon> -->
-      <!-- <image src="imgBase64" mode="widthFix"></image> -->
-      <image src="~@/static/icon_back.png" class="img-back" />
-      <text class="title">返回</text>
+    </card>
+    <view class="bottom">
+      <view class="back" @click="goBack">
+        <image src="~@/static/icon_back.png" class="img-back" />
+        <text class="title">返回</text>
+      </view>
     </view>
   </view>
 </template>
 
 <script>
+import card from "@/components/card";
+import overview from "@/components/overview";
 export default {
   options: {
     styleIsolation: "shared",
   },
   data() {
-    return {};
+    return {
+      data: [
+        {
+          name: "正在邀约",
+          value: 230,
+          unit: "条",
+          icon: "icon-iconJSC_1_2",
+        },
+        {
+          name: "当年完成",
+          value: 319,
+          unit: "条",
+          icon: "icon-iconJSC_2_2",
+        },
+        {
+          name: "总完成",
+          value: 821,
+          unit: "条",
+          icon: "icon-iconJSC_2_2",
+        },
+      ],
+      currentTab: 1,
+    };
+  },
+  components: {
+    card,
+    overview,
   },
   methods: {
     goBack() {
@@ -139,60 +180,51 @@ export default {
 <style lang="scss" scoped>
 .resource-user-detail {
   width: 100%;
-  ::v-deep .uni-card {
-    margin: 20rpx 0 !important;
-    padding: 0 40rpx !important;
-    background: rgba(0, 142, 181, 0.15);
-    border-radius: 16rpx;
-    border: none;
-    .uni-card__content {
-      padding: 0 !important;
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    // height: 90rpx;
+    align-items: center;
+    &-title {
+      font-weight: bold;
+      color: #e6f1ff;
+      font-size: 32rpx;
     }
-    .card-head {
+    &-status {
+      height: 52rpx;
+      background: rgba(13, 255, 154, 0.1);
+      border-radius: 10px;
+      width: fit-content;
+      padding: 0 20rpx;
+      display: flex;
+    }
+  }
+  ::v-deep .u-divider {
+    margin: 12rpx 0 !important;
+  }
+  .card-body {
+    .user-info {
+      line-height: 65rpx;
+      height: 400rpx;
+      overflow: auto;
+    }
+    .label-value {
       display: flex;
       justify-content: space-between;
-      height: 90rpx;
       align-items: center;
-      &-title {
-        font-weight: bold;
-        color: #e6f1ff;
+      .label {
+        text-align: right;
+        width: 21%;
+        color: #9fa6af;
       }
-      &-status {
-        height: 52rpx;
-        background: rgba(13, 255, 154, 0.1);
-        border-radius: 10px;
-        width: fit-content;
-        padding: 0 20rpx;
-        display: flex;
-      }
-    }
-    .u-divider {
-      margin: 0 !important;
-    }
-    .card-body {
-      height: 400rpx;
-      padding-top: 16rpx;
-      .user-info {
-        line-height: 65rpx;
-      }
-      .label-value {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .label {
-          text-align: right;
-          width: 21%;
-          color: #9fa6af;
-        }
-        .value {
-          width: 68%;
-          height: 48rpx;
-          border-radius: 16rpx;
-          border: 2rpx solid rgba(230, 241, 255, 0.2);
-          line-height: 48rpx;
-          padding-left: 20rpx;
-          color: #00c8ff;
-        }
+      .value {
+        width: 68%;
+        height: 48rpx;
+        border-radius: 16rpx;
+        border: 2rpx solid rgba(230, 241, 255, 0.2);
+        line-height: 48rpx;
+        padding-left: 20rpx;
+        color: #00c8ff;
       }
     }
   }
@@ -257,15 +289,35 @@ export default {
     display: flex;
     justify-content: center;
     margin-left: -40rpx;
-    margin-top: -11rpx;
+    margin-top: 10rpx;
     .title {
       font-size: 32rpx;
-      padding-left: 26rpx;
+      padding-left: 20rpx;
+      margin-top: 7rpx;
     }
     .img-back {
       width: 60rpx;
       height: 60rpx;
       display: flex;
+    }
+  }
+  .sub-tab {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 12rpx;
+    &-item {
+      text-align: center;
+      .value {
+        height: 40rpx;
+        background: rgba(0, 142, 181, 0.2);
+        border-radius: 8rpx;
+        display: block;
+        margin-bottom: 12rpx;
+        font-size: 28rpx;
+        margin-top: 7rpx;
+        font-family: square-font;
+      }
     }
   }
 }

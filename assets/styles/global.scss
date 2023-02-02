@@ -13,3 +13,17 @@ $activeColor: #139ea0;
 .square-font{
     font-family:square-font ;
 }
+
+::v-deep .u-search {
+    width: 100%;
+    display: block;
+    margin-bottom: 20rpx !important;
+    .u-search__content {
+      background: rgba(0, 96, 169, 0.2) !important;
+      border-radius: 16rpx !important;
+      height: 60rpx;
+      input {
+        background: unset !important;
+      }
+    }
+}
