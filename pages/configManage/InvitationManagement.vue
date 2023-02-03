@@ -13,7 +13,7 @@
         <text class="btn">新建邀约</text>
       </view>
     </template>
-    <inviteDetail v-else />
+    <inviteDetail :isShow.sync="showEventDetail" v-else />
   </view>
 </template>
 

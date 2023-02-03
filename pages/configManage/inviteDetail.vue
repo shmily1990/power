@@ -1,153 +1,203 @@
 <template>
   <view class="invite-detail">
-    <view class="breadcrumb">
-      <text>邀约详情</text>
-    </view>
-    <card>
-      <view class="card-head">
-        <u-icon
-          label="关联事件信息"
-          name="clock"
-          color="#ffffff"
-          label-color="#ffffff"
-          label-size="16"
-          size="24"
-        ></u-icon>
+    <template v-if="currentPage === 'invite'">
+      <view class="breadcrumb">
+        <text>邀约详情</text>
       </view>
-      <view class="card-conent">
-        <view class="event-info">
-          <view class="label-value">
-            <text class="title">事件名称</text>
-            <view class="value">
-              <text class="count">event8888</text>
-              <text class="unit">kw</text>
-            </view>
-          </view>
-          <view class="label-value">
-            <text class="title">调控指标</text>
-            <view class="value">
-              <text class="count">2000</text>
-              <text class="unit">kw</text>
-            </view>
-          </view>
-          <view class="label-value">
-            <text class="title">开始时间</text>
-            <view class="value">
-              <text class="count">2023-01-02 15:30</text>
-            </view>
-          </view>
-          <view class="label-value">
-            <text class="title">持续时间</text>
-            <view class="value">
-              <text class="count" style="width: 132rpx">60</text>
-              <text class="unit">分钟</text>
-            </view>
-          </view>
+      <card>
+        <view class="card-head">
+          <u-icon
+            label="关联事件信息"
+            name="clock"
+            color="#ffffff"
+            label-color="#ffffff"
+            label-size="16"
+            size="24"
+          ></u-icon>
         </view>
-      </view>
-    </card>
-    <card>
-      <view class="card-head">
-        <u-icon
-          label="用户响应情况"
-          name="clock"
-          color="#ffffff"
-          label-color="#ffffff"
-          label-size="16"
-          size="24"
-        ></u-icon>
-      </view>
-      <view class="card-body">
-        <view class="respond-count">
-          <view class="list-item" v-for="(item, index) in data" :key="index">
-            <text class="iconfont" :class="item.icon"></text>
-            <view class="title-value">
-              <text class="title">{{ item.name }}</text>
+        <view class="card-conent">
+          <view class="event-info">
+            <view class="label-value">
+              <text class="title">事件名称</text>
               <view class="value">
-                <text class="count">{{ item.value }}</text>
-                <text class="unit">{{ item.unit }}</text>
+                <text class="count">event8888</text>
+                <text class="unit">kw</text>
+              </view>
+            </view>
+            <view class="label-value">
+              <text class="title">调控指标</text>
+              <view class="value">
+                <text class="count">2000</text>
+                <text class="unit">kw</text>
+              </view>
+            </view>
+            <view class="label-value">
+              <text class="title">开始时间</text>
+              <view class="value">
+                <text class="count">2023-01-02 15:30</text>
+              </view>
+            </view>
+            <view class="label-value">
+              <text class="title">持续时间</text>
+              <view class="value">
+                <text class="count" style="width: 132rpx">60</text>
+                <text class="unit">分钟</text>
               </view>
             </view>
           </view>
         </view>
-        <u-divider color="#E6F1FF"></u-divider>
-        <view class="user">
-          <view class="screen">
-            <text class="title">筛选</text>
-            <u-radio-group v-model="radiovalue" placement="row" shape="square">
-              <u-radio
-                :customStyle="{ marginBottom: '8px' }"
-                v-for="(item, index) in radiolist"
-                :key="index"
-                :label="item.name"
-                :name="item.name"
+      </card>
+      <card>
+        <view class="card-head">
+          <u-icon
+            label="用户响应情况"
+            name="clock"
+            color="#ffffff"
+            label-color="#ffffff"
+            label-size="16"
+            size="24"
+          ></u-icon>
+        </view>
+        <view class="card-body">
+          <view class="respond-count">
+            <view class="list-item" v-for="(item, index) in data" :key="index">
+              <text class="iconfont" :class="item.icon"></text>
+              <view class="title-value">
+                <text class="title">{{ item.name }}</text>
+                <view class="value">
+                  <text class="count">{{ item.value }}</text>
+                  <text class="unit">{{ item.unit }}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+          <u-divider color="#E6F1FF"></u-divider>
+          <view class="user">
+            <view class="screen">
+              <text class="title">筛选</text>
+              <!-- <u-radio-group
+                v-model="radiovalue"
+                placement="row"
+                shape="square"
               >
-              </u-radio>
-            </u-radio-group>
-          </view>
-          <view class="user-list">
-            <view class="user-list-item">
-              <text class="left">01</text>
-              <view class="mid">
-                <text class="mid-name">电脑管家001</text>
-                <view class="mid-bottom">
-                  <text class="status">参与</text>
-                  <text class="value">85 kw</text>
+                <u-radio
+                  :customStyle="{ marginBottom: '8px' }"
+                  v-for="(item, index) in radiolist"
+                  :key="index"
+                  :label="item.name"
+                  :name="item.name"
+                >
+                </u-radio>
+              </u-radio-group> -->
+              <checkbox-group @change="handChange">
+                <view class="flex">
+                  <label class="flex">
+                    <checkbox value="cb1" class="round" :checked="checkValue" />
+                    <view class="title c-title choose-title"> 全部 </view>
+                  </label>
+                  <label class="flex">
+                    <checkbox value="cb2" class="round" :checked="checkValue" />
+                    <view class="title c-title choose-title"> 参与 </view>
+                  </label>
+                  <label class="flex">
+                    <checkbox value="cb3" class="round" :checked="checkValue" />
+                    <view class="title c-title choose-title"> 不参与 </view>
+                  </label>
+                  <label class="flex">
+                    <checkbox value="cb4" class="round" :checked="checkValue" />
+                    <view class="title c-title choose-title"> 未响应 </view>
+                  </label>
                 </view>
-              </view>
-              <text class="right">></text>
+              </checkbox-group>
             </view>
-            <view class="user-list-item">
-              <text class="left">01</text>
-              <view class="mid">
-                <text class="mid-name">电脑管家001</text>
-                <view class="mid-bottom">
-                  <text class="status">参与</text>
-                  <text class="value">85 kw</text>
+            <view class="user-list">
+              <view class="user-list-item" @click="handleSelect">
+                <text class="left">01</text>
+                <view class="mid">
+                  <text class="mid-name">电脑管家001</text>
+                  <view class="mid-bottom">
+                    <text class="status">参与</text>
+                    <text class="value">85<text class="unit">kw</text></text>
+                  </view>
                 </view>
+                <u-icon
+                  name="arrow-right"
+                  color="#00c8ff"
+                  size="16"
+                  class="right"
+                />
               </view>
-              <text class="right">></text>
-            </view>
-            <view class="user-list-item">
-              <text class="left">01</text>
-              <view class="mid">
-                <text class="mid-name">电脑管家001</text>
-                <view class="mid-bottom">
-                  <text class="status">参与</text>
-                  <text class="value">85<text class="unit">kw</text></text>
+              <view class="user-list-item" @click="handleSelect">
+                <text class="left">01</text>
+                <view class="mid">
+                  <text class="mid-name">电脑管家001</text>
+                  <view class="mid-bottom">
+                    <text class="status">参与</text>
+                    <text class="value">85<text class="unit">kw</text></text>
+                  </view>
                 </view>
+                <u-icon
+                  name="arrow-right"
+                  color="#00c8ff"
+                  size="16"
+                  class="right"
+                />
               </view>
-              <text class="right">></text>
-            </view>
-            <view class="user-list-item">
-              <text class="left">01</text>
-              <view class="mid">
-                <text class="mid-name">电脑管家001</text>
-                <view class="mid-bottom">
-                  <text class="status">参与</text>
-                  <text class="value">85 kw</text>
+              <view class="user-list-item" @click="handleSelect">
+                <text class="left">01</text>
+                <view class="mid">
+                  <text class="mid-name">电脑管家001</text>
+                  <view class="mid-bottom">
+                    <text class="status">参与</text>
+                    <text class="value">85<text class="unit">kw</text></text>
+                  </view>
                 </view>
+                <u-icon
+                  name="arrow-right"
+                  color="#00c8ff"
+                  size="16"
+                  class="right"
+                />
               </view>
-              <text class="right">></text>
+              <view class="user-list-item" @click="handleSelect">
+                <text class="left">01</text>
+                <view class="mid">
+                  <text class="mid-name">电脑管家001</text>
+                  <view class="mid-bottom">
+                    <text class="status">参与</text>
+                    <text class="value">85 <text class="unit">kw</text></text>
+                  </view>
+                </view>
+                <u-icon
+                  name="arrow-right"
+                  color="#00c8ff"
+                  size="16"
+                  class="right"
+                />
+              </view>
             </view>
           </view>
         </view>
+      </card>
+      <view class="bottom">
+        <view class="back" @click="goBack">
+          <image src="~@/static/icon_back.png" class="img-back" />
+          <text class="title">返回</text>
+        </view>
+        <view class="btns">
+          <text class="btn">放弃邀约</text>
+          <text class="btn">完成邀约</text>
+        </view>
       </view>
-    </card>
-    <view class="bottom">
-      <view class="back" @click="goBack">
-        <image src="~@/static/icon_back.png" class="img-back" />
-        <text class="title">返回</text>
-      </view>
-      <view class="btns">
-        <text class="btn">放弃邀约</text>
-        <text class="btn">完成邀约</text>
-      </view>
-    </view>
+    </template>
+    <template v-if="currentPage === 'user'">
+      <userDetail @changeCurrentPage="() => (currentPage = 'invite')" />
+    </template>
   </view>
 </template>
 <script>
 import card from "@/components/card";
+import userDetail from "./userDetail.vue";
 export default {
   options: {
     styleIsolation: "shared",
@@ -192,17 +242,48 @@ export default {
           icon: "icon-iconJSC_2_2",
         },
       ],
+      currentPage: "invite",
     };
   },
   components: {
     card,
+    userDetail,
   },
   onLoad() {},
-  methods: {},
+  methods: {
+    handChange(val) {
+      console.log(val);
+    },
+    goBack() {
+      this.$emit("update:isShow", false);
+    },
+    handleSelect() {
+      this.currentPage = "user";
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.between {
+  justify-content: space-between;
+}
+.c-title {
+  color: #d7d8e0;
+  font-size: 24rpx;
+}
+
+.uni-checkbox .uni-checkbox-input {
+  background: #0060a9;
+  border-radius: 4rpx;
+  width: 36rpx;
+  height: 36rpx;
+}
 .breadcrumb {
   font-size: 40rpx;
   font-family: MicrosoftYaHei;
@@ -278,7 +359,9 @@ export default {
             font-family: square-font;
           }
           .unit {
-            font-size: 20rpx;
+            font-size: 28rpx;
+            color: #0094b3;
+            padding: 20rpx;
           }
         }
       }
@@ -293,7 +376,8 @@ export default {
       display: flex;
       align-items: center;
       .title {
-        margin-right: 28rpx;
+        margin-right: 20rpx;
+        font-size: 24rpx;
       }
     }
     &-list {
@@ -313,6 +397,7 @@ export default {
       }
       .mid {
         flex: 1;
+
         &-name {
           font-size: 32rpx;
           font-family: MicrosoftYaHei;
@@ -320,17 +405,19 @@ export default {
           line-height: 24rpx;
         }
         &-bottom {
+          margin-top: 10rpx;
           .status {
             width: 128rpx;
             height: 44rpx;
-            background: rgba(0, 200, 255, 0.2);
+            background: #0091ff;
             border-radius: 10rpx;
             text-align: center;
-            line-height: 44rpx;
+            /* line-height: 44rpx; */
             display: inline-block;
+            color: #ffffff;
           }
           .value {
-            font-size: 20rpx;
+            font-size: 32rpx;
             margin-left: 30rpx;
             color: #f7b500;
             font-family: square-font;

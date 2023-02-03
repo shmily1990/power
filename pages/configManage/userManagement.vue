@@ -1,21 +1,25 @@
 <template>
   <view class="user-manage">
-    <overview :data="data" />
-    <u-search
-      placeholder="搜索"
-      v-model="searchText"
-      :showAction="false"
-    ></u-search>
-    <userList :height="700" />
-    <view class="bottom">
-      <text class="btn">新建用户</text>
-    </view>
+    <template v-if="!visableCreateModal">
+      <overview :data="data" />
+      <u-search
+        placeholder="搜索"
+        v-model="searchText"
+        :showAction="false"
+      ></u-search>
+      <userList :height="700" />
+      <view class="bottom">
+        <text class="btn" @click="create">新建用户</text>
+      </view>
+    </template>
+    <createUserForm v-else />
   </view>
 </template>
 
 <script>
 import overview from "@/components/overview";
 import userList from "@/components/userList";
+import createUserForm from "./component/createUser.vue";
 export default {
   data() {
     return {
@@ -39,14 +43,20 @@ export default {
           icon: "icon-iconJSC_2_2",
         },
       ],
+      visableCreateModal: true,
     };
   },
   components: {
     overview,
     userList,
+    createUserForm,
   },
   onLoad() {},
-  methods: {},
+  methods: {
+    create() {
+      this.visableCreateModal = true;
+    },
+  },
 };
 </script>
 
