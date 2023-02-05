@@ -17,8 +17,9 @@
             class="event-list-item"
             v-for="(item, index) in eventList"
             :key="index"
+            @click="handleSelectEvent(item)"
           >
-            <view class="left" @click="handleSelect(item)">
+            <view class="left" @click.stop="handleSelect(item)">
               <text class="order">{{ item.order }}</text>
               <u-icon name="play-circle" color="#ffffff" size="16"></u-icon>
             </view>
@@ -92,6 +93,10 @@ export default {
     this.getEventList();
   },
   methods: {
+    handleSelectEvent(item) {
+      console.log(item);
+      this.$emit("eventSelect", item);
+    },
     handleSelect(item) {
       this.selectOrder = item.order === this.selectOrder ? "" : item.order;
     },

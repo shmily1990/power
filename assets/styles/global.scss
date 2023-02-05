@@ -27,3 +27,57 @@ $activeColor: #139ea0;
       }
     }
 }
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+.center {
+  justify-content: center;
+}
+.justifyStart {
+  justify-content: flex-start;
+}
+.justifyEnd {
+  justify-content: flex-end;
+}
+.alignStart {
+  align-items: flex-start;
+}
+.between {
+  justify-content: space-between;
+}
+.around{
+  justify-content: space-around;
+}
+.column {
+  flex-direction: column;
+}
+.wrap {
+  flex-wrap: wrap;
+}
+.space {
+  height: 20px;
+}
+.round {
+  border-radius: 100000px;
+}
+
+// .form-data {
+//   background: #f00;
+//  .uni-forms-item {
+//     align-items: center;
+//     background: #000;
+//     .uni-forms-item__label {
+//       color: #9fa6af;
+//       font-size: 24rpx;
+//     }
+//     .u-checkbox-group {
+//       flex-wrap: wrap;
+//     }
+
+//     .u-checkbox {
+//       margin: 5rpx;
+//     }
+//   }
+// }

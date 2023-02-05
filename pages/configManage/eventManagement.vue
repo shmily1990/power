@@ -1,24 +1,29 @@
 <template>
   <view class="event-manage">
-    <overview :data="data" />
-    <u-search
-      placeholder="搜索"
-      v-model="searchText"
-      :showAction="false"
-    ></u-search>
-    <eventInfo name="待执行" />
-    <eventInfo name="执行中" />
-    <eventInfo name="历史事件" />
-    <view class="bottom">
-      <text class="btn">新建事件</text>
-    </view>
+    <template v-if="!modalTitle">
+      <overview :data="data" />
+      <u-search
+        placeholder="搜索"
+        v-model="searchText"
+        :showAction="false"
+      ></u-search>
+      <eventInfo name="待执行" @eventSelect="handleSelect" />
+      <eventInfo name="执行中" @eventSelect="handleSelect" />
+      <eventInfo name="历史事件" @eventSelect="handleSelect" />
+      <view class="bottom">
+        <text @click="add" class="btn">新建事件</text>
+      </view>
+    </template>
+    <eventDetail v-if="modalTitle == 'detail'" @onback="modalTitle = ''" />
+    <addEvent v-if="modalTitle == 'add'" @onback="modalTitle = ''"></addEvent>
   </view>
 </template>
 
 <script>
 import overview from "@/components/overview";
 import eventInfo from "./component/eventInfo.vue";
-// import card from "@/components/card";
+import eventDetail from "./eventDetail.vue";
+import addEvent from "./addEvent.vue";
 export default {
   options: {
     styleIsolation: "shared",
@@ -48,11 +53,15 @@ export default {
       searchText: "",
       eventList: [],
       exculed: "",
+      showEventDetail: false, //默认不显示祥情，点击列表时才显示祥情
+      modalTitle: "",
     };
   },
   components: {
     overview,
     eventInfo,
+    eventDetail,
+    addEvent,
   },
   onLoad() {
     this.getEventList();
@@ -97,6 +106,19 @@ export default {
         },
       ];
       console.log(777);
+    },
+    // 点击列表传参数操作
+    handleSelect(val) {
+      console.log("1111", val);
+      this.modalTitle = "detail";
+    },
+    // 添加事件
+    add() {
+      this.modalTitle = "add";
+      uni.pageScrollTo({
+        scrollTop: 0,
+        duration: 300,
+      });
     },
   },
 };

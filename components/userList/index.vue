@@ -1,10 +1,6 @@
 <template>
   <view class="user-list">
-    <scroll-view
-      scroll-y="true"
-      class="scroll-box"
-      :style="`height: calc(100vh - ${height}rpx)`"
-    >
+    <scroll-view scroll-y="true" class="scroll-box" :style="currentStyle">
       <card v-for="(item, index) in userList" :key="index">
         <view @click="handleSelect(item)">
           <view class="card-head">
@@ -64,8 +60,15 @@ export default {
   options: {
     styleIsolation: "shared",
   },
+  props: {
+    height: {
+      type: Number,
+      default: 550,
+    },
+  },
   data() {
     return {
+      currentStyle: ``,
       userList: [
         {
           name: "上海大学1号门",
@@ -91,17 +94,14 @@ export default {
       ],
     };
   },
-  props: {
-    height: {
-      type: Number,
-      default: 550,
-    },
-  },
   components: {
     card,
   },
   onReady() {
     // this.getEventList();
+    // this.currentStyle = {
+    //   height: `calc(100vh - ${this.height}rpx)`,
+    // };
   },
   methods: {
     handleSelect(item) {
