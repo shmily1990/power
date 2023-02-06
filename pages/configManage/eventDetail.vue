@@ -4,7 +4,7 @@
       <text>邀约详情</text>
       <text class="r">event7788</text>
     </view>
-    <List titleTxt="事件名称" fontClass="icon-iconJSC_2_0-title">
+    <List titleTxt="事件名称" fontClass="icon-iconPZGL_SJGL_5-0-title">
       <template slot="optBtn">
         <button
           v-if="!datas.evePartOne.show"
@@ -48,7 +48,7 @@
         </view>
       </view>
     </List>
-    <List titleTxt="基本信息" fontClass="icon-iconJSC_2_0-title">
+    <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title">
       <template slot="optBtn">
         <button class="mini-btn" type="default" size="mini">编辑</button>
       </template>
@@ -79,19 +79,19 @@
         </view>
       </view>
     </List>
-    <List titleTxt="调控指标" fontClass="icon-iconJSC_2_0-title">
+    <List titleTxt="调控指标" fontClass="icon-iconKSYY_SJXQ_2-0-title">
       <template slot="optBtn">
         <button class="mini-btn" type="default" size="mini">编辑</button>
       </template>
       <view class="card-content">
         <view class="uni-form-item flex">
-          <image class="curr-img" src="@/static/user.png"></image>
+          <text class="iconfont icon-iconKSYY_SJXQ_2-1"></text>
           <view class="title number">2000</view>
           <text class="itemtext">kw</text>
         </view>
       </view>
     </List>
-    <List titleTxt="执行时间" fontClass="icon-iconJSC_2_0-title">
+    <List titleTxt="执行时间" fontClass="icon-iconKSYY_SJXQ_3-0-title">
       <template slot="optBtn">
         <button class="mini-btn" type="default" size="mini">编辑</button>
       </template>
@@ -109,7 +109,7 @@
         </view>
       </view>
     </List>
-    <List titleTxt="事件描述" fontClass="icon-iconJSC_2_0-title">
+    <List titleTxt="事件描述" fontClass="icon-iconKSYY_SJXQ_4-0-title">
       <template slot="optBtn">
         <button class="mini-btn" type="default" size="mini">编辑</button>
       </template>
@@ -139,6 +139,8 @@
 <script>
 import List from "@/components/list.vue";
 import datapicker from "@/components/datePicker";
+import { uniScrollTop } from "@/utils/common.js";
+
 export default {
   components: {
     datapicker,
@@ -204,6 +206,7 @@ export default {
     // 返回按钮调用
     onBack() {
       this.$emit("onback");
+      uniScrollTop();
     },
     /**
      *  edit 编辑每部分
@@ -243,6 +246,10 @@ export default {
   padding-left: 70rpx;
   .uni-form-item {
     margin-bottom: 16rpx;
+    .iconfont {
+      font-size: 68rpx;
+      color: #06648b;
+    }
     .title {
       font-size: 24rpx;
     }

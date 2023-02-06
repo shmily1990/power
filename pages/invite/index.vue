@@ -41,9 +41,11 @@ export default {
       tabMenu: [
         {
           name: "事件详情",
+          iconfont: "icon-iconKSYY_SJXQ_active",
         },
         {
           name: "邀约管理",
+          iconfont: "icon-iconKSYY_YYGL_inactive",
         },
       ],
     };

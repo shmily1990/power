@@ -4,17 +4,7 @@
       <view class="breadcrumb">
         <text>邀约详情</text>
       </view>
-      <card>
-        <view class="card-head">
-          <u-icon
-            label="关联事件信息"
-            name="clock"
-            color="#ffffff"
-            label-color="#ffffff"
-            label-size="16"
-            size="24"
-          ></u-icon>
-        </view>
+      <List titleTxt="关联事件信息" fontClass="icon-iconKSYY_YYGL_1-0-title">
         <view class="card-conent">
           <view class="event-info">
             <view class="label-value">
@@ -46,31 +36,10 @@
             </view>
           </view>
         </view>
-      </card>
-      <card>
-        <view class="card-head">
-          <u-icon
-            label="用户响应情况"
-            name="clock"
-            color="#ffffff"
-            label-color="#ffffff"
-            label-size="16"
-            size="24"
-          ></u-icon>
-        </view>
+      </List>
+      <List titleTxt="用户响应情况" fontClass="icon-iconKSYY_YYGL_3-0-title">
         <view class="card-body">
-          <view class="respond-count">
-            <view class="list-item" v-for="(item, index) in data" :key="index">
-              <text class="iconfont" :class="item.icon"></text>
-              <view class="title-value">
-                <text class="title">{{ item.name }}</text>
-                <view class="value">
-                  <text class="count">{{ item.value }}</text>
-                  <text class="unit">{{ item.unit }}</text>
-                </view>
-              </view>
-            </view>
-          </view>
+          <overview :data="data" />
           <u-divider color="#E6F1FF"></u-divider>
           <view class="user">
             <view class="screen">
@@ -178,7 +147,7 @@
             </view>
           </view>
         </view>
-      </card>
+      </List>
       <view class="bottom">
         <view class="back" @click="goBack">
           <image src="~@/static/icon_back.png" class="img-back" />
@@ -196,8 +165,10 @@
   </view>
 </template>
 <script>
-import card from "@/components/card";
+import List from "@/components/list.vue";
 import userDetail from "./userDetail.vue";
+import overview from "@/components/overview";
+import { uniScrollTop } from "@/utils/common.js";
 export default {
   options: {
     styleIsolation: "shared",
@@ -224,30 +195,31 @@ export default {
       ],
       data: [
         {
-          name: "正在邀约",
-          value: 230,
-          unit: "条",
-          icon: "icon-iconJSC_1_2",
+          name: "已通知",
+          value: 22,
+          unit: "家",
+          icon: "icon-iconPZGL_YYGL_4-1",
         },
         {
-          name: "当年完成",
-          value: 319,
-          unit: "条",
-          icon: "icon-iconJSC_2_2",
+          name: "已响应",
+          value: 18,
+          unit: "家",
+          icon: "icon-iconPZGL_YYGL_4-2",
         },
         {
-          name: "总完成",
-          value: 821,
-          unit: "条",
-          icon: "icon-iconJSC_2_2",
+          name: "当前总响应",
+          value: 112,
+          unit: "KW",
+          icon: "icon-iconPZGL_YYGL_4-3",
         },
       ],
       currentPage: "invite",
     };
   },
   components: {
-    card,
+    List,
     userDetail,
+    overview,
   },
   onLoad() {},
   methods: {
@@ -256,9 +228,11 @@ export default {
     },
     goBack() {
       this.$emit("update:isShow", false);
+      uniScrollTop();
     },
     handleSelect() {
       this.currentPage = "user";
+      uniScrollTop();
     },
   },
 };
@@ -325,6 +299,7 @@ export default {
           margin-left: 16rpx;
           font-size: 20rpx;
           color: rgba(255, 255, 255, 0.5);
+          padding-left: 20rpx;
         }
       }
     }
@@ -424,6 +399,7 @@ export default {
             .unit {
               font-size: 20rpx;
               color: #0094b3;
+              padding-left: 20rpx;
             }
           }
         }

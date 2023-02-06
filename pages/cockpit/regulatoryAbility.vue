@@ -1,7 +1,7 @@
 <template>
   <view class="resource-all">
     <view class="lists">
-      <List titleTxt="调控能力监测" fontClass="icon-iconJSC_4_0-title">
+      <List titleTxt="调控能力监测" fontClass="icon-iconJSC_TKNL_1-0-title">
         <view class="ul capability-monitoring">
           <view class="li">
             <!--左-->
@@ -75,7 +75,7 @@
           </view>
         </view>
       </List>
-      <List titleTxt="年度响应统计" fontClass="icon-xingzhuangjiehe">
+      <List titleTxt="调控能力分布" fontClass="icon-iconJSC_TKNL_2-0-title">
         <template slot="optBtn">
           <view class="optBtn"
             ><text @click="btn_active = 1" :class="{ active: btn_active == 1 }"

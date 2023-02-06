@@ -32,6 +32,8 @@ import resourceAll from "./resourceAll.vue";
 import regulatoryAbility from "./regulatoryAbility.vue";
 import resourceScatter from "./resourceScatter.vue";
 import navbar from "@/components/topNav.vue"; //引入组件
+import { uniScrollTop } from "@/utils/common.js";
+
 export default {
   components: {
     CommTab,
@@ -66,10 +68,7 @@ export default {
     goBack() {
       // 返回函数，内容大家自行修改编写
       // 返回顶部
-      uni.pageScrollTo({
-        scrollTop: 0,
-        duration: 300,
-      });
+      uniScrollTop();
     },
     swiperCurrent(value) {
       console.log("sssss", value);

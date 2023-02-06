@@ -170,6 +170,10 @@ export default {
   },
   methods: {
     goBack() {
+      uni.pageScrollTo({
+        scrollTop: 0,
+        duration: 300,
+      });
       this.$emit("goBack");
       console.log(666);
     },

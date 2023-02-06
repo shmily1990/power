@@ -42,6 +42,8 @@ export default {
       .iconfont {
         font-size: 60rpx;
         color: #32c5ff;
+        border: 1px solid #3b5f80;
+        border-radius: 50%;
       }
       .title-value {
         margin-left: 14rpx;
@@ -53,12 +55,13 @@ export default {
         .value {
           margin-top: 14rpx;
           display: flex;
-          justify-content: space-between;
+          // justify-content: space-between;
           align-items: baseline;
           .count {
             font-size: 32rpx;
             color: #32c5ff;
             font-family: square-font;
+            margin-right: 10rpx;
           }
           .unit {
             font-size: 20rpx;

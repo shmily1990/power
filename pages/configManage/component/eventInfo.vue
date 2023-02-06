@@ -1,16 +1,6 @@
 <template>
   <view class="event-info">
-    <card>
-      <view class="card-head">
-        <u-icon
-          :label="name"
-          name="clock"
-          color="#ffffff"
-          label-color="#ffffff"
-          label-size="16"
-          size="24"
-        ></u-icon>
-      </view>
+    <List :titleTxt="name" :fontClass="fontClass">
       <view class="card-conent">
         <view class="event-list">
           <view
@@ -21,7 +11,17 @@
           >
             <view class="left" @click.stop="handleSelect(item)">
               <text class="order">{{ item.order }}</text>
-              <u-icon name="play-circle" color="#ffffff" size="16"></u-icon>
+              <view class="drop-icon">
+                <u-icon
+                  :name="
+                    item.order === selectOrder
+                      ? 'arrow-down-fill'
+                      : 'play-right-fill'
+                  "
+                  color="#ffffff"
+                  size="9"
+                ></u-icon>
+              </view>
             </view>
             <view class="right">
               <view class="label-value">
@@ -64,12 +64,12 @@
           </view>
         </view>
       </view>
-    </card>
+    </List>
   </view>
 </template>
 
 <script>
-import card from "@/components/card";
+import List from "@/components/list";
 export default {
   options: {
     styleIsolation: "shared",
@@ -81,12 +81,16 @@ export default {
     };
   },
   components: {
-    card,
+    List,
   },
   props: {
     name: {
       type: String,
       default: "标题",
+    },
+    fontClass: {
+      type: String,
+      default: "",
     },
   },
   onReady() {
@@ -170,6 +174,16 @@ export default {
         top: 22rpx;
         .order {
           margin-top: -3px;
+          padding: 7rpx 3rpx;
+        }
+        .drop-icon {
+          width: 32rpx;
+          height: 32rpx;
+          border: 2rpx solid;
+          border-color: rgba(0, 142, 181, 0.15);
+          display: flex;
+          justify-content: center;
+          border-radius: 50%;
         }
       }
       .right {

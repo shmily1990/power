@@ -7,9 +7,21 @@
         v-model="searchText"
         :showAction="false"
       ></u-search>
-      <eventInfo name="待执行" @eventSelect="handleSelect" />
-      <eventInfo name="执行中" @eventSelect="handleSelect" />
-      <eventInfo name="历史事件" @eventSelect="handleSelect" />
+      <eventInfo
+        name="待执行"
+        fontClass="icon-iconPZGL_YYGL_3-0-title"
+        @eventSelect="handleSelect"
+      />
+      <eventInfo
+        name="执行中"
+        fontClass="icon-iconPZGL_SJGL_3-0-title"
+        @eventSelect="handleSelect"
+      />
+      <eventInfo
+        name="历史事件"
+        fontClass="icon-iconPZGL_SJGL_4-0-title"
+        @eventSelect="handleSelect"
+      />
       <view class="bottom">
         <text @click="add" class="btn">新建事件</text>
       </view>
@@ -24,6 +36,8 @@ import overview from "@/components/overview";
 import eventInfo from "./component/eventInfo.vue";
 import eventDetail from "./eventDetail.vue";
 import addEvent from "./addEvent.vue";
+import { uniScrollTop } from "@/utils/common.js";
+
 export default {
   options: {
     styleIsolation: "shared",
@@ -34,20 +48,20 @@ export default {
         {
           name: "待执行",
           value: 230,
-          unit: "家",
-          icon: "icon-iconJSC_1_2",
+          unit: "条",
+          icon: "icon-iconPZGL_SJGL_1-1",
         },
         {
           name: "执行中",
           value: 319,
-          unit: "个",
-          icon: "icon-iconJSC_2_2",
+          unit: "条",
+          icon: "icon-iconPZGL_SJGL_1-2",
         },
         {
           name: "当年完成",
           value: 821,
-          unit: "kw",
-          icon: "icon-iconJSC_2_2",
+          unit: "条",
+          icon: "icon-iconPZGL_SJGL_1-3",
         },
       ],
       searchText: "",
@@ -111,14 +125,12 @@ export default {
     handleSelect(val) {
       console.log("1111", val);
       this.modalTitle = "detail";
+      uniScrollTop();
     },
     // 添加事件
     add() {
       this.modalTitle = "add";
-      uni.pageScrollTo({
-        scrollTop: 0,
-        duration: 300,
-      });
+      uniScrollTop();
     },
   },
 };

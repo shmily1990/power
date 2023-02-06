@@ -3,13 +3,13 @@
     <view class="card card1">
       <view class="card-title">
         <view class="titleleft">
-          <image class="curr-img" src="@/static/user.png"></image>
+          <text class="iconfont icon-iconKSYY_YYGL_1-0-title"></text>
           <text class="itemtext">关联事件信息</text>
         </view>
       </view>
       <view class="card-content">
         <view class="uni-form-item flex">
-          <image class="curr-img" src="@/static/user.png"></image>
+          <text class="iconfont icon-iconKSYY_YYGL_1-1 control curr-img"></text>
           <text class="itemtext title">调控目标</text>
           <view class="title number">2000</view>
           <text class="itemtext">kw</text>
@@ -34,7 +34,7 @@
     <view class="card card2">
       <view class="card-title">
         <view class="titleleft">
-          <image class="curr-img" src="@/static/user.png"></image>
+          <text class="iconfont icon-iconKSYY_YYGL_2-0-title"></text>
           <text class="itemtext">邀约截止日期</text>
         </view>
         <button class="mini-btn" type="default" size="mini">编辑</button>
@@ -57,21 +57,21 @@
     <view class="card card3">
       <view class="card-title">
         <view class="titleleft">
-          <image class="curr-img" src="@/static/user.png"></image>
+          <text class="iconfont icon-iconKSYY_YYGL_3-0-title"></text>
           <text class="itemtext">邀约用户选择</text>
         </view>
       </view>
       <view class="card-content">
         <view class="uni-form-item flex header">
           <view class="user flex">
-            <image class="curr-img" src="@/static/user.png"></image>
+            <text class="iconfont icon-iconKSYY_YYGL_3-1 curr-img"></text>
             <view class="uni-form-item">
               <text class="itemtext title">可参与用户</text>
               <view class="title"><text class="count">20</text>家</view>
             </view>
           </view>
           <view class="user flex">
-            <image class="curr-img" src="@/static/user.png"></image>
+            <text class="iconfont icon-iconKSYY_YYGL_3-2 curr-img"></text>
             <view class="uni-form-item">
               <text class="itemtext title">总日内响应</text>
               <view class="title"><text class="numcount">433</text>kw</view>
@@ -187,6 +187,12 @@ export default {
       align-items: center;
       font-size: 32rpx;
       color: #fff;
+      font-weight: bold;
+      .iconfont {
+        font-size: 48rpx;
+        margin-right: 18rpx;
+        font-weight: normal;
+      }
     }
   }
 
@@ -200,8 +206,8 @@ export default {
 
   .curr-img {
     width: 48rpx;
-    height: 48rpx;
     margin-right: 16rpx;
+    font-size: 44rpx;
   }
 
   .uni-input,
@@ -241,21 +247,18 @@ export default {
         margin-left: 20rpx;
       }
 
-      .curr-img {
-        width: 68rpx;
-        height: 60rpx;
-      }
-
       .count {
         font-size: 32rpx;
         color: #19d8ff;
         margin-right: 20rpx;
+        font-family: square-font;
       }
 
       .numcount {
         font-size: 32rpx;
         margin-right: 20rpx;
         color: #f7b500;
+        font-family: square-font;
       }
     }
   }
@@ -263,7 +266,21 @@ export default {
 
 .card3 .card-content {
   padding: 0;
-
+  .user {
+    .curr-img {
+      width: 60rpx;
+      height: 60rpx;
+      border: 1px solid #3b5f80;
+      border-radius: 50%;
+      font-size: 60rpx;
+      color: #19d8ff;
+    }
+    &:last-child {
+      .curr-img {
+        color: #f7b500;
+      }
+    }
+  }
   .header {
     margin: 0 46rpx 20rpx;
     padding-bottom: 20rpx;

@@ -1,18 +1,25 @@
 <template>
   <view class="user-manage">
-    <template v-if="!visableCreateModal">
+    <template v-if="currentType === 'index'">
       <overview :data="data" />
       <u-search
         placeholder="搜索"
         v-model="searchText"
         :showAction="false"
       ></u-search>
-      <userList :height="700" />
+      <userList :height="700" @selectUser="handleSelect" />
       <view class="bottom">
         <text class="btn" @click="create">新建用户</text>
       </view>
     </template>
-    <createUserForm v-else />
+    <createUserForm
+      :currentType.sync="currentType"
+      v-if="currentType === 'create'"
+    />
+    <userResponseDetail
+      :currentType.sync="currentType"
+      v-if="currentType === 'detail'"
+    />
   </view>
 </template>
 
@@ -20,27 +27,30 @@
 import overview from "@/components/overview";
 import userList from "@/components/userList";
 import createUserForm from "./component/createUser.vue";
+import userResponseDetail from "./userResponseDetail.vue";
+import { uniScrollTop } from "@/utils/common.js";
 export default {
   data() {
     return {
+      currentType: "index",
       data: [
         {
           name: "用户总数",
           value: 230,
           unit: "家",
-          icon: "icon-iconJSC_1_2",
+          icon: "icon-iconPZGL_YHGL_1-1",
         },
         {
           name: "参与用户",
           value: 319,
           unit: "个",
-          icon: "icon-iconJSC_2_2",
+          icon: "icon-iconPZGL_YHGL_1-2",
         },
         {
           name: "参与度",
           value: 821,
           unit: "kw",
-          icon: "icon-iconJSC_2_2",
+          icon: "icon-iconPZGL_YHGL_1-3",
         },
       ],
       visableCreateModal: true,
@@ -50,11 +60,17 @@ export default {
     overview,
     userList,
     createUserForm,
+    userResponseDetail,
   },
   onLoad() {},
   methods: {
+    handleSelect() {
+      this.currentType = "detail";
+      uniScrollTop();
+    },
     create() {
-      this.visableCreateModal = true;
+      this.currentType = "create";
+      uniScrollTop();
     },
   },
 };

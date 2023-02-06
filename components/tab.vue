@@ -44,6 +44,7 @@
 
 <script>
 import tab_curr from "@/static/images/cockpit/tab_curr.png";
+import { uniScrollTop } from "@/utils/common.js";
 
 export default {
   data() {
@@ -84,10 +85,7 @@ export default {
       this.active = e;
       this.swiperCurrent = e;
       this.$emit("swiperCurrent", this.swiperCurrent);
-      uni.pageScrollTo({
-        scrollTop: 0,
-        duration: 300,
-      });
+      uniScrollTop();
     },
     //滑动swiper后的下标  绑定给tab栏index
     transition(e) {
@@ -96,10 +94,7 @@ export default {
       this.$nextTick(() => {
         this.setSwiperHeight();
       });
-      uni.pageScrollTo({
-        scrollTop: 0,
-        duration: 300,
-      });
+      uniScrollTop();
     },
   },
 };

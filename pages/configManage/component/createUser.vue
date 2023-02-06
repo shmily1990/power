@@ -3,18 +3,7 @@
     <view class="top">
       <text class="title">新建用户</text>
     </view>
-    <card>
-      <view class="card-head">
-        <u-icon
-          label="基本信息"
-          name="clock"
-          color="#ffffff"
-          label-color="#ffffff"
-          label-size="16"
-          size="24"
-        ></u-icon>
-        <text class="btn">保存</text>
-      </view>
+    <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title">
       <view class="card-content base-info">
         <u-form :model="form" ref="uForm" :label-style="style">
           <u-form-item label="用户名称"
@@ -59,62 +48,30 @@
         >
         </u-action-sheet>
       </view>
-    </card>
-    <card>
-      <view class="card-head">
-        <u-icon
-          label="响应配置"
-          name="clock"
-          color="#ffffff"
-          label-color="#ffffff"
-          label-size="16"
-          size="24"
-        ></u-icon>
-        <text class="btn">保存</text>
-      </view>
+    </List>
+    <List titleTxt="响应配置" fontClass="icon-iconPZGL_YHGL_2-0-title">
       <view class="card-content">
-        <view class="sub-tab">
-          <view class="sub-tab-item" @click="() => (currentTab = 1)">
-            <u-icon
-              label="可调负荷"
-              name="setting"
-              color="#0DFF9A"
-              label-color="#9FA6AF"
-              label-size="12"
-            ></u-icon>
-            <text
-              class="value"
-              :style="{ color: currentTab === 1 ? '#0DFF9A' : '#00C8FF' }"
-              >360</text
+        <view class="equip flex between">
+          <view class="item load">
+            <view class="icon-t"
+              ><text class="iconfont icon-iconDR_quick_active"></text
+              ><text class="txt">可调负荷</text></view
             >
+            <text class="value">360</text>
           </view>
-          <view class="sub-tab-item" @click="() => (currentTab = 2)">
-            <u-icon
-              label="日内响应"
-              name="setting"
-              color="#F7B500"
-              label-color="#9FA6AF"
-              label-size="12"
-            ></u-icon>
-            <text
-              class="value"
-              :style="{ color: currentTab === 2 ? '#0DFF9A' : '#00C8FF' }"
-              >360</text
+          <view class="item response">
+            <view class="icon-t"
+              ><text class="iconfont icon-iconDR_day_active"></text
+              ><text class="txt">日内响应</text></view
             >
+            <text class="value">360</text>
           </view>
-          <view class="sub-tab-item" @click="() => (currentTab = 3)">
-            <u-icon
-              label="最大响应"
-              name="setting"
-              color="#FA6400"
-              label-color="#9FA6AF"
-              label-size="12"
-            ></u-icon>
-            <text
-              class="value"
-              :style="{ color: currentTab === 3 ? '#0DFF9A' : '#00C8FF' }"
-              >360</text
+          <view class="item max-response">
+            <view class="icon-t"
+              ><text class="iconfont icon-iconDR_long_active"></text
+              ><text class="txt">最大响应</text></view
             >
+            <text class="value">360</text>
           </view>
         </view>
         <view class="device-info">
@@ -130,9 +87,13 @@
               :key="index"
             >
               <text class="order border">{{ index + 1 }}</text>
-              <text class="name border">{{ item.name }}</text>
+              <!-- <text class="name border">{{ item.name }}</text> -->
+              <picker @change="bindPickerChange" :value="index" :range="array">
+                <view class="uni-input name border">{{ array[index] }}</view>
+              </picker>
               <view class="capacity">
-                <text class="value border">12</text>
+                <u-input value="12" />
+                <!-- <text class="value border">12</text> -->
                 <view class="btns">
                   <u-icon
                     name="plus-circle"
@@ -153,28 +114,23 @@
           </view>
         </view>
       </view>
-    </card>
-    <card>
-      <view class="card-head">
-        <u-icon
-          label="策略管理"
-          name="clock"
-          color="#ffffff"
-          label-color="#ffffff"
-          label-size="16"
-          size="24"
-        ></u-icon>
-        <text class="btn">保存</text>
-      </view>
+    </List>
+    <List titleTxt="策略管理 " fontClass="icon-iconPZGL_YHGL_3-0-title">
+      <template slot="optBtn">
+        <button class="mini-btn" type="default" size="mini">编辑</button>
+      </template>
       <view class="card-content">
         <view class="policy">
           <view class="policy-item">
-            <view class="left">可调负荷</view>
+            <view class="left flex center column">
+              <text class="iconfont icon-iconPZGL_YHGL_3-1"></text>
+              可调负荷
+            </view>
             <view class="right">
               <view class="load labal-value">
                 <text class="title">录入负荷</text>
                 <view class="value">
-                  <u-input widht="40" style="width: 200rpx" />
+                  <u-input widht="40" style="width: 200rpx" value="30" />
                   <text class="unit">kw</text>
                 </view>
               </view>
@@ -188,12 +144,14 @@
             </view>
           </view>
           <view class="policy-item">
-            <view class="left">日内响应</view>
+            <view class="left flex center column">
+              <text class="iconfont icon-iconPZGL_YHGL_3-2"></text>日内响应
+            </view>
             <view class="right">
               <view class="load labal-value">
                 <text class="title">录入负荷</text>
                 <view class="value">
-                  <u-input />
+                  <u-input value="30" />
                   <text class="unit">kw</text>
                 </view>
               </view>
@@ -207,12 +165,14 @@
             </view>
           </view>
           <view class="policy-item">
-            <view class="left">最大响应</view>
+            <view class="left flex center column">
+              <text class="iconfont icon-iconPZGL_YHGL_3-3"></text>最大响应
+            </view>
             <view class="right">
               <view class="load labal-value">
                 <text class="title">录入负荷</text>
                 <view class="value">
-                  <u-input />
+                  <u-input value="30" />
                   <text class="unit">kw</text>
                 </view>
               </view>
@@ -227,26 +187,30 @@
           </view>
         </view>
       </view>
-    </card>
+    </List>
     <view class="bottom">
       <view class="btns">
-        <text class="btn">取消</text>
-        <text class="btn">保存</text>
+        <text class="btn" @click="cancel">取消</text>
+        <text class="btn" @click="save">保存</text>
       </view>
     </view>
   </view>
 </template>
 <script>
-import card from "@/components/card";
+import List from "@/components/list.vue";
+import { uniScrollTop } from "@/utils/common.js";
 export default {
   options: {
     styleIsolation: "shared",
   },
   components: {
-    card,
+    List,
   },
   data() {
     return {
+      title: "picker",
+      array: ["一层公共照明", "二层公共照明", "三层公共照明", "四层公共照明"],
+      index: 0,
       currentTab: 1,
       showSex: false,
       model1: {
@@ -312,11 +276,11 @@ export default {
         },
       ],
       form: {
-        name: "asdf",
-        intro: "",
-        sex: "",
-        count: "",
-        connet: "",
+        name: "哈哈哈",
+        intro: "1234",
+        sex: "1234",
+        count: "124334",
+        connet: "12234324",
       },
       style: {
         color: "#9FA6AF",
@@ -372,6 +336,18 @@ export default {
   },
   onLoad() {},
   methods: {
+    bindPickerChange: function (e) {
+      console.log("picker发送选择改变，携带值为", e.detail.value);
+      this.index = e.detail.value;
+    },
+    cancel() {
+      this.$emit("update:currentType", "index");
+      uniScrollTop();
+    },
+    save() {
+      this.$emit("update:currentType", "index");
+      uniScrollTop();
+    },
     add(currentIndex) {
       this.deviceList.splice(currentIndex, 0, { name: "" });
     },
@@ -385,8 +361,25 @@ export default {
   },
 };
 </script>
- 
+
 <style lang="scss" scoped>
+.load {
+  color: $uni-color-load;
+}
+.response {
+  color: $uni-color-response;
+}
+.max-response {
+  color: $uni-color-max-response;
+}
+.mini-btn {
+  background: rgba(0, 200, 255, 0.3);
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  color: #e6f1ff;
+  margin: 0;
+}
+
 .user-page {
   .top {
     margin: 20rpx 0 28rpx 0;
@@ -396,6 +389,13 @@ export default {
       font-family: MicrosoftYaHei;
       color: rgba(0, 148, 179, 0.5);
     }
+  }
+  .device-info ::v-deep .u-border {
+    border-color: #e6f1ff33 !important;
+    padding: 1rpx 9rpx !important;
+    width: 50rpx;
+    // margin-left: 70rpx;
+    background: none !important;
   }
   .base-info ::v-deep .u-border {
     border-color: #e6f1ff33 !important;
@@ -423,24 +423,30 @@ export default {
       line-height: 48rpx;
     }
   }
-  .sub-tab {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16rpx;
-    margin: 26rpx 0 10rpx;
-    &-item {
-      text-align: center;
-      width: 160rpx;
+  .equip {
+    margin-bottom: 20rpx;
+    .item {
+      margin-top: 10rpx;
+      .icon-t {
+        font-size: 24rpx;
+
+        .iconfont {
+          font-size: 30rpx;
+          margin-right: 10rpx;
+        }
+        .txt {
+          color: #9fa6af;
+        }
+      }
       .value {
-        height: 44rpx;
+        height: 40rpx;
         background: rgba(0, 142, 181, 0.2);
         border-radius: 8rpx;
         display: block;
-        margin-bottom: 12rpx;
         font-size: 28rpx;
-        margin-top: 7rpx;
+        margin-top: 10rpx;
         font-family: square-font;
+        text-align: center;
       }
     }
   }
@@ -471,7 +477,7 @@ export default {
         margin: 10rpx;
       }
       .border {
-        height: 40rpx;
+        height: 49rpx;
         border-radius: 16rpx;
         border: 2rpx solid rgba(230, 241, 255, 0.2);
         line-height: 40rpx;
@@ -480,9 +486,10 @@ export default {
         width: 10%;
       }
       .name {
-        flex: 1;
+        // flex: 1 0 280rpx;
         color: #19d8ff;
         margin: 0 16rpx;
+        width: 280rpx;
       }
       .capacity {
         width: 40%;
@@ -506,17 +513,21 @@ export default {
       display: flex;
       margin-top: 22rpx;
       .left {
-        display: block;
         flex: 1;
         text-align: center;
         font-size: 28rpx;
         color: rgba(0, 179, 255, 0.5);
+        .iconfont {
+          display: block;
+          font-size: 70rpx;
+          margin-bottom: 8rpx;
+        }
       }
       .right {
         width: 400rpx;
         /* height: 150rpx; */
         background: rgba(0, 142, 181, 0.15);
-        border-radius: 16prx;
+        border-radius: 16rpx;
         padding: 26rpx 26rpx 10rpx;
         box-sizing: border-box;
         .load {

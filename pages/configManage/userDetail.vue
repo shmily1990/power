@@ -3,17 +3,7 @@
     <view class="breadcrumb">
       <text>邀约详情 > 用户响应情况</text>
     </view>
-    <card>
-      <view class="card-head">
-        <u-icon
-          label="用户响应情况"
-          name="clock"
-          color="#ffffff"
-          label-color="#ffffff"
-          label-size="16"
-          size="24"
-        ></u-icon>
-      </view>
+    <List titleTxt="用户响应情况" fontClass="icon-iconKSYY_YYGL_3-0-title">
       <view class="card-conent">
         <div class="user-info">
           <text class="left">02</text>
@@ -78,7 +68,7 @@
           </view>
         </view>
       </view>
-    </card>
+    </List>
     <view class="bottom">
       <view class="back" @click="goBack">
         <image src="~@/static/icon_back.png" class="img-back" />
@@ -89,7 +79,8 @@
 </template>
 
 <script>
-import card from "@/components/card";
+import List from "@/components/list";
+import { uniScrollTop } from "@/utils/common.js";
 export default {
   options: {
     styleIsolation: "shared",
@@ -137,12 +128,13 @@ export default {
     };
   },
   components: {
-    card,
+    List,
   },
   onLoad() {},
   methods: {
     goBack() {
       this.$emit("changeCurrentPage");
+      uniScrollTop();
     },
   },
 };
@@ -298,6 +290,8 @@ export default {
           border-radius: 16rpx;
           border: 2rpx solid rgba(230, 241, 255, 0.2);
           color: #00c8ff;
+          height: 48rpx;
+          line-height: 48rpx;
         }
       }
     }

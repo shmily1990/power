@@ -1,61 +1,62 @@
 <template>
   <view class="user-list">
     <scroll-view scroll-y="true" class="scroll-box" :style="currentStyle">
-      <card v-for="(item, index) in userList" :key="index">
-        <view @click="handleSelect(item)">
-          <view class="card-head">
-            <view class="card-head-title">{{ item.name }}</view>
-            <view class="card-head-status">
-              <u-icon
-                label="已申报"
-                name="checkmark-circle"
-                color="#0DFF9A"
-                label-color="#0DFF9A"
-                label-size="12"
-              ></u-icon>
-            </view>
+      <List
+        v-for="(item, index) in userList"
+        :key="index"
+        :titleTxt="item.name"
+        bordered
+      >
+        <template slot="optBtn">
+          <view
+            class="card-status flex center"
+            :style="{
+              background: status[index].bg,
+              color: status[index].color,
+            }"
+          >
+            <u-icon
+              :label="status[index].text"
+              labelSize="24rpx"
+              :labelColor="status[index].color"
+              space="15rpx"
+              size="15px"
+              :color="status[index].color"
+              :name="status[index].uview"
+            ></u-icon>
           </view>
-          <u-divider color="#E6F1FF"></u-divider>
-          <view class="card-conent">
-            <view class="card-info-item">
-              <u-icon
-                label="可调负荷"
-                name="setting"
-                color="#0DFF9A"
-                label-color="#9FA6AF"
-                label-size="12"
-              ></u-icon>
-              <text class="value" :style="{ color: '#0DFF9A' }">360</text>
-            </view>
-            <view class="card-info-item">
-              <u-icon
-                label="日内响应"
-                name="setting"
-                color="#F7B500"
-                label-color="#9FA6AF"
-                label-size="12"
-              ></u-icon>
-              <text class="value" :style="{ color: '#F7B500' }">360</text>
-            </view>
-            <view class="card-info-item">
-              <u-icon
-                label="最大响应"
-                name="setting"
-                color="#FA6400"
-                label-color="#9FA6AF"
-                label-size="12"
-              ></u-icon>
-              <text class="value" :style="{ color: '#FA6400' }">360</text>
-            </view>
+        </template>
+        <view class="card-conent flex between" @click="handleSelect(item)">
+          <view class="item load">
+            <view class="icon-t"
+              ><text class="iconfont icon-iconDR_quick_active"></text
+              ><text class="txt">可调负荷</text></view
+            >
+            <text class="value">360</text>
+          </view>
+          <view class="item response">
+            <view class="icon-t"
+              ><text class="iconfont icon-iconDR_day_active"></text
+              ><text class="txt">可调负荷</text></view
+            >
+            <text class="value">360</text>
+          </view>
+          <view class="item max-response">
+            <view class="icon-t"
+              ><text class="iconfont icon-iconDR_long_active"></text
+              ><text class="txt">可调负荷</text></view
+            >
+            <text class="value">360</text>
           </view>
         </view>
-      </card>
+      </List>
     </scroll-view>
   </view>
 </template>
 
 <script>
 import card from "@/components/card";
+import List from "@/components/list.vue";
 export default {
   options: {
     styleIsolation: "shared",
@@ -69,6 +70,22 @@ export default {
   data() {
     return {
       currentStyle: ``,
+      status: {
+        1: {
+          text: "已申报",
+          bg: "rgba(13,255,154,0.1)",
+          color: "#0DFF9A",
+          iconf: "icon-iconElementConfirm",
+          uview: "checkmark-circle",
+        },
+        0: {
+          text: "未申报",
+          bg: "rgba(247,181,0,0.1)",
+          color: "#F7B500",
+          iconf: "icon-iconElementNotice",
+          uview: "error-circle",
+        },
+      },
       userList: [
         {
           name: "上海大学1号门",
@@ -96,6 +113,7 @@ export default {
   },
   components: {
     card,
+    List,
   },
   onReady() {
     // this.getEventList();
@@ -105,6 +123,7 @@ export default {
   },
   methods: {
     handleSelect(item) {
+      console.log(item);
       this.$emit("selectUser", item);
     },
   },
@@ -113,46 +132,53 @@ export default {
 
 <style lang="scss" scoped>
 .user-list {
-  .scroll-box {
-  }
-  .card-head {
-    display: flex;
-    justify-content: space-between;
-    // height: 90rpx;
-    align-items: center;
-    &-title {
-      font-weight: bold;
-      color: #e6f1ff;
-      font-size: 32rpx;
-    }
-    &-status {
-      height: 52rpx;
-      background: rgba(13, 255, 154, 0.1);
-      border-radius: 10px;
-      width: fit-content;
-      padding: 0 20rpx;
-      display: flex;
-    }
-  }
   ::v-deep .u-divider {
     margin: 12rpx 0 !important;
   }
+  .load {
+    color: $uni-color-load;
+  }
+  .response {
+    color: $uni-color-response;
+  }
+  .max-response {
+    color: $uni-color-max-response;
+  }
+  .card-status {
+    width: 160rpx;
+    height: 52rpx;
+    border-radius: 10rpx;
+    font-size: 24rpx;
+    text-align: center;
+    line-height: 52rpx;
+    .iconfont {
+      margin-right: 20rpx;
+    }
+  }
   .card-conent {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     // height: 109rpx;
-    .card-info-item {
-      text-align: center;
+    .item {
+      margin-top: 10rpx;
+      .icon-t {
+        font-size: 24rpx;
+
+        .iconfont {
+          font-size: 30rpx;
+          margin-right: 10rpx;
+        }
+        .txt {
+          color: #9fa6af;
+        }
+      }
       .value {
         height: 40rpx;
         background: rgba(0, 142, 181, 0.2);
         border-radius: 8rpx;
         display: block;
-        margin-bottom: 12rpx;
         font-size: 28rpx;
-        margin-top: 7rpx;
+        margin-top: 10rpx;
         font-family: square-font;
+        text-align: center;
       }
     }
   }

@@ -7,8 +7,16 @@
         v-model="searchText"
         :showAction="false"
       ></u-search>
-      <event name="正在邀约" @eventSelect="handleSelect" />
-      <event name="历史邀约" @eventSelect="handleSelect" />
+      <event
+        name="正在邀约"
+        fontClass="icon-iconPZGL_YYGL_2-0-title"
+        @eventSelect="handleSelect"
+      />
+      <event
+        name="历史邀约"
+        fontClass="icon-iconPZGL_YYGL_3-0-title"
+        @eventSelect="handleSelect"
+      />
       <view class="bottom">
         <text class="btn">新建邀约</text>
       </view>
@@ -21,6 +29,7 @@
 import overview from "@/components/overview";
 import event from "./component/event.vue";
 import inviteDetail from "./inviteDetail.vue";
+import { uniScrollTop } from "@/utils/common.js";
 export default {
   options: {
     styleIsolation: "shared",
@@ -32,19 +41,19 @@ export default {
           name: "正在邀约",
           value: 230,
           unit: "条",
-          icon: "icon-iconJSC_1_2",
+          icon: "icon-iconPZGL_YYGL_1-1",
         },
         {
           name: "当年完成",
           value: 319,
           unit: "条",
-          icon: "icon-iconJSC_2_2",
+          icon: "icon-iconPZGL_YYGL_1-2",
         },
         {
           name: "总完成",
           value: 821,
           unit: "条",
-          icon: "icon-iconJSC_2_2",
+          icon: "icon-iconPZGL_SJGL_1-3",
         },
       ],
       searchText: "",
@@ -60,6 +69,7 @@ export default {
     handleSelect(val) {
       console.log(8989);
       this.showEventDetail = true;
+      uniScrollTop();
     },
   },
 };

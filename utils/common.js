@@ -11,6 +11,12 @@ const urlTobase64 = (folder, fileName, format = "png") => {
 };
 // #endif
 
-export default {
-  urlTobase64,
-};
+export const uniScrollTop = () => {
+  uni.pageScrollTo({
+    scrollTop: 0,
+    duration: 300,
+  });
+}
+
+
+

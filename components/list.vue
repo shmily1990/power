@@ -7,6 +7,7 @@
       <!-- 编辑类似按钮插槽 -->
       <slot name="optBtn"> </slot>
     </view>
+    <u-divider v-if="bordered" color="#385E81"></u-divider>
     <view class="list-item">
       <slot></slot>
     </view>
@@ -26,6 +27,10 @@ export default {
     titleTxt: {
       type: String,
       default: null,
+    },
+    bordered: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {},
