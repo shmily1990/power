@@ -18,10 +18,14 @@
                 <text>实际</text> <text>280kW</text><text>申报比例</text>
                 <text> 95%</text>
               </view>
-              <u-line-progress
-                :percent="70"
-                active-color="#ff9900"
-              ></u-line-progress>
+              <template>
+                <u-line-progress
+                  :percentage="95"
+                  inactiveColor="#256079"
+                  activeColor="#0DFF9A"
+                  :showText="false"
+                ></u-line-progress>
+              </template>
             </view>
             <!--右结束-->
           </view>
@@ -42,10 +46,14 @@
               <view class="top">
                 <text>实际</text> <text>280kW</text> <text>申报比例 95%</text>
               </view>
-              <u-line-progress
-                :percent="70"
-                active-color="#ff9900"
-              ></u-line-progress>
+              <template>
+                <u-line-progress
+                  :percentage="87"
+                  inactiveColor="#256079"
+                  activeColor="#F7B500"
+                  :showText="false"
+                ></u-line-progress>
+              </template>
             </view>
             <!--右结束-->
           </view>
@@ -66,10 +74,14 @@
               <view class="top">
                 <text>实际</text> <text>280kW</text> <text>申报比例 95%</text>
               </view>
-              <u-line-progress
-                :percent="70"
-                active-color="#ff9900"
-              ></u-line-progress>
+              <template>
+                <u-line-progress
+                  :percentage="97"
+                  inactiveColor="#256079"
+                  activeColor="#FA6400"
+                  :showText="false"
+                ></u-line-progress>
+              </template>
             </view>
             <!--右结束-->
           </view>

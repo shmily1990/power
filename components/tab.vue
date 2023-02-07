@@ -84,13 +84,14 @@ export default {
       console.log(e);
       this.active = e;
       this.swiperCurrent = e;
-      this.$emit("swiperCurrent", this.swiperCurrent);
+      this.$emit("tabCurrent", this.swiperCurrent);
       uniScrollTop();
     },
     //滑动swiper后的下标  绑定给tab栏index
     transition(e) {
       console.log(e);
       this.swiperCurrent = e.detail.current;
+      this.$emit("tabCurrent", this.swiperCurrent);
       this.$nextTick(() => {
         this.setSwiperHeight();
       });

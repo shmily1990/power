@@ -83,6 +83,9 @@ export default {
   onReady() {
     this.getEventList();
   },
+  mounted() {
+    // console.log("4449999");
+  },
   methods: {
     getEventList() {
       this.eventList = [

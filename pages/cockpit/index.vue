@@ -9,14 +9,14 @@
       @onBack="goBack"
     ></navbar>
     <view class="view-box">
-      <CommTab :tabMenu="tabMenu" @swiperCurrent="swiperCurrent">
-        <template slot="tab0" class="content">
-          <resourceAll :swiperIndex="swiperIndex" />
+      <CommTab :tabMenu="tabMenu" @tabCurrent="tabCurrent" ref="tabs">
+        <template slot="tab0" class="content" v-if="tabIdx == 0">
+          <resourceAll />
         </template>
-        <template slot="tab1" class="content">
+        <template slot="tab1" class="content" v-if="tabIdx == 1">
           <resourceScatter />
         </template>
-        <template slot="tab2" class="content">
+        <template slot="tab2" class="content" v-if="tabIdx == 2">
           <regulatoryAbility :swiperIndex="swiperIndex" />
         </template>
       </CommTab>
@@ -44,6 +44,7 @@ export default {
   },
   data() {
     return {
+      tabIdx: 0,
       imgBgURL,
       tabMenu: [
         {
@@ -63,6 +64,12 @@ export default {
       swiperIndex: 0,
     };
   },
+  onShow: function (e) {
+    this.tabIdx = 0;
+    this.$refs.tabs.swiperCurrent = 0;
+    uniScrollTop();
+  },
+
   onLoad() {},
   methods: {
     goBack() {
@@ -73,6 +80,12 @@ export default {
     swiperCurrent(value) {
       console.log("sssss", value);
       this.swiperIndex = value;
+    },
+    /**
+     * 当前tab页码
+     */
+    tabCurrent(index) {
+      this.tabIdx = index;
     },
   },
 };

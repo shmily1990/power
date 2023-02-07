@@ -8,11 +8,11 @@
       @onBack="goBack"
     ></navbar>
     <view class="view-box">
-      <CommTab :tabMenu="tabMenu">
-        <template slot="tab0" class="content">
+      <CommTab :tabMenu="tabMenu" @tabCurrent="tabCurrent" ref="tabs">
+        <template slot="tab0" class="content" v-if="tabIdx == 0">
           <eventDetail />
         </template>
-        <template slot="tab1" class="content">
+        <template slot="tab1" class="content" v-if="tabIdx == 1">
           <inviteManage />
         </template>
       </CommTab>
@@ -27,6 +27,7 @@ import CommTab from "@/components/tab.vue";
 import eventDetail from "./eventDetail.vue";
 import inviteManage from "./inviteManage.vue";
 import navbar from "@/components/topNav.vue"; //引入组件
+import { uniScrollTop } from "@/utils/common.js";
 
 export default {
   components: {
@@ -37,6 +38,7 @@ export default {
   },
   data() {
     return {
+      tabIdx: 0,
       imgBgURL,
       tabMenu: [
         {
@@ -51,7 +53,19 @@ export default {
     };
   },
   onLoad() {},
-  methods: {},
+  onShow: function (e) {
+    this.tabIdx = 0;
+    this.$refs.tabs.swiperCurrent = 0;
+    uniScrollTop();
+  },
+  methods: {
+    /**
+     * 当前tab页码
+     */
+    tabCurrent(index) {
+      this.tabIdx = index;
+    },
+  },
 };
 </script>
 

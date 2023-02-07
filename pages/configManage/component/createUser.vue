@@ -88,11 +88,18 @@
             >
               <text class="order border">{{ index + 1 }}</text>
               <!-- <text class="name border">{{ item.name }}</text> -->
-              <picker @change="bindPickerChange" :value="index" :range="array">
-                <view class="uni-input name border">{{ array[index] }}</view>
+              <picker
+                @change="(e) => bindPickerChange(e, index)"
+                :value="item.deviceValue"
+                :range="selectList"
+                range-key="name"
+              >
+                <view class="uni-input name border">{{
+                  selectList[item.deviceValue].name
+                }}</view>
               </picker>
               <view class="capacity">
-                <u-input value="12" />
+                <u-input :value="item.capacity" />
                 <!-- <text class="value border">12</text> -->
                 <view class="btns">
                   <u-icon
@@ -130,12 +137,17 @@
               <view class="load labal-value">
                 <text class="title">录入负荷</text>
                 <view class="value">
-                  <u-input widht="40" style="width: 200rpx" value="30" />
+                  <u-input
+                    widht="40"
+                    style="width: 200rpx"
+                    value="30"
+                    disabled
+                  />
                   <text class="unit">kw</text>
                 </view>
               </view>
               <view class="load labal-value">
-                <text class="title">标准负荷</text>
+                <text class="title">核准负荷</text>
                 <view class="value">
                   <u-input class="my-input" />
                   <text class="unit">kw</text>
@@ -151,12 +163,12 @@
               <view class="load labal-value">
                 <text class="title">录入负荷</text>
                 <view class="value">
-                  <u-input value="30" />
+                  <u-input value="30" disabled />
                   <text class="unit">kw</text>
                 </view>
               </view>
               <view class="load labal-value">
-                <text class="title">标准负荷</text>
+                <text class="title">核准负荷</text>
                 <view class="value">
                   <u-input />
                   <text class="unit">kw</text>
@@ -172,12 +184,12 @@
               <view class="load labal-value">
                 <text class="title">录入负荷</text>
                 <view class="value">
-                  <u-input value="30" />
+                  <u-input value="30" disabled />
                   <text class="unit">kw</text>
                 </view>
               </view>
               <view class="load labal-value">
-                <text class="title">标准负荷</text>
+                <text class="title">核准负荷</text>
                 <view class="value">
                   <u-input />
                   <text class="unit">kw</text>
@@ -209,6 +221,28 @@ export default {
   data() {
     return {
       title: "picker",
+      selectList: [
+        {
+          name: "一层公共照明",
+          value: 0,
+          capacity: 12,
+        },
+        {
+          name: "二层公共照明",
+          value: 1,
+          capacity: 24,
+        },
+        {
+          name: "三层公共照明",
+          value: 2,
+          capacity: 36,
+        },
+        {
+          name: "四层公共照明",
+          value: 3,
+          capacity: 48,
+        },
+      ],
       array: ["一层公共照明", "二层公共照明", "三层公共照明", "四层公共照明"],
       index: 0,
       currentTab: 1,
@@ -320,25 +354,34 @@ export default {
       switchVal: false,
       deviceList: [
         {
-          name: "一楼XXXXXX",
+          deviceValue: 3,
+          capacity: 0,
         },
         {
-          name: "二楼XXXXXX",
+          deviceValue: 3,
+          capacity: 0,
         },
         {
-          name: "三楼XXXXXX",
+          deviceValue: 3,
+          capacity: 0,
         },
         {
-          name: "四楼XXXXXX",
+          deviceValue: 3,
+          capacity: 0,
         },
       ],
     };
   },
   onLoad() {},
   methods: {
-    bindPickerChange: function (e) {
-      console.log("picker发送选择改变，携带值为", e.detail.value);
-      this.index = e.detail.value;
+    bindPickerChange: function (e, index) {
+      // this.index = e.detail.value;
+      // this.$set(item, deviceValue, e.detail.value);
+      // this.$set(item, capacity, 16);
+      this.$set(this.deviceList, index, {
+        deviceValue: e.detail.value,
+        capacity: 10,
+      });
     },
     cancel() {
       this.$emit("update:currentType", "index");
@@ -349,7 +392,10 @@ export default {
       uniScrollTop();
     },
     add(currentIndex) {
-      this.deviceList.splice(currentIndex, 0, { name: "" });
+      this.deviceList.splice(currentIndex, 0, {
+        deviceValue: 3,
+        capacity: 0,
+      });
     },
     reduce(currentIndex) {
       this.deviceList.splice(currentIndex, 1);

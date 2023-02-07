@@ -136,7 +136,7 @@
                 </view>
               </view>
               <view class="load labal-value">
-                <text class="title">标准负荷</text>
+                <text class="title">核准负荷</text>
                 <view class="value">
                   <u-input class="my-input" />
                   <text class="unit">kw</text>
@@ -157,7 +157,7 @@
                 </view>
               </view>
               <view class="load labal-value">
-                <text class="title">标准负荷</text>
+                <text class="title">核准负荷</text>
                 <view class="value">
                   <u-input />
                   <text class="unit">kw</text>
@@ -178,7 +178,7 @@
                 </view>
               </view>
               <view class="load labal-value">
-                <text class="title">标准负荷</text>
+                <text class="title">核准负荷</text>
                 <view class="value">
                   <u-input />
                   <text class="unit">kw</text>

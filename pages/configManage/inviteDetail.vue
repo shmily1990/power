@@ -149,8 +149,8 @@
         </view>
       </List>
       <view class="bottom">
-        <view class="back" @click="goBack">
-          <image src="~@/static/icon_back.png" class="img-back" />
+        <view class="back flex center" @click="goBack">
+          <image src="~@/static/icon-back.png" class="img-back" />
           <text class="title">返回</text>
         </view>
         <view class="btns">
@@ -412,24 +412,24 @@ export default {
     }
   }
   .bottom {
+    margin-top: 50rpx;
+    margin-bottom: 60rpx;
     .back {
-      display: flex;
-      justify-content: center;
-      margin-left: -40rpx;
       margin-top: 10rpx;
       .title {
         font-size: 32rpx;
         padding-left: 20rpx;
-        margin-top: 7rpx;
+        font-size: 44rpx;
+        color: rgba(0, 179, 255, 0.5);
       }
       .img-back {
-        width: 60rpx;
-        height: 60rpx;
+        width: 80rpx;
+        height: 80rpx;
         display: flex;
       }
     }
     .btns {
-      margin-top: 28rpx;
+      margin-top: 60rpx;
       display: flex;
       justify-content: space-around;
       .btn {

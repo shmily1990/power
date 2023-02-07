@@ -60,6 +60,7 @@
         <view class="uni-form-item flex">
           <view class="title">事件类型</view>
           <view class="uni-list-cell-db">
+            <view class="arrow"></view>
             <picker
               @change="pickerEveChange"
               :value="eveIdx"
@@ -132,7 +133,10 @@
       </view>
     </List>
 
-    <view class="bottom-btn" @click="onBack">返回</view>
+    <view class="bottom flex center" @click="onBack">
+      <image src="~@/static/icon-back.png" class="img-back" />
+      <text class="title">返回</text>
+    </view>
   </view>
 </template>
 
@@ -188,6 +192,9 @@ export default {
     chooseText(val) {
       return this.checkValue ? "全不选" : "全选";
     },
+  },
+  mounted() {
+    console.log("555子页面");
   },
   methods: {
     checkboxChange(e) {
@@ -300,6 +307,13 @@ export default {
     width: 292rpx;
     height: 48rpx;
     line-height: 48rpx;
+    .arrow {
+      position: absolute;
+      border: 12rpx solid transparent;
+      border-top-color: #00c8ff;
+      right: 16rpx;
+      top: 16rpx;
+    }
   }
   .textarea {
     border-radius: 16rpx;
@@ -316,17 +330,19 @@ export default {
   }
 }
 
-.bottom-btn {
-  width: 440rpx;
-  height: 90rpx;
-  background: linear-gradient(360deg, #0145d4 0%, #00b2fd 100%);
-  border-radius: 20rpx;
-  margin: 0 auto;
-  text-align: center;
-  line-height: 90rpx;
-  font-weight: bold;
-  font-size: 40rpx;
-  margin-top: 66rpx;
-  color: #ffffff;
+.bottom {
+  margin-top: 50rpx;
+  margin-bottom: 60rpx;
+  .title {
+    font-size: 32rpx;
+    padding-left: 20rpx;
+    font-size: 44rpx;
+    color: rgba(0, 179, 255, 0.5);
+  }
+  .img-back {
+    width: 80rpx;
+    height: 80rpx;
+    display: flex;
+  }
 }
 </style>

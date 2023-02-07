@@ -14,6 +14,7 @@
         </view>
       </view>
     </List>
+
     <List titleTxt="基本信息" fontClass="icon-iconJSC_2_0-title">
       <view class="card-content">
         <view class="uni-form-item flex">
@@ -23,6 +24,7 @@
         <view class="uni-form-item flex">
           <view class="title">事件类型</view>
           <view class="uni-list-cell-db">
+            <view class="arrow"></view>
             <picker
               @change="pickerEveChange"
               :value="eveIdx"
@@ -179,18 +181,15 @@ export default {
       margin-left: 20rpx;
       font-family: square-font;
     }
-
     .curr-img {
       width: 68rpx;
       height: 60rpx;
     }
-
     .count {
       font-size: 32rpx;
       color: #19d8ff;
       margin-right: 20rpx;
     }
-
     .numcount {
       font-size: 32rpx;
       margin-right: 20rpx;
@@ -208,6 +207,14 @@ export default {
     width: 292rpx;
     height: 48rpx;
     line-height: 48rpx;
+    position: relative;
+    .arrow {
+      position: absolute;
+      border: 12rpx solid transparent;
+      border-top-color: #00c8ff;
+      right: 16rpx;
+      top: 16rpx;
+    }
   }
   .textarea {
     border-radius: 16rpx;

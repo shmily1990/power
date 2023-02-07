@@ -191,7 +191,7 @@ export default {
     width: 2 * 136rpx;
     height: 2 * 24rpx;
     border-radius: 16rpx;
-    border: 1rpx solid #005066;
+    border: 2rpx solid rgba(230, 241, 255, 0.2);
 
     .list {
       position: absolute;

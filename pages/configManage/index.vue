@@ -8,14 +8,14 @@
       @onBack="goBack"
     ></navbar>
     <view class="view-box">
-      <CommTab :tabMenu="tabMenu">
-        <template slot="tab0">
+      <CommTab :tabMenu="tabMenu" @tabCurrent="tabCurrent" ref="tabs">
+        <template slot="tab0" v-if="tabIdx == 0">
           <invitation-management />
         </template>
-        <template slot="tab1">
+        <template slot="tab1" v-if="tabIdx == 1">
           <event-management />
         </template>
-        <template slot="tab2">
+        <template slot="tab2" v-if="tabIdx == 2">
           <user-management />
         </template>
       </CommTab>
@@ -32,7 +32,7 @@ import invitationManagement from "./InvitationManagement.vue";
 import userManagement from "./userManagement.vue";
 import eventManagement from "./eventManagement.vue";
 import navbar from "@/components/topNav.vue"; //引入组件
-
+import { uniScrollTop } from "@/utils/common.js";
 export default {
   components: {
     CommTab,
@@ -43,6 +43,7 @@ export default {
   },
   data() {
     return {
+      tabIdx: 0,
       imgBgURL,
       tabMenu: [
         {
@@ -61,7 +62,19 @@ export default {
     };
   },
   onLoad() {},
-  methods: {},
+  onShow: function (e) {
+    this.tabIdx = 0;
+    this.$refs.tabs.swiperCurrent = 0;
+    uniScrollTop();
+  },
+  methods: {
+    /**
+     * 当前tab页码
+     */
+    tabCurrent(index) {
+      this.tabIdx = index;
+    },
+  },
 };
 </script>
 
