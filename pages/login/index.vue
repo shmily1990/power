@@ -7,8 +7,8 @@
       <view class="login-top">
         <image src="/static/logo.png" alt="" class="logo" />
         <view class="logo-text">
-          <text class="company-name">国家电网</text>
-          <text class="platform-name">需求响应只能管控平台</text>
+          <text class="company-name">电管家集团</text>
+          <text class="platform-name">需求响应智能管控平台</text>
         </view>
       </view>
       <view class="form-box">

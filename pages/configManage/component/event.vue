@@ -2,7 +2,7 @@
   <view class="invite-event-info">
     <List :titleTxt="name" :fontClass="fontClass">
       <view class="card-conent">
-        <view class="event-list">
+        <scroll-view :scroll-y="true" class="event-list">
           <view
             class="event-list-item"
             v-for="(item, index) in eventList"
@@ -55,7 +55,7 @@
               </template>
             </view>
           </view>
-        </view>
+        </scroll-view>
       </view>
     </List>
   </view>
