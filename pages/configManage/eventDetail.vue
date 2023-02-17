@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="detail-title flex between">
-      <text>邀约详情</text>
+      <text>事件详情</text>
       <text class="r">event7788</text>
     </view>
     <List titleTxt="事件名称" fontClass="icon-iconPZGL_SJGL_5-0-title">
@@ -130,19 +130,15 @@
             value="该事件已于2022年10月5日14:00顺执行结果...."
           />
         </view>
-        <view class="uni-form-item chart-box">
-          <view class="chart-title">
-            <u-icon name="woman"></u-icon>
-            <text>响应结果曲线</text>
-          </view>
-          <view class="chart">
-            <qiun-data-charts
-              type="column"
-              :opts="opts"
-              :chartData="chartData"
-              :canvas2d="true"
-            />
-          </view>
+      </view>
+      <view class="chart-content">
+        <view class="chart-title flex">
+          <text class="iconfont icon-iconDR_day_inactive"></text>
+
+          <text>响应结果曲线</text>
+        </view>
+        <view class="chart-box">
+          <qiun-data-charts type="line" :opts="opts" :chartData="chartData" />
         </view>
       </view>
     </List>
@@ -168,9 +164,9 @@ export default {
     return {
       opts: {
         color: [
-          "#6DD400",
-          "#F7B500",
-          "#F7B500",
+          "#19D8FF",
+          "#0DFF9A",
+          "#FFD76A",
           "#000000",
           "#000000",
           "#000000",
@@ -178,7 +174,7 @@ export default {
           "#000000",
           "#000000",
         ],
-        padding: [15, 0, 0, 15],
+        padding: [15, 0, 0, 5],
         enableScroll: false,
         legend: {
           position: "top",
@@ -191,8 +187,8 @@ export default {
         xAxis: {
           disableGrid: true,
           // title: "单位：年"
-          axisLineColor: "#396780",
-          fontColor: "rgba(255,255,255,0.4)",
+          axisLineColor: "#0D6798",
+          fontColor: "rgba(0,200,255,0.3)",
           fontSize: 12,
         },
         yAxis: {
@@ -206,24 +202,21 @@ export default {
             {
               position: "left",
               title: "负荷 kWh",
-              axisLineColor: "#396780",
-              fontColor: "rgba(255,255,255,0.4)",
+              axisLineColor: "#0D6798",
+              fontColor: "rgba(0,200,255,0.3)",
               fontSize: 12,
-              titleFontColor: "#9FA6AF",
+              titleFontSize: 14,
+              titleFontColor: "rgba(0,200,255,0.3)",
               titleOffsetY: -6,
             },
           ],
         },
         extra: {
-          column: {
-            type: "group",
-            width: 8,
-            activeBgOpacity: 0.08,
-            linearType: "custom",
-            seriesGap: 5,
-            linearOpacity: 0.5,
-            barBorderCircle: false, //柱形圆角
-            customColor: ["#6DD400", "#FDFF00", "#E02020"],
+          line: {
+            type: "curve",
+            width: 2,
+            activeType: "solid",
+            onShadow: false,
           },
         },
       },
@@ -281,22 +274,47 @@ export default {
       setTimeout(() => {
         //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
         let res = {
-          categories: ["园区A", "园区B", "园区C", "园区D", "园区E"],
+          categories: ["15:00", "15:10", "15:20", "15:30", "15:40"],
           series: [
             {
               name: "目标值",
               textSize: 1,
-              data: [35, 36, 31, 33, 13],
+              data: [75, 48, 65, 66, 50, 60],
+              lineStyle: {
+                normal: {
+                  //线的颜色
+                  color: "#f00",
+                  shadowColor: "rgba(0, 0, 0, 1)",
+                  shadowBlur: 0,
+                  shadowOffsetY: 5,
+                  shadowOffsetX: 5,
+                },
+              },
+              itemStyle: {
+                //面积图里的颜色和圆点里的颜色
+                color: "#00ca95",
+                //圆点外的颜色
+                borderColor: "#fff",
+                //圆点的宽度
+                borderWidth: 10,
+                //圆点影子的颜色
+                shadowColor: "rgba(0, 0, 0, 1)",
+                //阴影的模糊级数
+                shadowBlur: 0,
+                //阴影的偏移效果
+                shadowOffsetY: 2,
+                shadowOffsetX: 2,
+              },
             },
             {
               name: "完成量",
               textSize: 1,
-              data: [18, 27, 21, 24, 6],
+              data: [90, 80, 100, 80, 90, 100],
             },
             {
               name: "园区",
               textSize: 1,
-              data: [90, 40, 50, 70, 80],
+              data: [110, 90, 110, 120, 112, 150],
             },
           ],
         };
@@ -434,12 +452,23 @@ export default {
     width: 146rpx;
     margin-right: 20rpx;
   }
+}
+.chart-content {
+  .chart-title {
+    font-size: 28rpx;
+    color: #00c8ff;
+    margin: 28rpx 0 12rpx;
+    .iconfont {
+      margin-right: 18rpx;
+      font-size: 50rpx;
+      color: #0d6798;
+    }
+  }
   .chart-box {
     width: 568rpx;
-    height: 350rpx;
+    height: 300rpx;
   }
 }
-
 .bottom {
   margin-top: 50rpx;
   margin-bottom: 60rpx;
