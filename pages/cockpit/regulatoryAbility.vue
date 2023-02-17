@@ -8,7 +8,7 @@
             <view class="l">
               <image class="jsc-icon" src="/static/jsc-icon1.png" alt="" />
               <view class="txt">
-                <view class="top">总可调负荷</view>
+                <view class="top">总快速响应</view>
                 <view class="num load">232<text class="unit">kW</text></view>
               </view>
             </view>
@@ -35,7 +35,7 @@
             <view class="l">
               <image class="jsc-icon" src="/static/jsc-icon2.png" alt="" />
               <view class="txt">
-                <view class="top">总可调负荷</view>
+                <view class="top">总日内响应</view>
                 <view class="num response"
                   >232<text class="unit">kW</text></view
                 >
@@ -63,7 +63,7 @@
             <view class="l">
               <image class="jsc-icon" src="/static/jsc-icon3.png" alt="" />
               <view class="txt">
-                <view class="top">总可调负荷</view>
+                <view class="top">总中长期响应</view>
                 <view class="num max-response"
                   >232<text class="unit">kW</text></view
                 >
@@ -109,7 +109,7 @@
           <view class="max common">
             <view>最大响应<text class="name">园区D</text></view>
             <view
-              >可调负荷<text class="name">430</text
+              >快速响应<text class="name">430</text
               ><text class="unit">kW</text></view
             >
             <view
@@ -117,7 +117,7 @@
               ><text class="unit">kW</text></view
             >
             <view
-              >最大响应<text class="name">620</text
+              >中长期响应<text class="name">620</text
               ><text class="unit">kW</text></view
             >
           </view>
@@ -125,7 +125,7 @@
           <view class="min common">
             <view>最小响应<text class="name">园区D</text></view>
             <view
-              >可调负荷<text class="name">210</text
+              >快速响应<text class="name">210</text
               ><text class="unit">kW</text></view
             >
             <view
@@ -133,7 +133,7 @@
               ><text class="unit">kW</text></view
             >
             <view
-              >最大响应<text class="name">160</text
+              >中长期响应<text class="name">160</text
               ><text class="unit">kW</text></view
             >
           </view>
@@ -400,7 +400,7 @@ export default {
     display: flex;
     justify-content: space-between;
     .common {
-      width: 40%;
+      width: 45%;
       .name {
         font-weight: bold;
         color: #00c8ff;

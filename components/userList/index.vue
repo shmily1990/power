@@ -30,21 +30,21 @@
           <view class="item load">
             <view class="icon-t"
               ><text class="iconfont icon-iconDR_quick_active"></text
-              ><text class="txt">可调负荷</text></view
+              ><text class="txt">快速响应</text></view
             >
             <text class="value">360</text>
           </view>
           <view class="item response">
             <view class="icon-t"
               ><text class="iconfont icon-iconDR_day_active"></text
-              ><text class="txt">可调负荷</text></view
+              ><text class="txt">日内响应</text></view
             >
             <text class="value">360</text>
           </view>
           <view class="item max-response">
             <view class="icon-t"
               ><text class="iconfont icon-iconDR_long_active"></text
-              ><text class="txt">可调负荷</text></view
+              ><text class="txt">中长期响应</text></view
             >
             <text class="value">360</text>
           </view>

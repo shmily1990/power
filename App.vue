@@ -34,10 +34,34 @@ checkbox.round .uni-checkbox-input {
 }
 
 checkbox.round[checked] .wx-checkbox-input,
-checkbox.round.checked .uni-checkbox-input {
+checkbox.round.checked .uni-checkbox-input,
+checkbox.round.partChoose .wx-checkbox-input,
+checkbox.round.partChoose .uni-checkbox-input {
   background-color: #0060a9;
   border-color: transparent;
   color: #ffffff;
+}
+checkbox.round.partChoose .wx-checkbox-input::before,
+checkbox.round.partChoose .uni-checkbox-input::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  background-color: #0060a9;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+checkbox.round.partChoose .wx-checkbox-input::after,
+checkbox.round.partChoose .uni-checkbox-input::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  z-index: 2;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  width: 60%;
+  height: 4rpx;
 }
 
 /*每个页面公共css */

@@ -54,69 +54,139 @@
         </view>
       </view>
     </view>
-    <view class="card card3">
+    <view class="card card2">
       <view class="card-title">
         <view class="titleleft">
-          <text class="iconfont icon-iconKSYY_YYGL_3-0-title"></text>
-          <text class="itemtext">邀约用户选择</text>
+          <text class="iconfont icon-iconKSYY_YYGL_2-0-title"></text>
+          <text class="itemtext">参与用户补贴</text>
+        </view>
+        <button class="mini-btn" type="default" size="mini">编辑</button>
+      </view>
+      <view class="card-content">
+        <view class="uni-form-item flex">
+          <view class="title">补贴额度</view>
+          <input class="uni-input account" />
+          <text class="itemtext">元/千瓦时</text>
+        </view>
+        <!-- <view class="uni-form-item flex">
+          <view class="title">申报截止</view>
+          <view class="uni-list-cell-db">
+            <datapicker :timeValue.sync="value1" />
+          </view>
+        </view>
+        <view class="uni-form-item flex">
+          <view class="title">邀约截止</view>
+          <view class="uni-list-cell-db">
+            <datapicker :timeValue.sync="value2" />
+          </view>
+        </view> -->
+      </view>
+    </view>
+    <view class="card card3">
+      <view class="card-title">
+               
+        <view class="titleleft">
+                   
+          <text class="iconfont icon-iconKSYY_YYGL_3-0-title"></text>          
+          <text class="itemtext">邀约用户选择</text>        
         </view>
       </view>
       <view class="card-content">
-        <view class="uni-form-item flex header">
-          <view class="user flex">
-            <text class="iconfont icon-iconKSYY_YYGL_3-1 curr-img"></text>
+         
+        <view class="uni-form-item flex header"
+          >   
+          <view class="user flex"
+            >     
+            <text class="iconfont icon-iconKSYY_YYGL_3-1 curr-img"></text>      
             <view class="uni-form-item">
-              <text class="itemtext title">可参与用户</text>
-              <view class="title"><text class="count">20</text>家</view>
+                 <text class="itemtext title">可参与用户</text>      
+              <view class="title"><text class="count">20</text>家</view>        
             </view>
           </view>
           <view class="user flex">
-            <text class="iconfont icon-iconKSYY_YYGL_3-2 curr-img"></text>
+            <text class="iconfont icon-iconKSYY_YYGL_3-2 curr-img"></text>      
             <view class="uni-form-item">
-              <text class="itemtext title">总日内响应</text>
-              <view class="title"><text class="numcount">433</text>kw</view>
+              <text class="itemtext title">总日内响应</text>      
+              <view class="title"><text class="numcount">433</text>kw</view>    
             </view>
           </view>
         </view>
         <view class="check-title flex between">
-          <view class="title"> 筛选 </view>
+                    <view class="title"> 筛选 </view>          
           <view class="check-choose">
             <checkbox-group @change="checkboxChange">
               <label class="flex">
-                <checkbox value="cb" class="round" :checked="checkValue" />
+                <checkbox value="cb" class="round" :checked="checkValue" />    
                 <view class="title c-title choose-title">
-                  {{ chooseText }}
+                      {{ chooseText }}                
                 </view>
               </label>
             </checkbox-group>
           </view>
         </view>
-        <view class="check-title check-list">
-          <view class="title flex check-arrow">
-            <view class="arrow"></view>
-            <label class="flex">
-              <checkbox class="round" />
-              <view class="title c-title"> 电管家集团 </view>
-            </label>
-          </view>
-          <view class="check-choose">
-            <view class="scroll-view">
-              <scroll-view scroll-y="true" class="scroll-Y">
-                <view
-                  class="title flex between"
-                  v-for="i in Array(10)"
-                  :key="i"
-                >
-                  <label class="flex">
-                    <checkbox class="round" />
-                    <view class="title c-title"> 电管家某某用户A </view>
-                  </label>
-                  <view class="column"> <text class="title">95</text>kw </view>
-                </view>
-              </scroll-view>
+        <scroll-view scroll-y="true" class="scroll-Y">
+          <view
+            class="check-title check-list"
+            v-for="group in groups"
+            :key="group.id"
+          >
+            <view class="title flex check-arrow">
+               
+              <view
+                class="arrow"
+                @click="expandArrow(group)"
+                :class="{ collapse: !group.expand }"
+              ></view>
+              <checkbox-group @change="checkboxChangeHeader($event, group)"
+                >     
+                <label class="flex"
+                  >     
+                  <checkbox
+                    class="round"
+                    :value="group.id"
+                    :checked="group.checked"
+                    :class="{ partChoose: group.partChoose }"
+                  />
+                  <view class="title c-title"> {{ group.title }} </view>      </label
+                >  </checkbox-group
+              > 
             </view>
+            <view class="check-choose" v-show="group.expand"
+              > 
+              <view class="scroll-view">
+                 
+                <checkbox-group @change="checkboxChangeList($event, group)"
+                  >       
+                  <view
+                    class="title flex between"
+                    v-for="(item, index) in group.children"
+                    :key="index"
+                  >
+                    <label class="flex">
+                                 
+                      <checkbox
+                        class="round"
+                        :value="item.id"
+                        :checked="item.checked"
+                      />
+                         
+                      <view class="title c-title">
+                        {{ item.title + index }}
+                      </view>
+                       
+                    </label>
+                       
+                    <view class="column">
+                      <text class="title">{{ item.count }}</text
+                      >kw </view
+                    >     
+                  </view> </checkbox-group
+                >    </view
+              >   
+            </view>
+             
           </view>
-        </view>
+        </scroll-view>
       </view>
     </view>
     <view class="bottom-btn" @click="createInvitat">发起邀约</view>
@@ -131,6 +201,99 @@ export default {
   },
   data() {
     return {
+      //  checked标识是否选中,expand标识是否展开折叠,partChoose标识是否部分选中，示例演示，如果接口无类似字段需要手动添加
+      groups: [
+        {
+          id: "1",
+          checked: false,
+          expand: true,
+          partChoose: false,
+          title: "电管家集团1",
+          children: [
+            {
+              id: "1-1",
+              checked: false,
+              title: "电管家某某用户",
+              count: 20,
+            },
+            {
+              id: "1-2",
+              checked: false,
+              title: "电管家某某用户",
+              count: 31,
+            },
+            {
+              id: "1-3",
+              checked: false,
+              title: "电管家某某用户",
+              count: 33,
+            },
+            {
+              id: "1-4",
+              checked: false,
+              title: "电管家某某用户",
+              count: 45,
+            },
+            {
+              id: "1-5",
+              checked: false,
+              title: "电管家某某用户",
+              count: 66,
+            },
+            {
+              id: "1-6",
+              checked: false,
+              title: "电管家某某用户",
+              count: 46,
+            },
+          ],
+        },
+        {
+          id: "2",
+          checked: false,
+          expand: true,
+          partChoose: false,
+          title: "电管家集团2",
+          children: [
+            {
+              id: "2-1",
+              checked: false,
+              title: "电管家某某用户",
+              count: 46,
+            },
+            {
+              id: "2-2",
+              checked: false,
+              title: "电管家某某用户",
+              count: 6,
+            },
+            {
+              id: "2-3",
+              checked: false,
+              title: "电管家某某用户",
+              count: 43,
+            },
+            {
+              id: "2-4",
+              checked: false,
+              title: "电管家某某用户",
+              count: 21,
+            },
+            {
+              id: "2-5",
+              checked: false,
+              title: "电管家某某用户",
+              count: 55,
+            },
+            {
+              id: "2-6",
+              checked: false,
+              title: "电管家某某用户",
+              count: 32,
+            },
+          ],
+        },
+      ],
       value: "2021-02-03 12:22",
       value1: "2022-03-03 11:22",
       value2: "2023-04-01 10:18",
@@ -145,9 +308,59 @@ export default {
     },
   },
   methods: {
-    checkboxChange(e) {
+    /**
+     * @description 箭头展开列表数据
+     * @param { group } 单个数据项
+     */
+    expandArrow(group) {
+      console.log(group);
+      group.expand = !group.expand;
+    },
+    /**
+     * @description 全选全不选逻辑处理
+     * @param { e } 选中的数据项，数组形式，e.detail.value
+     */ checkboxChange(e) {
       console.log(e, this.checkValue);
       this.checkValue = e.detail.value.length > 0;
+      this.groups.forEach((item) => {
+        item.checked = this.checkValue;
+        item.partChoose = false;
+        item.children.forEach((child) => {
+          child.checked = this.checkValue;
+        });
+      });
+    },
+    /**
+     * @description 每个列表大项最上面的复选框勾选逻辑
+     * @param { e } 选中的数据项，数组形式，e.detail.value
+     * @param { group } 当前列表项的数据
+     */ checkboxChangeHeader(e, group) {
+      console.log(e, group);
+      group.checked = e.detail.value.length > 0;
+      group.children.forEach((item) => {
+        item.checked = group.checked;
+      });
+      group.partChoose = false;
+      this.checkValue = this.groups.every((item) => item.checked === true);
+    },
+    /**
+     * @description 每个列表项子项目勾选框选择逻辑
+     * @param { e } 选中的数据项，数组形式，e.detail.value
+     * @param { group } 当前列表项的数据
+     */ checkboxChangeList(e, group) {
+      console.log(e, group);
+      const checkValues = e.detail.value;
+      group.children.forEach((item) => {
+        if (checkValues.includes(item.id)) {
+          item.checked = true;
+        } else {
+          item.checked = false;
+        }
+      });
+      group.partChoose =
+        checkValues.length && checkValues.length < group.children.length;
+      group.checked = checkValues.length === group.children.length;
+      this.checkValue = this.groups.every((item) => item.checked === true);
     },
   },
 };
@@ -332,6 +545,10 @@ export default {
     left: -36rpx;
     border: 12rpx solid transparent;
     border-top-color: #00c8ff;
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+  .collapse {
+    transform: rotate(-90deg);
   }
 }
 

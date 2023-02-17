@@ -130,6 +130,20 @@
             value="该事件已于2022年10月5日14:00顺执行结果...."
           />
         </view>
+        <view class="uni-form-item chart-box">
+          <view class="chart-title">
+            <u-icon name="woman"></u-icon>
+            <text>响应结果曲线</text>
+          </view>
+          <view class="chart">
+            <qiun-data-charts
+              type="column"
+              :opts="opts"
+              :chartData="chartData"
+              :canvas2d="true"
+            />
+          </view>
+        </view>
       </view>
     </List>
 
@@ -152,6 +166,68 @@ export default {
   },
   data() {
     return {
+      opts: {
+        color: [
+          "#6DD400",
+          "#F7B500",
+          "#F7B500",
+          "#000000",
+          "#000000",
+          "#000000",
+          "#000000",
+          "#000000",
+          "#000000",
+        ],
+        padding: [15, 0, 0, 15],
+        enableScroll: false,
+        legend: {
+          position: "top",
+          float: "right",
+          fontColor: "#9FA6AF",
+          fontSize: 12,
+          lineHeight: 60,
+          show: false,
+        },
+        xAxis: {
+          disableGrid: true,
+          // title: "单位：年"
+          axisLineColor: "#396780",
+          fontColor: "rgba(255,255,255,0.4)",
+          fontSize: 12,
+        },
+        yAxis: {
+          disabled: false,
+          disableGrid: true,
+          // splitNumber: 5,
+          gridColor: "#9FA6AF",
+          padding: 10,
+          showTitle: true,
+          data: [
+            {
+              position: "left",
+              title: "负荷 kWh",
+              axisLineColor: "#396780",
+              fontColor: "rgba(255,255,255,0.4)",
+              fontSize: 12,
+              titleFontColor: "#9FA6AF",
+              titleOffsetY: -6,
+            },
+          ],
+        },
+        extra: {
+          column: {
+            type: "group",
+            width: 8,
+            activeBgOpacity: 0.08,
+            linearType: "custom",
+            seriesGap: 5,
+            linearOpacity: 0.5,
+            barBorderCircle: false, //柱形圆角
+            customColor: ["#6DD400", "#FDFF00", "#E02020"],
+          },
+        },
+      },
+      chartData: {},
       startTime: "2022-02-03 11:22",
       publishTime: "2022-02-02 11:22",
       checkValue: false,
@@ -193,10 +269,40 @@ export default {
       return this.checkValue ? "全不选" : "全选";
     },
   },
+  onReady() {
+    this.getServerData();
+  },
   mounted() {
     console.log("555子页面");
   },
   methods: {
+    getServerData() {
+      //模拟从服务器获取数据时的延时
+      setTimeout(() => {
+        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+        let res = {
+          categories: ["园区A", "园区B", "园区C", "园区D", "园区E"],
+          series: [
+            {
+              name: "目标值",
+              textSize: 1,
+              data: [35, 36, 31, 33, 13],
+            },
+            {
+              name: "完成量",
+              textSize: 1,
+              data: [18, 27, 21, 24, 6],
+            },
+            {
+              name: "园区",
+              textSize: 1,
+              data: [90, 40, 50, 70, 80],
+            },
+          ],
+        };
+        this.chartData = JSON.parse(JSON.stringify(res));
+      }, 500);
+    },
     checkboxChange(e) {
       console.log(e, this.checkValue);
       this.checkValue = e.detail.value.length > 0;
@@ -327,6 +433,10 @@ export default {
   .account {
     width: 146rpx;
     margin-right: 20rpx;
+  }
+  .chart-box {
+    width: 568rpx;
+    height: 350rpx;
   }
 }
 

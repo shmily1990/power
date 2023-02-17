@@ -6,14 +6,14 @@
           <view class="li">
             <text class="iconfont icon-iconJSC_1_1"></text>
             <view class="txt">
-              <view>接入设备</view>
+              <view>接入用户</view>
               <view class="num">232</view>
             </view>
           </view>
           <view class="li">
             <text class="iconfont icon-iconJSC_1_2"></text>
             <view class="txt">
-              <view>响应设备</view>
+              <view>响应用户</view>
               <view class="num">230</view>
             </view>
           </view>
@@ -24,14 +24,14 @@
           <view class="li">
             <text class="iconfont icon-iconJSC_2_1"></text>
             <view class="txt">
-              <view>接入用户</view>
+              <view>接入设备</view>
               <view class="num">232</view>
             </view>
           </view>
           <view class="li">
             <text class="iconfont icon-iconJSC_2_2"></text>
             <view class="txt">
-              <view>响应用户</view>
+              <view>响应设备</view>
               <view class="num">230</view>
             </view>
           </view>
@@ -42,7 +42,7 @@
           <view class="li">
             <image class="jsc-icon" src="/static/jsc-icon1.png" alt="" />
             <view class="txt">
-              <view>可调负荷</view>
+              <view>快速响应</view>
               <view class="num"> 266<text>kW</text></view>
             </view>
           </view>
@@ -56,7 +56,7 @@
           <view class="li">
             <image class="jsc-icon" src="/static/jsc-icon3.png" alt="" />
             <view class="txt">
-              <view>最大响应</view>
+              <view>中长期响应</view>
               <view class="num">245<text>kW</text></view>
             </view>
           </view>
