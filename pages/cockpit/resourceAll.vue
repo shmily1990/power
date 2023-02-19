@@ -69,8 +69,8 @@
             type="mix"
             :opts="opts"
             :chartData="chartData"
+            :inScrollView="true"
             :canvas2d="true"
-            s
           />
         </view>
       </List>

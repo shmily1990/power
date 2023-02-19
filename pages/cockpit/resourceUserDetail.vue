@@ -46,7 +46,7 @@
     <view class="sub-tab">
       <view class="sub-tab-item" @click="() => (currentTab = 1)">
         <u-icon
-          label="可调负荷"
+          label="快速响应"
           name="setting"
           color="#0DFF9A"
           label-color="#9FA6AF"
@@ -74,7 +74,7 @@
       </view>
       <view class="sub-tab-item" @click="() => (currentTab = 3)">
         <u-icon
-          label="最大响应"
+          label="中长期响应"
           name="setting"
           color="#FA6400"
           label-color="#9FA6AF"

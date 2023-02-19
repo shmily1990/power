@@ -52,7 +52,7 @@
             </view>
           </view>
         </view>
-        <u-divider color="#E6F1FF"></u-divider>
+        <u-divider class="my-divider"></u-divider>
         <view class="sum"
           >共计响应<text class="count">50</text
           ><text class="unit">kw</text></view
@@ -253,6 +253,9 @@ export default {
     }
     ::v-deep .u-divider {
       margin: 12rpx 0 !important;
+      .u-line {
+        border-color: #ffffff33 !important;
+      }
     }
     .sum {
       text-align: right;

@@ -103,6 +103,7 @@
             :opts="opts"
             :chartData="chartData"
             :canvas2d="true"
+            :inScrollView="true"
           />
         </view>
         <view class="range">

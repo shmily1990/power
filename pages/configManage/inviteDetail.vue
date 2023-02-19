@@ -344,6 +344,9 @@ export default {
   }
   ::v-deep .u-divider {
     margin: 40rpx 0 22rpx !important;
+    .u-line {
+      border-color: #ffffff33 !important;
+    }
   }
   // 筛选
   .user {

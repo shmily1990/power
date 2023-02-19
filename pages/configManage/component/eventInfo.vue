@@ -151,7 +151,7 @@ export default {
     margin-bottom: 22rpx;
   }
   .event-list {
-    height: 556rpx;
+    height: 456rpx;
     overflow: auto;
     &-item {
       position: relative;

@@ -4,6 +4,7 @@
       <text>事件详情</text>
       <text class="r">event7788</text>
     </view>
+
     <List titleTxt="事件名称" fontClass="icon-iconPZGL_SJGL_5-0-title">
       <template slot="optBtn">
         <button
@@ -25,6 +26,7 @@
           保存
         </button>
       </template>
+
       <view class="card-content">
         <view class="uni-form-item flex">
           <view class="title">事件名称</view>
@@ -84,6 +86,7 @@
       <template slot="optBtn">
         <button class="mini-btn" type="default" size="mini">编辑</button>
       </template>
+
       <view class="card-content">
         <view class="uni-form-item flex">
           <text class="iconfont icon-iconKSYY_SJXQ_2-1"></text>
@@ -96,6 +99,7 @@
       <template slot="optBtn">
         <button class="mini-btn" type="default" size="mini">编辑</button>
       </template>
+
       <view class="card-content">
         <view class="uni-form-item flex">
           <view class="title">开始时间</view>
@@ -138,7 +142,15 @@
           <text>响应结果曲线</text>
         </view>
         <view class="chart-box">
-          <qiun-data-charts type="line" :opts="opts" :chartData="chartData" />
+          <qiun-data-charts
+            type="line"
+            :opts="opts"
+            :chartData="chartData"
+            :inScrollView="true"
+            :canvas2d="true"
+            canvasId="canvasId85755"
+            :pageScrollTop="600"
+          />
         </view>
       </view>
     </List>
@@ -175,7 +187,7 @@ export default {
           "#000000",
         ],
         padding: [15, 0, 0, 5],
-        enableScroll: false,
+        // enableScroll: false,
         legend: {
           position: "top",
           float: "right",
@@ -257,6 +269,9 @@ export default {
     };
   },
   onLoad() {},
+  onPageScroll(res) {
+    console.log(res);
+  },
   computed: {
     chooseText(val) {
       return this.checkValue ? "全不选" : "全选";
@@ -266,60 +281,63 @@ export default {
     this.getServerData();
   },
   mounted() {
-    console.log("555子页面");
+    window.addEventListener("scroll", this.scrollToTop);
   },
   methods: {
+    scrollToTop(e) {
+      console.log(e);
+    },
     getServerData() {
       //模拟从服务器获取数据时的延时
-      setTimeout(() => {
-        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-        let res = {
-          categories: ["15:00", "15:10", "15:20", "15:30", "15:40"],
-          series: [
-            {
-              name: "目标值",
-              textSize: 1,
-              data: [75, 48, 65, 66, 50, 60],
-              lineStyle: {
-                normal: {
-                  //线的颜色
-                  color: "#f00",
-                  shadowColor: "rgba(0, 0, 0, 1)",
-                  shadowBlur: 0,
-                  shadowOffsetY: 5,
-                  shadowOffsetX: 5,
-                },
-              },
-              itemStyle: {
-                //面积图里的颜色和圆点里的颜色
-                color: "#00ca95",
-                //圆点外的颜色
-                borderColor: "#fff",
-                //圆点的宽度
-                borderWidth: 10,
-                //圆点影子的颜色
+      // setTimeout(() => {
+      //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+      let res = {
+        categories: ["15:00", "15:10", "15:20", "15:30", "15:40"],
+        series: [
+          {
+            name: "目标值",
+            textSize: 1,
+            data: [75, 48, 65, 66, 50, 60],
+            lineStyle: {
+              normal: {
+                //线的颜色
+                color: "#f00",
                 shadowColor: "rgba(0, 0, 0, 1)",
-                //阴影的模糊级数
                 shadowBlur: 0,
-                //阴影的偏移效果
-                shadowOffsetY: 2,
-                shadowOffsetX: 2,
+                shadowOffsetY: 5,
+                shadowOffsetX: 5,
               },
             },
-            {
-              name: "完成量",
-              textSize: 1,
-              data: [90, 80, 100, 80, 90, 100],
+            itemStyle: {
+              //面积图里的颜色和圆点里的颜色
+              color: "#00ca95",
+              //圆点外的颜色
+              borderColor: "#fff",
+              //圆点的宽度
+              borderWidth: 10,
+              //圆点影子的颜色
+              shadowColor: "rgba(0, 0, 0, 1)",
+              //阴影的模糊级数
+              shadowBlur: 0,
+              //阴影的偏移效果
+              shadowOffsetY: 2,
+              shadowOffsetX: 2,
             },
-            {
-              name: "园区",
-              textSize: 1,
-              data: [110, 90, 110, 120, 112, 150],
-            },
-          ],
-        };
-        this.chartData = JSON.parse(JSON.stringify(res));
-      }, 500);
+          },
+          {
+            name: "完成量",
+            textSize: 1,
+            data: [90, 80, 100, 80, 90, 100],
+          },
+          {
+            name: "园区",
+            textSize: 1,
+            data: [110, 90, 110, 120, 112, 150],
+          },
+        ],
+      };
+      this.chartData = JSON.parse(JSON.stringify(res));
+      // }, 500);
     },
     checkboxChange(e) {
       console.log(e, this.checkValue);

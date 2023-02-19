@@ -3,8 +3,10 @@ import store from './store'
 import uView from 'uview-ui'
 // #ifndef VUE3
 import Vue from 'vue'
+
 Vue.config.productionTip = false
 App.mpType = 'app'
+
 const app = new Vue({
   store,
   ...App
@@ -16,7 +18,7 @@ Vue.use(uView)
 // #ifdef VUE3
 
 // import '@/assets/iconfonts/iconfont.css';
-
+// window.wx = {}
 import { createSSRApp } from 'vue'
 export function createApp() {
   const app = createSSRApp(App)

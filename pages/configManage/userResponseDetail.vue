@@ -56,7 +56,7 @@
           <view class="item load">
             <view class="icon-t"
               ><text class="iconfont icon-iconDR_quick_active"></text
-              ><text class="txt">可调负荷</text></view
+              ><text class="txt">快速响应</text></view
             >
             <text class="value">360</text>
           </view>
@@ -70,7 +70,7 @@
           <view class="item max-response">
             <view class="icon-t"
               ><text class="iconfont icon-iconDR_long_active"></text
-              ><text class="txt">最大响应</text></view
+              ><text class="txt">中长期响应</text></view
             >
             <text class="value">360</text>
           </view>
@@ -125,7 +125,7 @@
           <view class="policy-item">
             <view class="left flex center column">
               <text class="iconfont icon-iconPZGL_YHGL_3-1"></text>
-              可调负荷
+              快速响应
             </view>
             <view class="right">
               <view class="load labal-value">
@@ -167,7 +167,7 @@
           </view>
           <view class="policy-item">
             <view class="left flex center column">
-              <text class="iconfont icon-iconPZGL_YHGL_3-3"></text>最大响应
+              <text class="iconfont icon-iconPZGL_YHGL_3-3"></text>中长期响应
             </view>
             <view class="right">
               <view class="load labal-value">
