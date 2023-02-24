@@ -2,9 +2,9 @@
   <view class="user-list">
     <scroll-view scroll-y="true" class="scroll-box" :style="currentStyle">
       <List
-        v-for="(item, index) in userList"
-        :key="index"
-        :titleTxt="item.name"
+        v-for="(item, index) in data"
+        :key="item.userId"
+        :titleTxt="item.userName"
         bordered
       >
         <template slot="optBtn">
@@ -32,21 +32,21 @@
               ><text class="iconfont icon-iconDR_quick_active"></text
               ><text class="txt">快速响应</text></view
             >
-            <text class="value">360</text>
+            <text class="value">{{ item.fastResponse }}</text>
           </view>
           <view class="item response">
             <view class="icon-t"
               ><text class="iconfont icon-iconDR_day_active"></text
               ><text class="txt">日内响应</text></view
             >
-            <text class="value">360</text>
+            <text class="value">{{ item.dayResponse }}</text>
           </view>
           <view class="item max-response">
             <view class="icon-t"
               ><text class="iconfont icon-iconDR_long_active"></text
               ><text class="txt">中长期响应</text></view
             >
-            <text class="value">360</text>
+            <text class="value">{{ item.maxResponse }}</text>
           </view>
         </view>
       </List>
@@ -65,6 +65,10 @@ export default {
     height: {
       type: Number,
       default: 550,
+    },
+    data: {
+      type: Array,
+      default: [],
     },
   },
   data() {
@@ -117,9 +121,9 @@ export default {
   },
   onReady() {
     // this.getEventList();
-    // this.currentStyle = {
-    //   height: `calc(100vh - ${this.height}rpx)`,
-    // };
+    this.currentStyle = {
+      height: `calc(100vh - ${this.height}rpx)`,
+    };
   },
   methods: {
     handleSelect(item) {

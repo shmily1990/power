@@ -24,25 +24,15 @@ http.setConfig((config) => {
 //请求拦截
 http.interceptors.request.use((config) => {
 	const userToken = uni.getStorageSync('token')
+	console.log(userToken, 2323)
 	if (userToken) {
 		if (!apiWhiteList.includes(config.url)) { // 不再白名单加上token
 			config.header = {
 				...config.header,
-				userToken
-			}
-		} else {
-			config.header = {
-				...config.header,
+				Authorization: `PNT ${userToken}`
 			}
 		}
-
-	} else {
-		uni.redirectTo({
-			url: "/pages/cockpit/index"
-		})
 	}
-	// console.log(config)
-
 	uni.showLoading({
 		title: '加载中',
 		mask: true
@@ -57,12 +47,13 @@ http.interceptors.response.use(async (response) => {
 	const {
 		data,
 		data: {
-			resultCode
+			resultCode,
+			message
 		}
 	} = response
 	if (resultCode !== 0) {
 		if (!noMessage.includes(url)) {
-			await showTextToast(data.message)
+			await showTextToast(message)
 		}
 		Promise.reject(data)
 	}
@@ -71,6 +62,12 @@ http.interceptors.response.use(async (response) => {
 },
 	error => {
 		uni.hideLoading();
+		// 如果token过期跳转到登录页
+		if (error.statusCode === 401) {
+			uni.redirectTo({
+				url: "/pages/login/index"
+			})
+		}
 		errorHandling(error)
 		return Promise.reject(error)
 	})

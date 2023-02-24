@@ -10,14 +10,14 @@ const httpCode = {
 }
 
 export function showTextToast(title) {
-return new Promise((resolve,reject)=>{
-	uni.showToast({
+	return new Promise((resolve, reject) => {
+		uni.showToast({
 			title: title || '',
 			icon: 'none',
-			success:function(){
-				setTimeout(()=>{
+			success: function () {
+				setTimeout(() => {
 					resolve()
-				},1500)
+				}, 1500)
 			}
 		})
 	})

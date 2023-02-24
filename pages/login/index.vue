@@ -78,7 +78,6 @@ import { pathToBase64 } from "image-tools";
 export default {
   name: "login",
   onReady() {
-    this.getServerData();
     this.$refs.form.setRules(this.rules);
   },
   onShow() {
@@ -87,8 +86,6 @@ export default {
   data() {
     return {
       showP: true,
-      loading: false,
-      elementId: "",
       rules: {
         loginName: {
           type: "string",
@@ -103,18 +100,12 @@ export default {
           trigger: ["blur", "change"],
         },
       },
-      tips: "",
       form: {
         loginName: "",
         loginPwd: "",
       },
-      chartData: {},
       imageURL: "",
-      // 设置没用，后面再研究
-      // loginBtn: {
-      //   fontSize:'36rpx',
-      // 	fontWeight:'bold',
-      // }
+      loading: false,
     };
   },
   onLoad() {
@@ -129,68 +120,33 @@ export default {
     ]),
   },
   methods: {
+    // 获取base64背景图片
     getImage() {
       pathToBase64(loginBg).then((data) => {
         this.imageURL = data;
       });
     },
-    getServerData() {
-      console.log(this.colorList);
-      //模拟从服务器获取数据时的延时
-      setTimeout(() => {
-        let res = {
-          categories: ["2016", "2017", "2018", "2019", "2020", "2021"],
-          series: [
-            {
-              name: "目标值",
-              data: [35, 36, 31, 33, 13, 34],
-            },
-            {
-              name: "完成量",
-              data: [18, 27, 21, 24, 6, 28],
-            },
-          ],
-        };
-        this.chartData = JSON.parse(JSON.stringify(res));
-      }, 500);
-    },
-    switchTab(e) {
-      const id = e.target.dataset.id;
-      this.elementId = id;
-    },
+    // 用户登录
     loginConfirm() {
-      // this.$refs.form
-      //   .validate()
-      //   .then(async (res) => {
-      //     // this.loading = true;
-      //     // const { loginName, loginPwd } = this.form;
-      //     // try {
-      //     //   const res = await login({
-      //     //     loginName,
-      //     //     loginPwd,
-      //     //   });
-      //     //   if (res.resultCode == 0) {
-      //     //     uni.setStorageSync("token", res.userToken);
-      //     //     uni.setStorageSync("userInfo", res);
-      //     //     uni.switchTab({
-      //     //       url: "/pages/home/index",
-      //     //     });
-      //     //   }
-      //     //   this.loading = false;
-      //     // } catch (e) {
-      //     //   this.loading = false;
-      //     //   console.log(e);
-      //     // }
-      //     uni.redirectTo({
-      //       url: "/pages/cockpit/index",
-      //     });
-      //   })
-      //   .catch((errors) => {
-      //     this.loading = false;
-      //     uni.$u.toast("校验失败");
-      //   });
-      uni.switchTab({
-        url: "/pages/cockpit/index",
+      this.$refs.form.validate().then(async (res) => {
+        const { loginName, loginPwd } = this.form;
+        this.loading = true;
+        try {
+          const res = await login({
+            loginName,
+            loginPwd,
+          });
+          this.loading = false;
+          if (res.resultCode == 0) {
+            uni.setStorageSync("token", res.userToken);
+            uni.setStorageSync("userInfo", res);
+            uni.switchTab({
+              url: "/pages/cockpit/index",
+            });
+          }
+        } catch (e) {
+          this.loading = false;
+        }
       });
     },
   },
@@ -198,10 +154,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// /deep/.input-placeholder {
-//   color: #e6f1ff !important;
-//   font-size: 32rpx;
-// }
 .login-box {
   width: 100%;
   height: 100vh;

@@ -1,11 +1,15 @@
 <script>
 export default {
   onLaunch: function () {
-    console.log("App Launch");
+    let token = uni.getStorageSync("token");
+    if (token) {
+      //不存在则跳转至登录页
+      uni.switchTab({
+        url: "/pages/cockpit/index",
+      });
+    }
   },
-  onShow: function () {
-    console.log("App Show");
-  },
+  onShow: function () {},
   onHide: function () {
     console.log("App Hide");
   },
