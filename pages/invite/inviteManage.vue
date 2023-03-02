@@ -112,7 +112,7 @@
           </view>
         </view>
         <view class="check-title flex between">
-                    <view class="title"> 筛选 </view>          
+                    <view class="title" style="color: #008eb526;"> 筛选 </view>          
           <view class="check-choose">
             <checkbox-group @change="checkboxChange">
               <label class="flex">
@@ -446,8 +446,14 @@ export default {
 
     .uni-form-item {
       margin-bottom: 12rpx;
-
+      .itemtext {
+        color: #ffffff80;
+      }
+      .iconfont {
+        color: #ffffff80;
+      }
       .title {
+        color: #9FA6AF;
         font-size: 24rpx;
       }
       .number {

@@ -47,10 +47,11 @@ export default {
       }
       .title-value {
         margin-left: 14rpx;
+        color: #9fa6af;
         .title {
           font-size: 24rpx;
           font-family: MicrosoftYaHei;
-          color: #9fa6af;
+          
         }
         .value {
           margin-top: 14rpx;

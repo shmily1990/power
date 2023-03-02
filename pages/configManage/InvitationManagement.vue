@@ -11,17 +11,19 @@
         name="正在邀约"
         fontClass="icon-iconPZGL_YYGL_2-0-title"
         @eventSelect="handleSelect"
+        :eventList="currentInviteList"
       />
       <event
         name="历史邀约"
         fontClass="icon-iconPZGL_YYGL_3-0-title"
         @eventSelect="handleSelect"
+        :eventList="historyInviteList"
       />
       <view class="bottom">
         <text class="btn">新建邀约</text>
       </view>
     </template>
-    <inviteDetail :isShow.sync="showEventDetail" v-else />
+    <inviteDetail :isShow.sync="showEventDetail" :inviteInfo="currentInviteInfo" v-else />
   </view>
 </template>
 
@@ -30,6 +32,7 @@ import overview from "@/components/overview";
 import event from "./component/event.vue";
 import inviteDetail from "./inviteDetail.vue";
 import { uniScrollTop } from "@/utils/common.js";
+import { getInviteTotal, getInvitePage } from "@/api/invite/index.js";
 export default {
   options: {
     styleIsolation: "shared",
@@ -39,25 +42,28 @@ export default {
       data: [
         {
           name: "正在邀约",
-          value: 230,
+          value: 0,
           unit: "条",
           icon: "icon-iconPZGL_YYGL_1-1",
         },
         {
           name: "当年完成",
-          value: 319,
+          value: 0,
           unit: "条",
           icon: "icon-iconPZGL_YYGL_1-2",
         },
         {
           name: "总完成",
-          value: 821,
+          value: 0,
           unit: "条",
           icon: "icon-iconPZGL_SJGL_1-3",
         },
       ],
       searchText: "",
       showEventDetail: false,
+      currentInviteList: [],
+      historyInviteList: [],
+      currentInviteInfo: {}
     };
   },
   components: {
@@ -65,9 +71,61 @@ export default {
     event,
     inviteDetail,
   },
+  onReady() {
+    this.queryInviteInfo()
+    // 查询邀约列表
+    this.queryInviteList()
+  },
   methods: {
+    // 查询邀约总览
+    async queryInviteInfo() {
+      const { resultData, resultCode } = await getInviteTotal({});
+      if (!resultCode) {
+        const { afootTotal, currentYearTotal, completeTotal} = resultData
+        this.data =  [
+          {
+            name: "正在邀约",
+            value: afootTotal,
+            unit: "条",
+            icon: "icon-iconPZGL_YYGL_1-1",
+          },
+          {
+            name: "当年完成",
+            value: currentYearTotal,
+            unit: "条",
+            icon: "icon-iconPZGL_YYGL_1-2",
+          },
+          {
+            name: "总完成",
+            value: completeTotal,
+            unit: "条",
+            icon: "icon-iconPZGL_SJGL_1-3",
+          },
+        ]
+      }
+    },
+    // 查询邀约列表
+    async queryInviteList() {
+      const { resultData: { infoList }, resultCode } = await getInvitePage({
+        eventName: '',
+        pageIndex: 0,
+        pageSize: 9999
+      });
+      if (!resultCode) {
+        this.currentInviteList = []
+        this.historyInviteList = []
+        infoList.forEach(item => {
+          // 	状态(10:已发起 20:已取消 30:已完成) 已发现属于正在邀约 其它属于历史邀约
+          if (item.inviteState == 10) {
+            this.currentInviteList.push(item)
+          } else {
+            this.historyInviteList.push(item)
+          }
+        })
+      }
+    },
     handleSelect(val) {
-      console.log(8989);
+      this.currentInviteInfo = val
       this.showEventDetail = true;
       uniScrollTop();
     },

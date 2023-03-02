@@ -2,7 +2,7 @@
 export default {
   onLaunch: function () {
     let token = uni.getStorageSync("token");
-    if (token) {
+    if (!token) {
       //不存在则跳转至登录页
       uni.switchTab({
         url: "/pages/cockpit/index",
@@ -27,7 +27,7 @@ export default {
 @import "@/assets/iconfonts/iconfont.css";
 @import "@/assets/styles/global.scss";
 page {
-  background-color: #f2f2f2;
+  background: linear-gradient(90deg, #102d58 0%, #144e6d 100%);
 }
 checkbox.round .wx-checkbox-input,
 checkbox.round .uni-checkbox-input {

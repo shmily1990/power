@@ -9,18 +9,18 @@
               <image class="jsc-icon" src="/static/jsc-icon1.png" alt="" />
               <view class="txt">
                 <view class="top">总快速响应</view>
-                <view class="num load">232<text class="unit">kW</text></view>
+                <view class="num load">{{ responseType10.total}}<text class="unit">kW</text></view>
               </view>
             </view>
             <!--右-->
             <view class="r load">
               <view class="top">
-                <text>实际</text> <text>280kW</text><text>申报比例</text>
-                <text> 95%</text>
+                <text>实际</text> <text>{{ responseType10.actual}}kW</text><text>申报比例</text>
+                <text> {{ responseType10.percentage }}%</text>
               </view>
               <template>
                 <u-line-progress
-                  :percentage="95"
+                  :percentage="responseType10.percentage"
                   inactiveColor="#256079"
                   activeColor="#0DFF9A"
                   :showText="false"
@@ -37,18 +37,18 @@
               <view class="txt">
                 <view class="top">总日内响应</view>
                 <view class="num response"
-                  >232<text class="unit">kW</text></view
+                  >{{ responseType30.total }}<text class="unit">kW</text></view
                 >
               </view>
             </view>
             <!--右-->
             <view class="r response">
               <view class="top">
-                <text>实际</text> <text>280kW</text> <text>申报比例 95%</text>
+                <text>实际</text> <text>{{ responseType30.actual }}kW</text> <text>申报比例 {{ responseType30.percentage }}%</text>
               </view>
               <template>
                 <u-line-progress
-                  :percentage="87"
+                  :percentage="responseType30.percentage"
                   inactiveColor="#256079"
                   activeColor="#F7B500"
                   :showText="false"
@@ -65,18 +65,18 @@
               <view class="txt">
                 <view class="top">总中长期响应</view>
                 <view class="num max-response"
-                  >232<text class="unit">kW</text></view
+                  >{{ responseType30.total }}<text class="unit">kW</text></view
                 >
               </view>
             </view>
             <!--右-->
             <view class="r max-response">
               <view class="top">
-                <text>实际</text> <text>280kW</text> <text>申报比例 95%</text>
+                <text>实际</text> <text>{{ responseType10.actual }}kW</text> <text>申报比例 {{ responseType10.percentage }}%</text>
               </view>
               <template>
                 <u-line-progress
-                  :percentage="97"
+                  :percentage="responseType10.percentage"
                   inactiveColor="#256079"
                   activeColor="#FA6400"
                   :showText="false"
@@ -92,7 +92,7 @@
           <view class="optBtn"
             ><text @click="btn_active = 1" :class="{ active: btn_active == 1 }"
               >区域</text
-            ><text btn_active="2" :class="{ active: btn_active == 2 }"
+            ><text @click="btn_active = 2" :class="{ active: btn_active == 2 }"
               >用户</text
             ></view
           >
@@ -108,33 +108,33 @@
         </view>
         <view class="range">
           <view class="max common">
-            <view>最大响应<text class="name">园区D</text></view>
+            <view>最大响应<text class="name">{{ maxResponse.typeName }}</text></view>
             <view
-              >快速响应<text class="name">430</text
+              >快速响应<text class="name">{{ maxResponse.adjustableReview }}</text
               ><text class="unit">kW</text></view
             >
             <view
-              >日内响应<text class="name">510</text
+              >日内响应<text class="name">{{ maxResponse.intradayResponse }}</text
               ><text class="unit">kW</text></view
             >
             <view
-              >中长期响应<text class="name">620</text
+              >中长期响应<text class="name">{{ maxResponse.maxResponse }}</text
               ><text class="unit">kW</text></view
             >
           </view>
           <!--min-->
           <view class="min common">
-            <view>最小响应<text class="name">园区D</text></view>
+            <view>最小响应<text class="name">{{ minResponse.typeName }}</text></view>
             <view
-              >快速响应<text class="name">210</text
+              >快速响应<text class="name">{{ minResponse.adjustableReview }}</text
               ><text class="unit">kW</text></view
             >
             <view
-              >日内响应<text class="name">230</text
+              >日内响应<text class="name">{{ minResponse.intradayResponse }}</text
               ><text class="unit">kW</text></view
             >
             <view
-              >中长期响应<text class="name">160</text
+              >中长期响应<text class="name">{{ minResponse.maxResponse }}</text
               ><text class="unit">kW</text></view
             >
           </view>
@@ -146,6 +146,8 @@
 
 <script>
 import List from "@/components/list.vue";
+import { quertyRegulatoryAbilityMonitoring, quertyRegulatoryAbilityDistribute } from "@/api/cockpit/index.js";
+
 export default {
   components: { List },
   data() {
@@ -214,40 +216,104 @@ export default {
       chartData: {},
       btn_active: 1,
       range: {},
+      responseType10: {
+        total: 0,
+        actual: 0,
+        percentage: 0
+      },
+      responseType20: {
+        total: 0,
+        actual: 0,
+        percentage: 0
+      },
+      responseType30: {
+        total: 0,
+        actual: 0,
+        percentage: 0
+      },
+      maxResponse: {},
+      minResponse: {}
+
     };
   },
-  methods: {
-    getServerData() {
-      //模拟从服务器获取数据时的延时
-      setTimeout(() => {
-        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-        let res = {
-          categories: ["园区A", "园区B", "园区C", "园区D", "园区E"],
-          series: [
-            {
-              name: "目标值",
-              textSize: 1,
-              data: [35, 36, 31, 33, 13],
-            },
-            {
-              name: "完成量",
-              textSize: 1,
-              data: [18, 27, 21, 24, 6],
-            },
-            {
-              name: "园区",
-              textSize: 1,
-              data: [90, 40, 50, 70, 80],
-            },
-          ],
-        };
-        this.chartData = JSON.parse(JSON.stringify(res));
-      }, 500);
-    },
+  watch: {
+    btn_active() {
+      this.queryDistribute()
+    }
   },
   onReady() {
-    this.getServerData();
+    this.queryMonitor()
+    this.queryDistribute()
   },
+  methods: {
+    // 查询监控数据
+    async queryMonitor() {
+      const { resultCode, resultData } = await quertyRegulatoryAbilityMonitoring()
+      if (!resultCode) {
+        resultData.forEach(item => {
+          const { responseType, total, actual } = item
+          // 10 快速 20 日内 30 中长
+          switch (responseType) {
+            case 10:
+              this.responseType10 = { total, actual, percentage: (actual * 100 / total).toFixed(2) }
+              break
+            case 20:
+              this.responseType20 = { total, actual, percentage: (actual * 100 / total).toFixed(2)}
+              break
+            case 30:
+              this.responseType30 = { total, actual, percentage: (actual * 100 / total).toFixed(2) }
+              break
+          }
+        })
+      }
+    },
+    // 查询分布数据
+    async queryDistribute() {
+      const { resultCode, resultData } = await quertyRegulatoryAbilityDistribute({
+        distributeType: this.btn_active // 1区域 2用户
+      })
+      if (!resultCode) {
+        const { distribute, maxResponse, minResponse } = resultData
+        this.maxResponse = maxResponse
+        this.minResponse = minResponse
+        if (distribute.length) {
+          const xAxisArr = []
+          const list1 = [] // 快速
+          const list2 = [] // 日响应
+          const list3 = [] // 中长
+          distribute.forEach(c => {
+            xAxisArr.push(c.typeName)
+            list1.push(c.adjustableReview)
+            list2.push(c.intradayResponse)
+            list3.push(c.maxResponse)
+          })
+          let res = {
+            categories: xAxisArr,
+            series: [
+              {
+                name: "快速响应",
+                textSize: 1,
+                data: list1,
+              },
+              {
+                name: "日内响应",
+                textSize: 1,
+                data: list2,
+              },
+              {
+                name: "中长期响应",
+                textSize: 1,
+                data: list3,
+              },
+            ]
+          }
+          setTimeout(() => {
+            this.chartData = JSON.parse(JSON.stringify(res));
+          }, 500)
+        }
+      }
+    },
+  }
 };
 </script>
 

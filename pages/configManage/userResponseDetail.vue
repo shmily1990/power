@@ -2,58 +2,105 @@
   <view class="user-response-detail">
     <view class="top">
       <text class="title">用户详情</text>
-      <text class="user-name">电管家某某某某用户</text>
+      <text class="user-name">电管家{{ form.userName }}</text>
     </view>
     <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title">
-      <view class="card-content base-info">
-        <u-form :model="form" ref="uForm" :label-style="style">
-          <u-form-item label="用户名称"
-            ><u-input v-model="form.name" disabled
-          /></u-form-item>
-          <u-form-item label="用户地址"
-            ><u-input v-model="form.intro"
-          /></u-form-item>
-          <!-- <u-form-item
-            label="性别"
-            prop="userInfo.sex"
-            borderBottom
-            @click="
-              showSex = true;
-              hideKeyboard();
-            "
-            ref="item1"
-          >
-            <u--input
-              v-model="model1.userInfo.sex"
-              disabled
-              disabledColor="#ffffff"
-              placeholder="请选择性别"
-              border="none"
-            ></u--input>
-            <u-icon slot="right" name="arrow-right"></u-icon>
-          </u-form-item> -->
-          <u-form-item label="用户户号"
-            ><u-input v-model="form.count"
-          /></u-form-item>
-          <u-form-item label="联系人"
-            ><u-input v-model="form.connet"
-          /></u-form-item>
-        </u-form>
-        <u-action-sheet
-          :show="showSex"
-          :actions="actions"
-          title="请选择性别"
-          description="如果选择保密会报错"
-          @close="showSex = false"
-          @select="sexSelect"
+      <template slot="optBtn">
+        <button
+          class="mini-btn"
+          type="default"
+          size="mini"
+          @click="handleEditBaseInfo"
         >
-        </u-action-sheet>
+          {{ editBaseInfoStatus ? "编辑" : "保存" }}
+        </button>
+      </template>
+      <view class="card-content base-info">
+        <scroll-view scroll-y style="height: 500rpx">
+          <u-form :model="form" ref="uForm" :label-style="style">
+            <u-form-item label="用户名称"
+              ><u-input v-model="form.userName" :disabled="editBaseInfoStatus"
+            /></u-form-item>
+            <u-form-item label="用户地址"
+              ><u-input v-model="form.address" :disabled="editBaseInfoStatus"
+            /></u-form-item>
+            <u-form-item label="用户类型">
+              <picker
+                @change="handleTypeChange"
+                :value="typeIndex"
+                :range="typeList"
+                range-key="typeName"
+                :disabled="editBaseInfoStatus"
+              >
+                <u-input
+                  :value="currentUserTypeName"
+                  disabled
+                  suffixIcon="arrow-down-fill"
+                  suffixIconStyle="color: #909399;font-size: 12px;"
+                />
+              </picker>
+            </u-form-item>
+            <u-form-item label="用户户号"
+              ><u-input v-model="form.userNo" :disabled="editBaseInfoStatus"
+            /></u-form-item>
+            <u-form-item label="联系人"
+              ><u-input v-model="form.contact" :disabled="editBaseInfoStatus"
+            /></u-form-item>
+            <u-form-item label="手机号"
+              ><u-input v-model="form.phone" :disabled="editBaseInfoStatus"
+            /></u-form-item>
+            <u-form-item label="所属区域">
+              <picker
+                @change="handleRegionChange"
+                :value="regionIndex"
+                :range="regionList"
+                range-key="regionName"
+                :disabled="editBaseInfoStatus"
+              >
+                <u-input
+                  :value="currentUserRegionName"
+                  disabled
+                  suffixIcon="arrow-down-fill"
+                  suffixIconStyle="color: #909399;font-size: 12px;"
+                />
+              </picker>
+            </u-form-item>
+          </u-form>
+        </scroll-view>
       </view>
     </List>
     <List titleTxt="响应配置" fontClass="icon-iconPZGL_YHGL_2-0-title">
+      <template slot="optBtn">
+        <button
+          class="mini-btn"
+          type="default"
+          size="mini"
+          @click="handleEditBaseInfo"
+        >
+          {{ editBaseInfoStatus ? "编辑" : "保存" }}
+        </button>
+      </template>
       <view class="card-content">
         <view class="equip flex between">
-          <view class="item load">
+          <view
+            :class="['item', index === currentTab ? 'load' : '']"
+            v-for="(item, index) in tabs"
+            :key="index"
+            @click="currentTab = index"
+          >
+            <view class="icon-t"
+              ><text :class="['iconfont', item.icon]"></text
+              ><text class="txt">{{ item.title }}</text></view
+            >
+            <text
+              class="value"
+              :style="{
+                background: index === currentTab ? '#008eb580' : '#008eb526',
+              }"
+              >{{ item.sum }}</text
+            >
+          </view>
+          <!-- <view class="item load">
             <view class="icon-t"
               ><text class="iconfont icon-iconDR_quick_active"></text
               ><text class="txt">快速响应</text></view
@@ -73,7 +120,7 @@
               ><text class="txt">中长期响应</text></view
             >
             <text class="value">360</text>
-          </view>
+          </view> -->
         </view>
         <view class="device-info">
           <view class="device-info-head">
@@ -84,17 +131,17 @@
           <view class="device-info-list">
             <view
               class="device-item"
-              v-for="(item, index) in deviceList"
+              v-for="(item, index) in tabs[currentTab].list"
               :key="index"
             >
               <text class="order border">{{ index + 1 }}</text>
               <picker @change="bindPickerChange" :value="index" :range="array">
-                <view class="uni-input name border">{{ array[index] }}</view>
+                <view class="uni-input name border">{{ item.deviceName }}</view>
               </picker>
               <!-- <text class="name border">{{ item.name }}</text> -->
               <view class="capacity">
                 <!-- <text class="value border">12</text> -->
-                <u-input value="12" />
+                <u-input v-model="item.volume" />
                 <view class="btns">
                   <u-icon
                     name="plus-circle"
@@ -118,69 +165,47 @@
     </List>
     <List titleTxt="策略管理 " fontClass="icon-iconPZGL_YHGL_3-0-title">
       <template slot="optBtn">
-        <button class="mini-btn" type="default" size="mini">编辑</button>
+        <button
+          class="mini-btn"
+          type="default"
+          size="mini"
+          @click="handleEditPolicy"
+        >
+          {{ editPolicyStatus ? "编辑" : "保存" }}
+        </button>
       </template>
       <view class="card-content">
         <view class="policy">
-          <view class="policy-item">
+          <view
+            class="policy-item"
+            v-for="(item, index) in strategyList"
+            :key="index"
+          >
             <view class="left flex center column">
-              <text class="iconfont icon-iconPZGL_YHGL_3-1"></text>
-              快速响应
+              <text :class="['iconfont', item.icon]"></text>
+              {{ item.name }}
             </view>
             <view class="right">
               <view class="load labal-value">
                 <text class="title">录入负荷</text>
                 <view class="value">
-                  <u-input widht="40" style="width: 200rpx" />
+                  <u-input
+                    widht="40"
+                    style="width: 200rpx"
+                    :value="item.enterLoad"
+                    disabled
+                  />
                   <text class="unit">kw</text>
                 </view>
               </view>
               <view class="load labal-value">
                 <text class="title">核准负荷</text>
                 <view class="value">
-                  <u-input class="my-input" />
-                  <text class="unit">kw</text>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class="policy-item">
-            <view class="left flex center column">
-              <text class="iconfont icon-iconPZGL_YHGL_3-2"></text>日内响应
-            </view>
-            <view class="right">
-              <view class="load labal-value">
-                <text class="title">录入负荷</text>
-                <view class="value">
-                  <u-input />
-                  <text class="unit">kw</text>
-                </view>
-              </view>
-              <view class="load labal-value">
-                <text class="title">核准负荷</text>
-                <view class="value">
-                  <u-input />
-                  <text class="unit">kw</text>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class="policy-item">
-            <view class="left flex center column">
-              <text class="iconfont icon-iconPZGL_YHGL_3-3"></text>中长期响应
-            </view>
-            <view class="right">
-              <view class="load labal-value">
-                <text class="title">录入负荷</text>
-                <view class="value">
-                  <u-input />
-                  <text class="unit">kw</text>
-                </view>
-              </view>
-              <view class="load labal-value">
-                <text class="title">核准负荷</text>
-                <view class="value">
-                  <u-input />
+                  <u-input
+                    class="my-input"
+                    v-model="item.approvalLoad"
+                    :disabled="editPolicyStatus"
+                  />
                   <text class="unit">kw</text>
                 </view>
               </view>
@@ -199,6 +224,7 @@
 </template>
 <script>
 import List from "@/components/list.vue";
+import { getUserInfo, getTypeList, getRegionList } from "@/api/user/index.js";
 import { uniScrollTop } from "@/utils/common.js";
 export default {
   options: {
@@ -207,82 +233,15 @@ export default {
   components: {
     List,
   },
+  props: ["userId"],
   data() {
     return {
-      title: "picker",
-      array: ["一层公共照明", "二层公共照明", "三层公共照明", "四层公共照明"],
-      index: 0,
-      currentTab: 1,
-      showSex: false,
-      model1: {
-        userInfo: {
-          name: "uView UI",
-          sex: "",
-        },
-      },
-      actions: [
-        {
-          name: "男",
-        },
-        {
-          name: "女",
-        },
-        {
-          name: "保密",
-        },
-      ],
-      rules: {
-        "userInfo.name": {
-          type: "string",
-          required: true,
-          message: "请填写姓名",
-          trigger: ["blur", "change"],
-        },
-        "userInfo.sex": {
-          type: "string",
-          max: 1,
-          required: true,
-          message: "请选择男或女",
-          trigger: ["blur", "change"],
-        },
-      },
-      radio: "",
-      switchVal: false,
-      showSex: false,
-      model1: {
-        userInfo: {
-          name: "uView UI",
-          sex: "",
-        },
-      },
-      actions: [
-        {
-          name: "男",
-        },
-        {
-          name: "女",
-        },
-        {
-          name: "保密",
-        },
-      ],
-      list: [
-        {
-          value: "1",
-          label: "江",
-        },
-        {
-          value: "2",
-          label: "湖",
-        },
-      ],
-      form: {
-        name: "啦啦啦",
-        intro: "1221312",
-        sex: "121221",
-        count: "121221",
-        connet: "121212",
-      },
+      typeIndex: 0,
+      regionIndex: 0, // 所属区域index
+      editBaseInfoStatus: true,
+      editPolicyStatus: true,
+      currentTab: 0,
+      form: {},
       style: {
         color: "#9FA6AF",
         fontSize: "24rpx",
@@ -290,53 +249,185 @@ export default {
         textAlign: "right",
         width: "128rpx",
       },
-      checkboxList: [
+      deviceList: [],
+      typeList: [],
+      regionList: [],
+      strategyList: [
         {
-          name: "苹果",
-          checked: false,
-          disabled: false,
+          name: "快速响应",
+          value: 0,
+          approvalLoad: 0, // 核准负荷
+          enterLoad: 0, // 录入负荷
+          icon: "icon-iconPZGL_YHGL_3-1",
         },
         {
-          name: "雪梨",
-          checked: false,
-          disabled: false,
+          name: "日内响应",
+          approvalLoad: 0, // 核准负荷
+          enterLoad: 0, // 录入负荷
+          icon: "icon-iconPZGL_YHGL_3-2",
         },
         {
-          name: "柠檬",
-          checked: false,
-          disabled: false,
-        },
-      ],
-      radioList: [
-        {
-          name: "鲜甜",
-          disabled: false,
-        },
-        {
-          name: "麻辣",
-          disabled: false,
+          name: "中长期响应",
+          approvalLoad: 0, // 核准负荷
+          enterLoad: 0, // 录入负荷
+          icon: "icon-iconPZGL_YHGL_3-3",
         },
       ],
-      radio: "",
-      switchVal: false,
-      deviceList: [
+      dayResponse: [], // 日内响应
+      fastResponse: [], // 快速响应
+      longResponse: [], // 中长期响应
+      tabs: [
         {
-          name: "一楼XXXXXX",
+          title: "快速响应",
+          type: 10,
+          sum: 0,
+          list: [],
+          icon: "icon-iconDR_quick_active",
         },
         {
-          name: "二楼XXXXXX",
+          title: "日内响应",
+          type: 20,
+          sum: 0,
+          list: [],
+          icon: "icon-iconDR_day_active",
         },
         {
-          name: "三楼XXXXXX",
-        },
-        {
-          name: "四楼XXXXXX",
+          title: "中长期响应",
+          type: 30,
+          sum: 0,
+          list: [],
+          icon: "icon-iconDR_long_active",
         },
       ],
     };
   },
-  onLoad() {},
+  onReady() {
+    this.getTypeList();
+    this.getRegionList();
+    this.queryUserDetail();
+  },
+  computed: {
+    currentUserTypeName() {
+      return (
+        this.typeList.find((c) => c.typeId === this.form.userType)?.typeName ||
+        "-"
+      );
+    },
+    currentUserRegionName() {
+      return this.regionList.find((c) => c.regionId === this.form.regionId)
+        ?.regionName;
+    },
+  },
   methods: {
+    // 获取用户类型列表
+    async getTypeList() {
+      const { resultCode, resultData } = await getTypeList({});
+      if (!resultCode) {
+        this.typeList = resultData;
+      }
+    },
+    // 获取用户类型列表
+    async getRegionList() {
+      const { resultCode, resultData } = await getRegionList({});
+      // this.regionList = resultData;
+      this.regionList = [
+        {
+          regionId: 1,
+          regionName: "测试",
+        },
+        {
+          regionId: 2,
+          regionName: "程序员",
+        },
+      ];
+    },
+    // 用户详情
+    async queryUserDetail() {
+      const {
+        resultCode,
+        resultData: { user, strategy, response },
+      } = await getUserInfo({ userId: this.userId });
+      if (!resultCode) {
+        const {
+          address,
+          contact,
+          userName,
+          userNo,
+          userType,
+          regionId,
+          phone,
+        } = user;
+        this.form = {
+          address,
+          contact,
+          userName,
+          userNo,
+          userType,
+          regionId,
+          phone,
+        };
+        const type10 = response.filter((c) => c.type === 10);
+        const type20 = response.filter((c) => c.type === 20);
+        const type30 = response.filter((c) => c.type === 30);
+        this.tabs = [
+          {
+            title: "快速响应",
+            type: 10,
+            sum: type10.reduce((pre, cur) => pre + cur.volume, 0),
+            list: type10,
+            icon: "icon-iconDR_quick_active",
+          },
+          {
+            title: "日内响应",
+            type: 20,
+            sum: type20.reduce((pre, cur) => pre + cur.volume, 0),
+            list: type20,
+            icon: "icon-iconDR_day_active",
+          },
+          {
+            title: "中长期响应",
+            type: 30,
+            sum: type30.reduce((pre, cur) => pre + cur.volume, 0),
+            list: type30,
+            icon: "icon-iconDR_long_active",
+          },
+        ];
+        // 处理策略管理数据
+        this.strategyList.forEach((c, index) => {
+          c.approvalLoad = strategy[index]?.approvalLoad;
+          c.enterLoad = strategy[index]?.enterLoad;
+        });
+      }
+    },
+    // 编辑基础信息
+    handleEditBaseInfo() {
+      this.editBaseInfoStatus = !this.editBaseInfoStatus;
+      if (!this.editBaseInfoStatus) {
+        // 处理保存接口
+      } else {
+        // 这里初始化下拉菜单选择项目
+        this.typeIndex = this.typeList.findIndex(
+          (c) => c.typeId === this.form.userType
+        );
+        this.regionIndex = this.regionList.findIndex(
+          (c) => c.regionId === this.form.regionId
+        );
+      }
+    },
+    // 区域选择
+    handleRegionChange(e) {
+      this.regionIndex = e.detail.value;
+      this.form.regionId = this.regionList[Number(this.regionIndex)].regionId;
+    },
+    // 用户类型选择
+    handleTypeChange(e) {
+      this.typeIndex = e.detail.value;
+      this.form.userType = this.typeList[Number(this.typeIndex)].typeId;
+    },
+    // 编辑策略
+    handleEditPolicy() {
+      this.editPolicyStatus = !this.editPolicyStatus;
+    },
     bindPickerChange: function (e) {
       console.log("picker发送选择改变，携带值为", e.detail.value);
       this.index = e.detail.value;
@@ -346,8 +437,10 @@ export default {
       uniScrollTop();
     },
     save() {
-      this.$emit("update:currentType", "index");
-      uniScrollTop();
+      console.log(this.strategyList);
+      console.log(this.form);
+      // this.$emit("update:currentType", "index");
+      // uniScrollTop();
     },
     add(currentIndex) {
       this.deviceList.splice(currentIndex, 0, { name: "" });
@@ -382,6 +475,7 @@ export default {
 }
 
 .user-response-detail {
+  height: 100%;
   .top {
     margin: 20rpx 0 28rpx 0;
     display: flex;
@@ -406,6 +500,10 @@ export default {
     // margin-left: 70rpx;
     background: none !important;
   }
+  // .base-info {
+  //   height: 500rpx;
+  //   overview: auto;
+  // }
   .base-info ::v-deep .u-border {
     border-color: #e6f1ff33 !important;
     padding: 2rpx 9rpx !important;

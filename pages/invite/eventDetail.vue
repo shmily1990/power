@@ -1,12 +1,12 @@
 <template>
-  <view>
+  <view style="padding-bottom: 60rpx;">
     <view class="select-box">
-      <text class="big title">事件选择</text>
+      <text class="big title" style="color: #e6f1ff99">事件选择</text>
       <view class="select" @click="open">
         <text class="targetText" v-show="target">{{ target }}</text>
         <view class="arrow"></view>
         <view class="list" v-if="show">
-          <view class="item" v-for="item in lists" @click.stop="choose(item)">
+          <view class="item" v-for="(item, index) in lists" @click.stop="choose(item)" :key="index">
             <text class="itemtext">{{ item }}</text>
           </view>
         </view>
@@ -276,7 +276,12 @@ export default {
 
   .card-content {
     padding-left: 70rpx;
-
+    .title {
+      color: #9FA6AF;
+    }
+    .itemtext {
+      color: #ffffff80;
+    }
     .uni-form-item {
       margin-bottom: 12rpx;
 

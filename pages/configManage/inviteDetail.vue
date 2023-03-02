@@ -10,27 +10,26 @@
             <view class="label-value">
               <text class="title">事件名称</text>
               <view class="value">
-                <text class="count">event8888</text>
-                <text class="unit">kw</text>
+                <text class="count">{{ basicInfo.eventName }}</text>
               </view>
             </view>
             <view class="label-value">
               <text class="title">调控指标</text>
               <view class="value">
-                <text class="count">2000</text>
+                <text class="count">{{ basicInfo.target }}</text>
                 <text class="unit">kw</text>
               </view>
             </view>
             <view class="label-value">
               <text class="title">开始时间</text>
               <view class="value">
-                <text class="count">2023-01-02 15:30</text>
+                <text class="count">{{ basicInfo.startTime }}</text>
               </view>
             </view>
             <view class="label-value">
               <text class="title">持续时间</text>
               <view class="value">
-                <text class="count" style="width: 132rpx">60</text>
+                <text class="count" style="width: 132rpx">{{ basicInfo.duration }}</text>
                 <text class="unit">分钟</text>
               </view>
             </view>
@@ -43,7 +42,7 @@
           <u-divider color="#E6F1FF"></u-divider>
           <view class="user">
             <view class="screen">
-              <text class="title">筛选</text>
+              <text class="title sx">筛选</text>
               <!-- <u-radio-group
                 v-model="radiovalue"
                 placement="row"
@@ -60,81 +59,22 @@
               </u-radio-group> -->
               <checkbox-group @change="handChange">
                 <view class="flex">
-                  <label class="flex">
-                    <checkbox value="cb1" class="round" :checked="checkValue" />
-                    <view class="title c-title choose-title"> 全部 </view>
-                  </label>
-                  <label class="flex">
-                    <checkbox value="cb2" class="round" :checked="checkValue" />
-                    <view class="title c-title choose-title"> 参与 </view>
-                  </label>
-                  <label class="flex">
-                    <checkbox value="cb3" class="round" :checked="checkValue" />
-                    <view class="title c-title choose-title"> 不参与 </view>
-                  </label>
-                  <label class="flex">
-                    <checkbox value="cb4" class="round" :checked="checkValue" />
-                    <view class="title c-title choose-title"> 未响应 </view>
+                  <label class="flex"  v-for="item in list" :key="item.name">
+                    <checkbox :value="item.value" class="round" :checked="item.checked" :id="item.id" :class="{ partChoose: partChoose && item.value == 'cb' }" />
+                    <view class="title c-title choose-title"> {{ item.name }} </view>
                   </label>
                 </view>
               </checkbox-group>
+              
             </view>
             <view class="user-list">
-              <view class="user-list-item" @click="handleSelect">
-                <text class="left">01</text>
+              <view class="user-list-item" v-for="(customer, index) in filterCustomer" :key="customer.userId" @click="handleSelect(customer)">
+                <text class="left">{{ (index + 1) < 10 ? `0${index + 1}` : index + 1 }}</text>
                 <view class="mid">
-                  <text class="mid-name">电脑管家001</text>
+                  <text class="mid-name">{{ customer.userName }}</text>
                   <view class="mid-bottom">
-                    <text class="status">参与</text>
-                    <text class="value">85<text class="unit">kw</text></text>
-                  </view>
-                </view>
-                <u-icon
-                  name="arrow-right"
-                  color="#00c8ff"
-                  size="16"
-                  class="right"
-                />
-              </view>
-              <view class="user-list-item" @click="handleSelect">
-                <text class="left">01</text>
-                <view class="mid">
-                  <text class="mid-name">电脑管家001</text>
-                  <view class="mid-bottom">
-                    <text class="status">参与</text>
-                    <text class="value">85<text class="unit">kw</text></text>
-                  </view>
-                </view>
-                <u-icon
-                  name="arrow-right"
-                  color="#00c8ff"
-                  size="16"
-                  class="right"
-                />
-              </view>
-              <view class="user-list-item" @click="handleSelect">
-                <text class="left">01</text>
-                <view class="mid">
-                  <text class="mid-name">电脑管家001</text>
-                  <view class="mid-bottom">
-                    <text class="status">参与</text>
-                    <text class="value">85<text class="unit">kw</text></text>
-                  </view>
-                </view>
-                <u-icon
-                  name="arrow-right"
-                  color="#00c8ff"
-                  size="16"
-                  class="right"
-                />
-              </view>
-              <view class="user-list-item" @click="handleSelect">
-                <text class="left">01</text>
-                <view class="mid">
-                  <text class="mid-name">电脑管家001</text>
-                  <view class="mid-bottom">
-                    <text class="status">参与</text>
-                    <text class="value">85 <text class="unit">kw</text></text>
+                    <text class="status">{{ customer.responseName }}</text>
+                    <text class="value">{{ customer.load }}<text class="unit">kw</text></text>
                   </view>
                 </view>
                 <u-icon
@@ -160,7 +100,7 @@
       </view>
     </template>
     <template v-if="currentPage === 'user'">
-      <userDetail @changeCurrentPage="() => (currentPage = 'invite')" />
+      <userDetail @changeCurrentPage="() => (currentPage = 'invite')" :user="userInfo" />
     </template>
   </view>
 </template>
@@ -169,68 +109,158 @@ import List from "@/components/list.vue";
 import userDetail from "./userDetail.vue";
 import overview from "@/components/overview";
 import { uniScrollTop } from "@/utils/common.js";
+import { getInviteInfo } from "@/api/invite/index.js";
 export default {
   options: {
     styleIsolation: "shared",
   },
   data() {
     return {
-      radiolist: [
+      list: [
         {
           name: "全部",
-          disabled: false,
+          checked: true,
+          value: 'cb',
+          id: 'c1'
         },
         {
           name: "参与",
-          disabled: false,
+          checked: true,
+          value: "30",
+          id: 'c2'
         },
         {
           name: "不参与",
-          disabled: false,
+          checked: true,
+          value: "20",
+          id: 'c3'
         },
         {
           name: "未响应",
-          disabled: false,
+          checked: true,
+          value: "10",
+          id: 'c4'
         },
       ],
+      defaultCheckdeValues: ['cb', '30', '20', '10'],
       data: [
         {
           name: "已通知",
-          value: 22,
+          value: 0,
           unit: "家",
           icon: "icon-iconPZGL_YYGL_4-1",
         },
         {
           name: "已响应",
-          value: 18,
+          value: 0,
           unit: "家",
           icon: "icon-iconPZGL_YYGL_4-2",
         },
         {
           name: "当前总响应",
-          value: 112,
+          value: 0,
           unit: "KW",
           icon: "icon-iconPZGL_YYGL_4-3",
         },
       ],
       currentPage: "invite",
+      basicInfo: {}, // 基础信息
+      customerList: [],
+      userInfo: {}
     };
+  },
+  props: {
+    inviteInfo: {
+      type: Object,
+      default: {}
+    }
+  },
+  computed: {
+    partChoose() {
+      return !this.defaultCheckdeValues.includes('cb') && this.defaultCheckdeValues.length > 0
+    },
+    filterCustomer() {
+      return this.customerList.filter(c => this.defaultCheckdeValues.includes(c.responseId.toString()))
+    }
   },
   components: {
     List,
     userDetail,
     overview,
   },
+  onReady() {
+    this.getInviteDetail()
+  },
   onLoad() {},
   methods: {
-    handChange(val) {
-      console.log(val);
+    async getInviteDetail() {
+      const { inviteId } = this.inviteInfo
+      const { resultCode, resultData } = await getInviteInfo({ inviteId })
+      if (!resultCode) {
+        const { basic, summary: { userTotal, responseTotal, responseVolume, customer } } = resultData
+        this.basicInfo = basic
+        this.data = [
+        {
+          name: "已通知",
+          value: userTotal,
+          unit: "家",
+          icon: "icon-iconPZGL_YYGL_4-1",
+        },
+        {
+          name: "已响应",
+          value: responseTotal,
+          unit: "家",
+          icon: "icon-iconPZGL_YYGL_4-2",
+        },
+        {
+          name: "当前总响应",
+          value: responseVolume,
+          unit: "KW",
+          icon: "icon-iconPZGL_YYGL_4-3",
+        },
+        ]
+        this.customerList = customer
+      }
+    },
+    handChange(e) {
+      const values = e.detail.value
+      const ischeckedAllFalse = this.defaultCheckdeValues.includes('cb') && !values.includes('cb') // 取消全部
+      const isCheckedAllTrue =  (!this.defaultCheckdeValues.includes('cb') && values.includes('cb')) || (values.includes('30') && values.includes('20') && values.includes('10')) // 全选
+      
+      this.list.forEach(c => {
+        if (ischeckedAllFalse) {
+          c.checked = false
+          return
+        }
+        if (isCheckedAllTrue) {
+          c.checked = true
+          return
+        }
+        if (c.value == 'cb') {
+          c.checked = false
+          return
+        }
+        if (values.includes(c.value)) {
+          c.checked = true
+        } else {
+          c.checked = false
+        }
+      })
+      if (ischeckedAllFalse) {
+        this.defaultCheckdeValues = []
+      } else if (isCheckedAllTrue) {
+        this.defaultCheckdeValues = ['cb', '30', '20', '10']
+      } else {
+        this.defaultCheckdeValues = e.detail.value.filter(c => c != 'cb')
+      }
+      
     },
     goBack() {
       this.$emit("update:isShow", false);
       uniScrollTop();
     },
-    handleSelect() {
+    handleSelect(user) {
+      this.userInfo = user
       this.currentPage = "user";
       uniScrollTop();
     },
@@ -357,6 +387,9 @@ export default {
         margin-right: 20rpx;
         font-size: 24rpx;
       }
+      .sx {
+        color: #0094b380;
+      }
     }
     &-list {
       padding-top: 30rpx;
@@ -370,7 +403,7 @@ export default {
       justify-content: space-between;
       .left {
         font-size: 28rpx;
-        margin-right: 4rpx;
+        margin-right: 16rpx;
         color: #0094b3;
       }
       .mid {
@@ -435,6 +468,7 @@ export default {
       margin-top: 60rpx;
       display: flex;
       justify-content: space-around;
+      padding-bottom: 40rpx;
       .btn {
         width: 240rpx;
         height: 90rpx;

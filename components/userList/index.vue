@@ -1,32 +1,38 @@
 <template>
   <view class="user-list">
-    <scroll-view scroll-y="true" class="scroll-box" :style="currentStyle">
+    <scroll-view
+      scroll-y
+      class="scroll-box"
+      :style="{height: `calc(100vh - ${height}rpx)`}"
+      v-if="data.length"
+    >
       <List
-        v-for="(item, index) in data"
+        v-for="(item) in data"
         :key="item.userId"
         :titleTxt="item.userName"
         bordered
+        @click.native="handleSelect(item)"
       >
         <template slot="optBtn">
           <view
             class="card-status flex center"
             :style="{
-              background: status[index].bg,
-              color: status[index].color,
+              background: status[item.partake].bg,
+              color: status[item.partake].color,
             }"
           >
             <u-icon
-              :label="status[index].text"
+              :label="item.statusName"
               labelSize="24rpx"
-              :labelColor="status[index].color"
+              :labelColor="status[item.partake].color"
               space="15rpx"
               size="15px"
-              :color="status[index].color"
-              :name="status[index].uview"
+              :color="status[item.partake].color"
+              :name="status[item.partake].icon"
             ></u-icon>
           </view>
         </template>
-        <view class="card-conent flex between" @click="handleSelect(item)">
+        <view class="card-conent flex between">
           <view class="item load">
             <view class="icon-t"
               ><text class="iconfont icon-iconDR_quick_active"></text
@@ -51,6 +57,7 @@
         </view>
       </List>
     </scroll-view>
+    <view class="empty" v-else>未查询到数据</view>
   </view>
 </template>
 
@@ -64,7 +71,7 @@ export default {
   props: {
     height: {
       type: Number,
-      default: 550,
+      default: 500,
     },
     data: {
       type: Array,
@@ -75,59 +82,30 @@ export default {
     return {
       currentStyle: ``,
       status: {
-        1: {
-          text: "已申报",
+        2: {
           bg: "rgba(13,255,154,0.1)",
           color: "#0DFF9A",
-          iconf: "icon-iconElementConfirm",
-          uview: "checkmark-circle",
+          icon: "checkmark-circle",
         },
-        0: {
-          text: "未申报",
+        1: {
           bg: "rgba(247,181,0,0.1)",
           color: "#F7B500",
-          iconf: "icon-iconElementNotice",
-          uview: "error-circle",
+          icon: "close-circle",
         },
       },
-      userList: [
-        {
-          name: "上海大学1号门",
-        },
-        {
-          name: "上海大学2号门",
-        },
-        {
-          name: "上海大学3号门",
-        },
-        {
-          name: "上海大学4号门",
-        },
-        {
-          name: "上海大学5号门",
-        },
-        {
-          name: "上海大学6号门",
-        },
-        {
-          name: "上海大学7号门",
-        },
-      ],
     };
   },
   components: {
     card,
     List,
   },
-  onReady() {
-    // this.getEventList();
-    this.currentStyle = {
-      height: `calc(100vh - ${this.height}rpx)`,
-    };
-  },
+  onReady() {},
   methods: {
+    haha() {
+      console.log(666);
+    },
     handleSelect(item) {
-      console.log(item);
+      console.log(item, 0);
       this.$emit("selectUser", item);
     },
   },
@@ -136,6 +114,7 @@ export default {
 
 <style lang="scss" scoped>
 .user-list {
+  height: 100%;
   ::v-deep .u-divider {
     margin: 12rpx 0 !important;
   }
@@ -185,6 +164,10 @@ export default {
         text-align: center;
       }
     }
+  }
+  .empty {
+    color: #9fa6af;
+    text-align: center;
   }
 }
 </style>

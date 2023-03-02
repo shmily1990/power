@@ -6,15 +6,15 @@
           <view
             class="event-list-item"
             v-for="(item, index) in eventList"
-            :key="index"
+            :key="item.inviteId"
             @click="handleSelectEvent(item)"
           >
             <view class="left" @click.stop="handleSelect(item)">
-              <text class="order">{{ item.order }}</text>
+              <text class="order">{{ (index + 1) < 10 ? 'N0' + (index + 1) : (index + 1) }}</text>
               <view class="drop-icon">
                 <u-icon
                   :name="
-                    item.order === selectOrder
+                    item.inviteId === selectOrder
                       ? 'arrow-down-fill'
                       : 'play-right-fill'
                   "
@@ -27,28 +27,28 @@
               <view class="label-value">
                 <text class="title">事件名称</text>
                 <view class="value">
-                  <text class="count">{{ item.name }}</text>
+                  <text class="count">{{ item.eventName }}</text>
                 </view>
               </view>
-              <template v-if="selectOrder === item.order">
+              <template v-if="selectOrder === item.inviteId">
                 <view class="label-value">
                   <text class="title">调控指标</text>
                   <view class="value">
-                    <text class="count">{{ item.quota }}</text>
+                    <text class="count">{{ item.target }}</text>
                     <text class="unit">kw</text>
                   </view>
                 </view>
                 <view class="label-value">
                   <text class="title">当前响应用户</text>
                   <view class="value">
-                    <text class="count">{{ item.startTime }}</text>
+                    <text class="count">{{ item.currentUserTotal }}</text>
                     <text class="unit">户</text>
                   </view>
                 </view>
                 <view class="label-value">
                   <text class="title">当前响应指标</text>
                   <view class="value">
-                    <text class="count">{{ item.cxsj }}</text>
+                    <text class="count">{{ item.currentTargetTotal }}</text>
                     <text class="unit">kw</text>
                   </view>
                 </view>
@@ -69,7 +69,6 @@ export default {
   },
   data() {
     return {
-      eventList: [],
       selectOrder: "",
     };
   },
@@ -85,51 +84,19 @@ export default {
       type: String,
       default: "",
     },
+    eventList: {
+      type: Array,
+      default: [],
+    }
   },
-  onReady() {
-    this.getEventList();
-  },
+  onReady() {},
   methods: {
     handleSelectEvent(item) {
-      console.log(item);
       this.$emit("eventSelect", item);
     },
     handleSelect(item) {
-      this.selectOrder = item.order === this.selectOrder ? "" : item.order;
-    },
-    getEventList() {
-      this.eventList = [
-        {
-          order: "W01",
-          name: "event7789",
-          quota: 2000,
-          startTime: "20",
-          cxsj: 60,
-        },
-        {
-          order: "W02",
-          name: "event7789",
-          quota: 2000,
-          startTime: "20",
-          cxsj: 60,
-        },
-        {
-          order: "W03",
-          name: "event7789",
-          quota: 2000,
-          startTime: "20",
-          cxsj: 60,
-        },
-        {
-          order: "W04",
-          name: "event7789",
-          quota: 2000,
-          startTime: "20",
-          cxsj: 60,
-        },
-      ];
-      console.log(777);
-    },
+      this.selectOrder = item.inviteId === this.selectOrder ? "" : item.inviteId;
+    }
   },
 };
 </script>
@@ -140,7 +107,7 @@ export default {
     margin-bottom: 22rpx;
   }
   .event-list {
-    height: 556rpx;
+    max-height: 556rpx;
     overflow: auto;
     &-item {
       position: relative;

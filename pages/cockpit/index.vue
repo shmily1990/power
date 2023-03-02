@@ -1,90 +1,74 @@
 <template>
-  <view>
-    <!-- 使用组件  规范写法: top-nav -->
-    <!--注： 顶部导航组件一定要写在顶部 -->
+  <view class="uni-page">
     <navbar
       class="header customNavBar"
       :background="backgroundColor"
       title="驾驶舱"
       @onBack="goBack"
     ></navbar>
-    <view class="view-box">
-      <CommTab :tabMenu="tabMenu" @tabCurrent="tabCurrent" ref="tabs">
-        <template slot="tab0" class="content" v-if="tabIdx == 0">
-          <resourceAll />
-        </template>
-        <template slot="tab1" class="content" v-if="tabIdx == 1">
-          <resourceScatter />
-        </template>
-        <template slot="tab2" class="content" v-if="tabIdx == 2">
-          <regulatoryAbility :swiperIndex="swiperIndex" />
-        </template>
-      </CommTab>
-    </view>
-    <u-no-network />
+    <tab-swiper :tabList="tabList" class="container" @tabCurrent="tabCurrent" refs="tabs">
+      <template slot="tab0" v-if="tabIdx == 0">
+        <resourceAll />
+      </template>
+      <template slot="tab1" v-if="tabIdx == 1">
+        <resourceScatter />
+      </template>
+      <template slot="tab2" v-if="tabIdx == 2">
+        <regulatoryAbility />
+      </template>
+    </tab-swiper>
   </view>
 </template>
-
 <script>
-import imgBgURL from "@/static/images/cockpit/bg.png";
-import CommTab from "@/components/tab.vue";
+import navbar from "@/components/topNav.vue"; //引入组件
 import resourceAll from "./resourceAll.vue";
 import regulatoryAbility from "./regulatoryAbility.vue";
 import resourceScatter from "./resourceScatter.vue";
-import navbar from "@/components/topNav.vue"; //引入组件
-import { uniScrollTop } from "@/utils/common.js";
+import tabSwiper from '@/components/tabSwiperBar'
 
 export default {
   components: {
-    CommTab,
-    resourceAll,
-    resourceScatter,
-    regulatoryAbility,
     navbar,
+    resourceAll,
+    regulatoryAbility,
+    resourceScatter,
+    tabSwiper
   },
   data() {
     return {
-      tabIdx: 0,
-      imgBgURL,
-      tabMenu: [
+      backgroundColor: "linear-gradient(90deg, #102D58 0%, #144E6D 100%);",
+      tabList: [
         {
+          id: "tab01",
           name: "资源总览",
-          iconfont: "icon-iconJSC_active_ZYZL",
+          newsid: 0,
+           iconfont: "icon-iconJSC_active_ZYZL",
         },
         {
+          id: "tab02",
           name: "资源分布",
-          iconfont: "icon-iconJSC_inactive_ZYFB",
+          newsid: 23,
+           iconfont: "icon-iconJSC_active_ZYZL",
         },
         {
+          id: "tab03",
           name: "调控能力",
-          iconfont: "icon-iconJSC_inactive_TKNL",
+          newsid: 223,
+           iconfont: "icon-iconJSC_active_ZYZL",
         },
       ],
-      backgroundColor: "linear-gradient(90deg, #102D58 0%, #144E6D 100%);",
-      swiperIndex: 0,
+      tabIdx: 0,
+      scrollInto: "",
     };
   },
-  onShow: function (e) {
-    this.tabIdx = 0;
-    this.$refs.tabs.swiperCurrent = 0;
-    uniScrollTop();
-  },
-
-  onLoad() {},
+  onLoad: function (options) {},
+  onReady() {},
   methods: {
-    goBack() {
-      // 返回函数，内容大家自行修改编写
-      // 返回顶部
-      uniScrollTop();
-    },
-    swiperCurrent(value) {
-      console.log("sssss", value);
-      this.swiperIndex = value;
-    },
     /**
      * 当前tab页码
      */
     tabCurrent(index) {
+      console.log(index)
       this.tabIdx = index;
     },
   },
@@ -92,16 +76,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.view-box {
-  padding: 40rpx 50rpx;
+/* #ifndef APP-PLUS */
+page {
   width: 100%;
-  min-height: 100vh;
-  color: $uni-text-color;
-  flex-wrap: wrap;
-  box-sizing: border-box;
-  .content {
-    overflow: auto;
-    height: 100%;
-  }
+  min-height: 100%;
+  display: flex;
+}
+
+/* #endif */
+
+.uni-page {
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  display: flex;
+  // background-color: #ffffff;
+  height: 100vh;
+  background: linear-gradient(90deg, #102d58 0%, #144e6d 100%);
+}
+.container {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
 }
 </style>

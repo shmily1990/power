@@ -21,7 +21,6 @@
     <swiper
       :current="swiperCurrent"
       @change="transition"
-      :style="{ height: swiperHeight + 50 + 'px' }"
     >
       <swiper-item
         class="swiper-item"

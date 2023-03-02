@@ -19,6 +19,7 @@
     <userResponseDetail
       :currentType.sync="currentType"
       v-if="currentType === 'detail'"
+      :userId="userId"
     />
   </view>
 </template>
@@ -38,7 +39,7 @@ export default {
       ratio: 0, // 参与占比
       user: [], // 用户列表
       searchText: "",
-      currentType: "index",
+      currentType: "index", // 当前展示
       data: [
         {
           name: "用户总数",
@@ -60,6 +61,7 @@ export default {
         },
       ],
       visableCreateModal: true,
+      userId: null,
     };
   },
   components: {
@@ -81,7 +83,12 @@ export default {
         pageSize: 999,
         userName: this.searchText,
       });
-      this.user = user;
+      this.user = user.map(item => {
+        return {
+          ...item,
+          statusName: item.userType
+        }
+      });
       this.data = [
         {
           name: "用户总数",
@@ -103,14 +110,15 @@ export default {
         },
       ];
     },
-    handleSelect() {
+    handleSelect(item) {
       this.currentType = "detail";
+      this.userId = item.userId;
       uniScrollTop();
     },
-    // create() {
-    //   this.currentType = "create";
-    //   uniScrollTop();
-    // },
+    create() {
+      this.currentType = "create";
+      uniScrollTop();
+    },
   },
 };
 </script>

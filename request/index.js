@@ -24,12 +24,11 @@ http.setConfig((config) => {
 //请求拦截
 http.interceptors.request.use((config) => {
 	const userToken = uni.getStorageSync('token')
-	console.log(userToken, 2323)
-	if (userToken) {
+	if (!userToken) {
 		if (!apiWhiteList.includes(config.url)) { // 不再白名单加上token
 			config.header = {
 				...config.header,
-				Authorization: `PNT ${userToken}`
+				Authorization: `PNT ul+mhpfxNFk=`
 			}
 		}
 	}

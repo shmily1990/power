@@ -7,14 +7,14 @@
             <text class="iconfont icon-iconJSC_1_1"></text>
             <view class="txt">
               <view>接入用户</view>
-              <view class="num">232</view>
+              <view class="num">{{ accessUserOverview.accessTotal }}</view>
             </view>
           </view>
           <view class="li">
             <text class="iconfont icon-iconJSC_1_2"></text>
             <view class="txt">
               <view>响应用户</view>
-              <view class="num">230</view>
+              <view class="num">{{ accessUserOverview.respondTotal }}</view>
             </view>
           </view>
         </view>
@@ -25,14 +25,14 @@
             <text class="iconfont icon-iconJSC_2_1"></text>
             <view class="txt">
               <view>接入设备</view>
-              <view class="num">232</view>
+              <view class="num">{{ accessDeviceOverview.accessTotal }}</view>
             </view>
           </view>
           <view class="li">
             <text class="iconfont icon-iconJSC_2_2"></text>
             <view class="txt">
               <view>响应设备</view>
-              <view class="num">230</view>
+              <view class="num">{{ accessDeviceOverview.respondTotal }}</view>
             </view>
           </view>
         </view>
@@ -43,21 +43,21 @@
             <image class="jsc-icon" src="/static/jsc-icon1.png" alt="" />
             <view class="txt">
               <view>快速响应</view>
-              <view class="num"> 266<text>kW</text></view>
+              <view class="num"> {{ responsivenessOverview.adjustableReview }}<text>kW</text></view>
             </view>
           </view>
           <view class="li">
             <image class="jsc-icon" src="/static/jsc-icon2.png" alt="" />
             <view class="txt">
               <view>日内响应</view>
-              <view class="num">230<text>kW</text></view>
+              <view class="num">{{ responsivenessOverview.intradayResponse }}<text>kW</text></view>
             </view>
           </view>
           <view class="li">
             <image class="jsc-icon" src="/static/jsc-icon3.png" alt="" />
             <view class="txt">
               <view>中长期响应</view>
-              <view class="num">245<text>kW</text></view>
+              <view class="num">{{ responsivenessOverview.maxResponse }}<text>kW</text></view>
             </view>
           </view>
         </view>
@@ -80,6 +80,7 @@
 
 <script>
 import List from "@/components/list.vue";
+import { queryResourceOverview } from "@/api/cockpit/index.js";
 export default {
   components: { List },
   props: {},
@@ -144,43 +145,78 @@ export default {
         },
       },
       chartData: {},
+      accessUserOverview: { // 用户
+        accessTotal: 0,
+        respondTotal: 0
+      },
+      accessDeviceOverview: { // 设备
+        accessTotal: 0,
+        respondTotal: 0
+      },
+      responsivenessOverview: { // 响应
+        adjustableReview: 0,
+        intradayResponse: 0,
+        maxResponse: 0
+      }
     };
   },
   methods: {
-    getServerData() {
-      //模拟从服务器获取数据时的延时
-      setTimeout(() => {
-        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-        let res = {
-          categories: ["1", "2", "3", "4", "5", "6"],
-          series: [
-            {
-              index: 0,
-              name: "响应负荷",
-              type: "column",
-              textSize: 1,
-              // show: false,
-              // data: [40,{"value":30,"color":"#f04864"},55,110,24,58]
-              data: [120, 140, 105, 170, 95, 160],
-            },
-            {
-              name: "用户数量",
-              index: 0,
-              type: "line",
-              lineType: "solid",
-              color: "#2fc25b",
-              textSize: 1,
-              pointShape: "none",
-              data: [40, 60, 55, 110, 24, 58],
-            },
-          ],
-        };
-        this.chartData = JSON.parse(JSON.stringify(res));
-      }, 500);
+    // 查询资源总览数据
+    async queryData() {
+      this.isEmpty = false
+      const { resultCode, resultData } = await queryResourceOverview()
+      if (!resultCode) {
+        const { accessUserOverview, accessDeviceOverview, responsivenessOverview, annualResponse } = resultData
+        this.accessUserOverview = accessUserOverview
+        this.accessDeviceOverview = accessDeviceOverview
+        this.responsivenessOverview = responsivenessOverview
+        if (annualResponse.length) {
+          this.buildChart(annualResponse)
+        }
+      }
     },
+
+    buildChart(data) {
+      const xAxisData = []
+      const responseData = []
+      const userData = []
+      data.forEach(item => {
+        xAxisData.push(item.startMonth)
+        responseData.push(item.responseLoad)
+        userData.push(item.userNumber)
+      })
+      let res = {
+        categories: xAxisData,
+        series: [
+          {
+            index: 0,
+            name: "响应负荷",
+            type: "column",
+            textSize: 1,
+            // show: false,
+            // data: [40,{"value":30,"color":"#f04864"},55,110,24,58]
+            data: responseData,
+          },
+          {
+            name: "用户数量",
+            index: 0,
+            type: "line",
+            lineType: "solid",
+            color: "#2fc25b",
+            textSize: 1,
+            pointShape: "none",
+            data: userData,
+          },
+        ],
+      }
+      setTimeout(() => {
+        this.chartData = JSON.parse(JSON.stringify(res));
+      }, 500)
+    }
+
   },
   onReady() {
-    this.getServerData();
+    this.queryData()
   },
 };
 </script>
@@ -195,6 +231,7 @@ export default {
     }
     .li {
       display: flex;
+      align-items: center;
       .jsc-icon {
         width: 40rpx;
         height: 40rpx;

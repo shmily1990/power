@@ -8,15 +8,15 @@
         <div class="user-info">
           <text class="left">02</text>
           <view class="mid">
-            <text class="mid-name">电脑管家001</text>
+            <text class="mid-name">{{ user.userName }}</text>
             <view class="mid-bottom">
               <text class="status">参与</text>
-              <text class="value">85 kw</text>
+              <text class="value">{{ user.load }} kw</text>
             </view>
           </view>
           <view class="right">
             <text class="title">响应时间</text>
-            <text class="time">2022-10-02 15:30</text>
+            <text class="time">{{ userDetail.responseTime || '-' }}</text>
           </view>
         </div>
         <view class="device-info">
@@ -26,45 +26,30 @@
             <text>响应容量</text>
           </view>
           <view class="device-info-list">
-            <view class="device-item">
-              <text class="order border">01</text>
-              <text class="name border">1层公共照明</text>
+            <view class="device-item" v-for="(item, index) in deviceList" :key="index">
+              <text class="order border">{{ index + 1}}</text>
+              <text class="name border">{{ item.deviceName }}</text>
               <view class="capacity">
-                <text class="value border">12</text>
+                <text class="value border">{{ item.volume }}</text>
                 <text class="unit">kw</text>
               </view>
             </view>
-            <view class="device-item">
-              <text class="order border">01</text>
-              <text class="name border">1层公共照明</text>
-              <view class="capacity">
-                <text class="value border">12</text>
-                <text class="unit">kw</text>
-              </view>
-            </view>
-            <view class="device-item">
-              <text class="order border">01</text>
-              <text class="name border">1层公共照明</text>
-              <view class="capacity">
-                <text class="value border">12</text>
-                <text class="unit">kw</text>
-              </view>
-            </view>
+            
           </view>
         </view>
         <u-divider class="my-divider"></u-divider>
         <view class="sum"
-          >共计响应<text class="count">50</text
+          >共计响应<text class="count">{{ userDetail.volumeTotal }}</text
           ><text class="unit">kw</text></view
         >
         <view class="user-form-info">
           <view class="label-value">
             <text class="title">联系人</text>
-            <text class="value">唐先锋</text>
+            <text class="value">{{ userDetail.contact }}</text>
           </view>
           <view class="label-value">
             <text class="title">联系方式</text>
-            <text class="value">15261562803</text>
+            <text class="value">{{ userDetail.phone }}</text>
           </view>
         </view>
       </view>
@@ -81,57 +66,42 @@
 <script>
 import List from "@/components/list";
 import { uniScrollTop } from "@/utils/common.js";
+import { getUserDetail } from "@/api/invite/index.js";
 export default {
   options: {
     styleIsolation: "shared",
   },
   data() {
     return {
-      radiolist: [
-        {
-          name: "全部",
-          disabled: false,
-        },
-        {
-          name: "参与",
-          disabled: false,
-        },
-        {
-          name: "不参与",
-          disabled: false,
-        },
-        {
-          name: "未响应",
-          disabled: false,
-        },
-      ],
-      data: [
-        {
-          name: "正在邀约",
-          value: 230,
-          unit: "条",
-          icon: "icon-iconJSC_1_2",
-        },
-        {
-          name: "当年完成",
-          value: 319,
-          unit: "条",
-          icon: "icon-iconJSC_2_2",
-        },
-        {
-          name: "总完成",
-          value: 821,
-          unit: "条",
-          icon: "icon-iconJSC_2_2",
-        },
-      ],
+      userDetail: {},
+      deviceList: []
     };
+  },
+  props: {
+    user: {
+      type: Object,
+      default: {}
+    }
   },
   components: {
     List,
   },
   onLoad() {},
+  onReady() {
+    this.getUserInfo()
+  },
   methods: {
+    // 查看用户详情
+    async getUserInfo() {
+      const { resultCode, resultData } = await getUserDetail({
+        userId: this.user.userId,
+        state: this.user.responseId
+      })
+      if (!resultCode) {
+        this.userDetail = resultData
+        this.deviceList = resultData.device
+      }
+    },
     goBack() {
       this.$emit("changeCurrentPage");
       uniScrollTop();
@@ -156,7 +126,6 @@ export default {
       border-radius: 16rpx;
       padding: 20rpx;
       display: flex;
-      justify-content: space-between;
       margin-top: 22rpx;
       .left {
         display: block;
@@ -208,6 +177,7 @@ export default {
         }
         .time {
           color: #00c8ff;
+          padding-top: 30rpx;
         }
       }
     }
@@ -309,6 +279,7 @@ export default {
         font-size: 32rpx;
         padding-left: 20rpx;
         margin-top: 7rpx;
+        color: rgba(0,179,255,0.5);
       }
       .img-back {
         width: 60rpx;

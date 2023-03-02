@@ -18,8 +18,8 @@
 			"style": {
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": "驾驶舱",
-				"navigationBarBackgroundColor": "#00B0F0"
-				// "disableScroll": true
+				"navigationBarBackgroundColor": "#00B0F0",
+				"disableScroll": true
 			}
 		},
 		{
@@ -28,6 +28,7 @@
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": "配置管理",
 				"navigationBarBackgroundColor": "#00B0F0"
+				// "disableScroll": true
 			}
 		},
 		{
@@ -35,7 +36,8 @@
 			"style": {
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": "快速邀约",
-				"navigationBarBackgroundColor": "#00B0F0"
+				"navigationBarBackgroundColor": "#00B0F0",
+				"disableScroll": true
 			}
 		}
 		// {
