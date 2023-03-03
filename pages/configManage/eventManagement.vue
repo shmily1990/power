@@ -131,7 +131,21 @@ export default {
       }
       const { resultCode, resultData } = await queryEventByStatusWithPage(params)
       if (!resultCode) {
-        this.waitExcuteData = resultData
+        this.waitExcuteData = [], // 待执行1
+        this.excutingData = [], // 执行中2
+        this.historyData = [], // 历史3、4
+        resultData.forEach(event => {
+          switch(event.status) {
+            case 1:
+              this.waitExcuteData.push(event)
+              break
+            case 2:
+              this.excutingData.push(event)
+              break
+            default:
+              this.historyData.push(event)
+          }
+        })
       }
     },
     // 点击列表传参数操作

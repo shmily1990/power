@@ -55,7 +55,6 @@
                 suffixIconStyle="color: #909399;font-size: 12px;"
               />
             </picker>
-            <u-input v-model="baseInfoForm.form.eventType" disabled />
           </u-form-item>
           <u-form-item label="发布时间">
             <datapicker :timeValue.sync="baseInfoForm.form.releaseDate"  class="form-item-time" :disabled="!baseInfoForm.editStatus" />
@@ -65,7 +64,7 @@
     </List>
     <List titleTxt="调控指标" fontClass="icon-iconKSYY_SJXQ_2-0-title">
       <template slot="optBtn">
-        <button class="mini-btn" type="default" size="mini" @click="editTarget">{{ targetForm.editStatus ? '编辑' : '保存' }}</button>
+        <button class="mini-btn" type="default" size="mini" @click="editTarget">{{ targetForm.editStatus ? '保存' : '编辑' }}</button>
       </template>
 
       <view class="card-content">
@@ -78,7 +77,7 @@
     </List>
     <List titleTxt="执行时间" fontClass="icon-iconKSYY_SJXQ_3-0-title">
       <template slot="optBtn">
-        <button class="mini-btn" type="default" size="mini" @click="editExecutionTime">{{ executionTime.editStatus ? '编辑' : '保存' }}</button>
+        <button class="mini-btn" type="default" size="mini" @click="editExecutionTime">{{ executionTime.editStatus ? '保存' : '编辑' }}</button>
       </template>
       <view class="card-content form-box">
         <u-form :model="executionTime.form" ref="uForm" :label-style="style">
@@ -95,7 +94,7 @@
     </List>
     <List titleTxt="事件描述" fontClass="icon-iconKSYY_SJXQ_4-0-title">
       <template slot="optBtn">
-        <button class="mini-btn" type="default" size="mini" @click="editEventDes">{{ eventDesForm.editStatus ? '编辑' : '保存' }}</button>
+        <button class="mini-btn" type="default" size="mini" @click="editEventDes">{{ eventDesForm.editStatus ? '保存' : '编辑' }}</button>
       </template>
       <view class="card-content">
         <view class="uni-form-item flex">
@@ -298,7 +297,22 @@ export default {
   methods: {
     // 更新接口
     async update() {
-      const params = {}
+      const { form: { eventName }} = this.eventNameForm
+      const { form: { releaseDate, eventType, eventSource }} = this.baseInfoForm
+      const { form: { target} } = this.targetForm
+      const { form: { startDate, lastDate }} = this.executionTime
+      const { form: { desc }} = this.eventDesForm
+      const params = {
+        eventID: this.eventInfo.eventID,
+        eventName,
+        releaseDate,
+        eventType: 30,
+        eventSource,
+        target,
+        startDate,
+        lastDate,
+        desc
+      }
       const { resultCode } = await updateEvent(params)
     },
     // 编辑事件名称

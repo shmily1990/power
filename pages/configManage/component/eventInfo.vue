@@ -14,7 +14,7 @@
               <view class="drop-icon">
                 <u-icon
                   :name="
-                    item.order === selectOrder
+                    item.eventID === selectEventID
                       ? 'arrow-down-fill'
                       : 'play-right-fill'
                   "
@@ -30,7 +30,7 @@
                   <text class="count">{{ item.eventName }}</text>
                 </view>
               </view>
-              <template v-if="selectOrder === item.order">
+              <template v-if="selectEventID === item.eventID">
                 <view class="label-value">
                   <text class="title">调控指标</text>
                   <view class="value">
@@ -76,7 +76,7 @@ export default {
   },
   data() {
     return {
-      selectOrder: "",
+      selectEventID: "",
     };
   },
   components: {
@@ -104,7 +104,7 @@ export default {
       this.$emit("eventSelect", item);
     },
     handleSelect(item) {
-      this.selectOrder = item.order === this.selectOrder ? "" : item.order;
+      this.selectEventID = item.eventID === this.selectEventID ? "" : item.eventID;
     },
     getEventList() {
       // this.eventList = [
