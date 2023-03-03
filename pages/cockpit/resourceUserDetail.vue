@@ -42,6 +42,10 @@
             <text class="label">用户户号</text>
             <text class="value">{{ userInfo.userNo }}</text>
           </view>
+          <view class="label-value">
+            <text class="label">所属区域</text>
+            <text class="value">{{ userInfo.regionName }}</text>
+          </view>
         </view>
       </view>
     </card>
@@ -203,24 +207,7 @@ export default {
             title: "快速响应",
             type: 10,
             sum: type10.reduce((pre, cur) => pre + cur.volume, 0),
-            list: [{
-              deviceName: 'asdf'
-            },
-            {
-              deviceName: 'asdf'
-            },
-            {
-              deviceName: 'asdf'
-            },
-            {
-              deviceName: 'asdf'
-            },
-            {
-              deviceName: 'asdf'
-            },
-            {
-              deviceName: 'asdf'
-            }],
+            list: type10,
             icon: "icon-iconDR_quick_active",
           },
           {

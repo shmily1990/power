@@ -61,7 +61,11 @@ export default {
     },
   },
   onLoad: function (options) {},
-  onReady() {},
+  onShow() {},
+  onReady() {
+    this.tabIndex = this.$store.state.urlParams
+    if (this.tabIndex) this.$store.commit('setUrlParams', 0) // 还原参数跳转过来的page
+  },
   // 上拉刷新
   // onPullDownRefresh() {},
 

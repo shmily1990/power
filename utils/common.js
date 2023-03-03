@@ -18,5 +18,18 @@ export const uniScrollTop = () => {
   });
 }
 
-
-
+// 事件类型快速响应 = 10,日内响应 = 20,中长期响应 = 30
+export const eventTypeList = [
+  {
+    name: '快速响应',
+    value: '10'
+  },
+  {
+    name: '日内响应',
+    value: '20'
+  },
+  {
+    name: '中长期响应',
+    value: '30'
+  }
+]

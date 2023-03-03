@@ -94,8 +94,8 @@
           <text class="title">返回</text>
         </view>
         <view class="btns">
-          <text class="btn">放弃邀约</text>
-          <text class="btn">完成邀约</text>
+          <text class="btn" @click="opeartInvite(20)">放弃邀约</text>
+          <text class="btn" @click="opeartInvite(30)">完成邀约</text>
         </view>
       </view>
     </template>
@@ -264,6 +264,20 @@ export default {
       this.currentPage = "user";
       uniScrollTop();
     },
+    // 放弃20、完成30
+    async opeartInvite(val) {
+      const { inviteId } = this.inviteInfo
+      const params = {
+        inviteId,
+        state: val
+      }
+      const { resultCode } = await excuteInviteOperation(params)
+      if (!resultCode) {
+        // 返回邀约管理页面
+        this.$emit("update:isShow", false);
+        uniScrollTop();
+      }
+    }
   },
 };
 </script>

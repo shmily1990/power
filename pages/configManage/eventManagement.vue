@@ -6,27 +6,31 @@
         placeholder="搜索"
         v-model="searchText"
         :showAction="false"
+        @search="queryData"
       ></u-search>
       <eventInfo
         name="待执行"
         fontClass="icon-iconPZGL_YYGL_3-0-title"
         @eventSelect="handleSelect"
+        :eventList="waitExcuteData"
       />
       <eventInfo
         name="执行中"
         fontClass="icon-iconPZGL_SJGL_3-0-title"
         @eventSelect="handleSelect"
+        :eventList="excutingData"
       />
       <eventInfo
         name="历史事件"
         fontClass="icon-iconPZGL_SJGL_4-0-title"
         @eventSelect="handleSelect"
+        :eventList="historyData"
       />
       <view class="bottom">
         <text @click="add" class="btn">新建事件</text>
       </view>
     </template>
-    <eventDetail v-if="modalTitle == 'detail'" @onback="modalTitle = ''" />
+    <eventDetail v-if="modalTitle == 'detail'" @onback="modalTitle = ''" :eventInfo="eventInfo" />
     <addEvent v-if="modalTitle == 'add'" @onback="modalTitle = ''"></addEvent>
   </view>
 </template>
@@ -36,6 +40,7 @@ import overview from "@/components/overview";
 import eventInfo from "./component/eventInfo.vue";
 import eventDetail from "./eventDetail.vue";
 import addEvent from "./addEvent.vue";
+import { queryEventTotal, queryEventByStatusWithPage } from "@/api/event/index.js";
 import { uniScrollTop } from "@/utils/common.js";
 
 export default {
@@ -47,28 +52,30 @@ export default {
       data: [
         {
           name: "待执行",
-          value: 230,
+          value: 0,
           unit: "条",
           icon: "icon-iconPZGL_SJGL_1-1",
         },
         {
           name: "执行中",
-          value: 319,
+          value: 0,
           unit: "条",
           icon: "icon-iconPZGL_SJGL_1-2",
         },
         {
           name: "当年完成",
-          value: 821,
+          value: 0,
           unit: "条",
           icon: "icon-iconPZGL_SJGL_1-3",
         },
       ],
       searchText: "",
-      eventList: [],
-      exculed: "",
       showEventDetail: false, //默认不显示祥情，点击列表时才显示祥情
       modalTitle: "",
+      waitExcuteData: [],
+      excutingData: [],
+      historyData: [],
+      eventInfo: {}
     };
   },
   components: {
@@ -77,56 +84,59 @@ export default {
     eventDetail,
     addEvent,
   },
-  onLoad() {
-    this.getEventList();
-  },
   onReady() {
-    this.getEventList();
+    // 查询概览
+    this.queryOverview()
+    // 查询列表
+    this.queryData()
+
   },
   mounted() {
     // console.log("4449999");
   },
   methods: {
-    getEventList() {
-      this.eventList = [
-        {
-          order: "W01",
-          name: "event7789",
-          quota: 2000,
-          startTime: "2022-10-02 13:00:00",
-          cxsj: 60,
-          des: "22年这是放的描述",
-        },
-        {
-          order: "W02",
-          name: "event7789",
-          quota: 2000,
-          startTime: "2022-10-02 13:00:00",
-          cxsj: 60,
-          des: "22年这是放的描述",
-        },
-        {
-          order: "W03",
-          name: "event7789",
-          quota: 2000,
-          startTime: "2022-10-02 13:00:00",
-          cxsj: 60,
-          des: "22年这是放的描述",
-        },
-        {
-          order: "W04",
-          name: "event7789",
-          quota: 2000,
-          startTime: "2022-10-02 13:00:00",
-          cxsj: 60,
-          des: "22年这是放的描述",
-        },
-      ];
-      console.log(777);
+    async queryOverview() {
+      const { resultCode, resultData } = await queryEventTotal()
+      if (!resultCode) {
+        const { waitExcuteTotal, excutingTotal, yearExcutedTotal } = resultData
+        this.data = [
+          {
+            name: "待执行",
+            value: waitExcuteTotal,
+            unit: "条",
+            icon: "icon-iconPZGL_SJGL_1-1",
+          },
+          {
+            name: "执行中",
+            value: excutingTotal,
+            unit: "条",
+            icon: "icon-iconPZGL_SJGL_1-2",
+          },
+          {
+            name: "当年完成",
+            value: yearExcutedTotal,
+            unit: "条",
+            icon: "icon-iconPZGL_SJGL_1-3",
+          },
+        ]
+      }
+    },
+    // 查询列表
+    async queryData() {
+      const params = {
+        eventName: this.searchText,
+        maxEventId: 0,
+        eventStatus: 1,
+        pageCount: 999
+      }
+      const { resultCode, resultData } = await queryEventByStatusWithPage(params)
+      if (!resultCode) {
+        this.waitExcuteData = resultData
+      }
     },
     // 点击列表传参数操作
     handleSelect(val) {
-      console.log("1111", val);
+      this.eventInfo = val
       this.modalTitle = "detail";
       uniScrollTop();
     },

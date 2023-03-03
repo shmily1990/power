@@ -6,11 +6,11 @@
           <view
             class="event-list-item"
             v-for="(item, index) in eventList"
-            :key="index"
+            :key="item.eventID"
             @click="handleSelectEvent(item)"
           >
             <view class="left" @click.stop="handleSelect(item)">
-              <text class="order">{{ item.order }}</text>
+              <text class="order">{{ (index + 1) < 10 ? 'W0' + (index + 1) : 'W' + (index + 1) }}</text>
               <view class="drop-icon">
                 <u-icon
                   :name="
@@ -27,28 +27,28 @@
               <view class="label-value">
                 <text class="title">事件名称</text>
                 <view class="value">
-                  <text class="count">{{ item.name }}</text>
+                  <text class="count">{{ item.eventName }}</text>
                 </view>
               </view>
               <template v-if="selectOrder === item.order">
                 <view class="label-value">
                   <text class="title">调控指标</text>
                   <view class="value">
-                    <text class="count">{{ item.quota }}</text>
+                    <text class="count">{{ item.target }}</text>
                     <text class="unit">kw</text>
                   </view>
                 </view>
                 <view class="label-value">
                   <text class="title">开始时间</text>
                   <view class="value">
-                    <text class="count">{{ item.startTime }}</text>
+                    <text class="count">{{ item.startDate }}</text>
                   </view>
                 </view>
                 <view class="label-value">
                   <text class="title">持续时间</text>
                   <view class="value">
                     <text class="count" style="width: 160rpx">{{
-                      item.cxsj
+                      item.lastDate
                     }}</text>
                     <text class="unit">分钟</text>
                   </view>
@@ -56,7 +56,7 @@
                 <view class="label-value event-des">
                   <text class="title">事件描述</text>
                   <view class="value">
-                    <text class="count">{{ item.des }}</text>
+                    <text class="count">{{ item.desc }}</text>
                   </view>
                 </view>
               </template>
@@ -76,7 +76,6 @@ export default {
   },
   data() {
     return {
-      eventList: [],
       selectOrder: "",
     };
   },
@@ -92,54 +91,57 @@ export default {
       type: String,
       default: "",
     },
+    eventList: {
+      type: Array,
+      default: [],
+    }
   },
   onReady() {
-    this.getEventList();
+    // this.getEventList();
   },
   methods: {
     handleSelectEvent(item) {
-      console.log(item);
       this.$emit("eventSelect", item);
     },
     handleSelect(item) {
       this.selectOrder = item.order === this.selectOrder ? "" : item.order;
     },
     getEventList() {
-      this.eventList = [
-        {
-          order: "W01",
-          name: "event7789",
-          quota: 2000,
-          startTime: "2022-10-02 13:00:00",
-          cxsj: 60,
-          des: "22年这是放的描述",
-        },
-        {
-          order: "W02",
-          name: "event7789",
-          quota: 2000,
-          startTime: "2022-10-02 13:00:00",
-          cxsj: 60,
-          des: "22年这是放的描述",
-        },
-        {
-          order: "W03",
-          name: "event7789",
-          quota: 2000,
-          startTime: "2022-10-02 13:00:00",
-          cxsj: 60,
-          des: "22年这是放的描述",
-        },
-        {
-          order: "W04",
-          name: "event7789",
-          quota: 2000,
-          startTime: "2022-10-02 13:00:00",
-          cxsj: 60,
-          des: "22年这是放的描述",
-        },
-      ];
-      console.log(777);
+      // this.eventList = [
+      //   {
+      //     order: "W01",
+      //     name: "event7789",
+      //     quota: 2000,
+      //     startTime: "2022-10-02 13:00:00",
+      //     cxsj: 60,
+      //     des: "22年这是放的描述",
+      //   },
+      //   {
+      //     order: "W02",
+      //     name: "event7789",
+      //     quota: 2000,
+      //     startTime: "2022-10-02 13:00:00",
+      //     cxsj: 60,
+      //     des: "22年这是放的描述",
+      //   },
+      //   {
+      //     order: "W03",
+      //     name: "event7789",
+      //     quota: 2000,
+      //     startTime: "2022-10-02 13:00:00",
+      //     cxsj: 60,
+      //     des: "22年这是放的描述",
+      //   },
+      //   {
+      //     order: "W04",
+      //     name: "event7789",
+      //     quota: 2000,
+      //     startTime: "2022-10-02 13:00:00",
+      //     cxsj: 60,
+      //     des: "22年这是放的描述",
+      //   },
+      // ];
+      // console.log(777);
     },
   },
 };

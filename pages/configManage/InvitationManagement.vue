@@ -20,7 +20,7 @@
         :eventList="historyInviteList"
       />
       <view class="bottom">
-        <text class="btn">新建邀约</text>
+        <text class="btn" @click="gotoInvitateManagePage">新建邀约</text>
       </view>
     </template>
     <inviteDetail :isShow.sync="showEventDetail" :inviteInfo="currentInviteInfo" v-else />
@@ -129,6 +129,17 @@ export default {
       this.showEventDetail = true;
       uniScrollTop();
     },
+    // 跳转到邀约管理页面
+    gotoInvitateManagePage() {
+      this.$store.commit('setUrlParams', 1)
+      uni.switchTab({
+        url: '/pages/invite/index',
+        // success: () => {
+        //   this.$store.commit('setUrlParams', 0)
+        // }
+      }
+      )
+    }
   },
 };
 </script>

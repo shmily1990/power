@@ -10,7 +10,7 @@
             @click="handleSelectEvent(item)"
           >
             <view class="left" @click.stop="handleSelect(item)">
-              <text class="order">{{ (index + 1) < 10 ? 'N0' + (index + 1) : (index + 1) }}</text>
+              <text class="order">{{ (index + 1) < 10 ? 'N0' + (index + 1) : 'N' + (index + 1) }}</text>
               <view class="drop-icon">
                 <u-icon
                   :name="
