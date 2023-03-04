@@ -16,3 +16,7 @@ export function queryEventByID(data) { // 根据id查询事件详情
 export function updateEvent(data) { // 更新
   return http.post('/api/keeper/EventManage/UpdateEvent', data)
 }
+
+export function addEvent(data) { // 新增
+  return http.post('/api/keeper/EventManage/AddEvent', data)
+}

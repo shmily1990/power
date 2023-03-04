@@ -2,7 +2,7 @@
   <view class="user-response-detail">
     <view class="top">
       <text class="title">用户详情</text>
-      <text class="user-name">电管家{{ form.userName }}</text>
+      <text class="user-name">电管家{{ form.userName || '' }}</text>
     </view>
     <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title">
       <template slot="optBtn">
@@ -75,9 +75,9 @@
           class="mini-btn"
           type="default"
           size="mini"
-          @click="handleEditBaseInfo"
+          @click="handleEditResponse"
         >
-          {{ editBaseInfoStatus ? "编辑" : "保存" }}
+          {{ editResponseStatus ? "编辑" : "保存" }}
         </button>
       </template>
       <view class="card-content">
@@ -89,13 +89,14 @@
             @click="currentTab = index"
           >
             <view class="icon-t"
-              ><text :class="['iconfont', item.icon]"></text
+              ><text :class="['iconfont', item.icon]" :style="{ color: index === currentTab ? '#0DFF9A' : 'rgba(0,200,255,0.4)'}"></text
               ><text class="txt">{{ item.title }}</text></view
             >
             <text
               class="value"
               :style="{
-                background: index === currentTab ? '#008eb580' : '#008eb526',
+                background: index === currentTab ? '#008eb580' : '#008eb526', color: index === currentTab ? '#0DFF9A' : 'rgba(0,200,255,0.4)'
+
               }"
               >{{ item.sum }}</text
             >
@@ -132,11 +133,21 @@
             <view
               class="device-item"
               v-for="(item, index) in tabs[currentTab].list"
-              :key="index"
+              :key="item.deviceId + index"
             >
               <text class="order border">{{ index + 1 }}</text>
-              <picker @change="bindPickerChange" :value="index" :range="array">
-                <view class="uni-input name border">{{ item.deviceName }}</view>
+              <picker
+                @change="bindPickerChange(e, index)"
+                :value="item.deviceTypeIndex || 0"
+                :range="deviceTypeList"
+                range-key="deviceName"
+              >
+                <u-input
+                  :value="item.deviceName"
+                  disabled
+                  suffixIcon="arrow-down-fill"
+                  suffixIconStyle="color: #909399;font-size: 12px;"
+                />
               </picker>
               <!-- <text class="name border">{{ item.name }}</text> -->
               <view class="capacity">
@@ -154,7 +165,7 @@
                     color="#FAD800"
                     size="24"
                     @click="reduce(index)"
-                    v-if="deviceList.length > 1"
+                    v-if="tabs[currentTab].list.length > 1"
                   ></u-icon>
                 </view>
               </view>
@@ -224,7 +235,7 @@
 </template>
 <script>
 import List from "@/components/list.vue";
-import { getUserInfo, getTypeList, getRegionList } from "@/api/user/index.js";
+import { getUserInfo, getTypeList, getRegionList, getUserDevice } from "@/api/user/index.js";
 import { uniScrollTop } from "@/utils/common.js";
 export default {
   options: {
@@ -240,6 +251,7 @@ export default {
       regionIndex: 0, // 所属区域index
       editBaseInfoStatus: true,
       editPolicyStatus: true,
+      editResponseStatus: true,
       currentTab: 0,
       form: {},
       style: {
@@ -299,12 +311,15 @@ export default {
           icon: "icon-iconDR_long_active",
         },
       ],
+      deviceTypeList: [], // 设备类型
+      deviceTypeIndex: 0
     };
   },
   onReady() {
     this.getTypeList();
     this.getRegionList();
     this.queryUserDetail();
+    this.queryDeviceList()
   },
   computed: {
     currentUserTypeName() {
@@ -319,6 +334,11 @@ export default {
     },
   },
   methods: {
+    // 获取用户设备列表
+    async queryDeviceList() {
+      const { resultCode, resultData } = getUserDevice({ userId: this.userId })
+      if (!resultCode) this.deviceTypeList =resultData
+    },
     // 获取用户类型列表
     async getTypeList() {
       const { resultCode, resultData } = await getTypeList({});
@@ -326,7 +346,7 @@ export default {
         this.typeList = resultData;
       }
     },
-    // 获取用户类型列表
+    // 获取用户区域列表
     async getRegionList() {
       const { resultCode, resultData } = await getRegionList({});
       // this.regionList = resultData;
@@ -428,25 +448,34 @@ export default {
     handleEditPolicy() {
       this.editPolicyStatus = !this.editPolicyStatus;
     },
-    bindPickerChange: function (e) {
-      console.log("picker发送选择改变，携带值为", e.detail.value);
-      this.index = e.detail.value;
+    bindPickerChange: function (e, index) {
+      const current = e.detail.value
+      this.tabs[this.currentTab].list[index].deviceTypeIndex = current
+      this.tabs[this.currentTab].list[index].devieName = this.deviceTypeList[current].deviceName
+      this.tabs[this.currentTab].list[index].deviceId = this.deviceTypeList[current].deviceId
+    },
+    // 编辑响应设备
+    handleEditResponse() {
+      this.editResponseStatus = !this.editResponseStatus;
+      if (this.editResponseStatus) {
+        // 处理保存接口
+      } else {
+        // 这里初始化下拉菜单选择项目
+        if (!this.tabs[this.currentTab].list.length) {
+          this.tabs[this.currentTab].list.push({volume: 0, deviceName: '', deviceTypeIndex: 0, deviceId: null})
+        }
+      }
     },
     cancel() {
       this.$emit("update:currentType", "index");
       uniScrollTop();
     },
-    save() {
-      console.log(this.strategyList);
-      console.log(this.form);
-      // this.$emit("update:currentType", "index");
-      // uniScrollTop();
-    },
+    save() {},
     add(currentIndex) {
-      this.deviceList.splice(currentIndex, 0, { name: "" });
+      this.tabs[this.currentTab].list.splice(currentIndex, 0, { deviceName: "", deviceId: '', deviceTypeIndex: 0 });
     },
     reduce(currentIndex) {
-      this.deviceList.splice(currentIndex, 1);
+      this.tabs[this.currentTab].list.splice(currentIndex, 1);
     },
     sexSelect(e) {
       this.model1.userInfo.sex = e.name;
@@ -486,20 +515,21 @@ export default {
       font-family: MicrosoftYaHei;
       color: rgba(0, 148, 179, 0.5);
 
-      .user-name {
+      
+    }
+    .user-name {
         font-size: 28rpx;
         font-family: MicrosoftYaHei;
         color: #00c8ff;
       }
-    }
   }
-  .device-info ::v-deep .u-border {
-    border-color: #e6f1ff33 !important;
-    padding: 1rpx 9rpx !important;
-    width: 50rpx;
-    // margin-left: 70rpx;
-    background: none !important;
-  }
+  // .device-info ::v-deep .u-border {
+  //   border-color: #e6f1ff33 !important;
+  //   padding: 1rpx 9rpx !important;
+  //   width: 50rpx;
+  //   // margin-left: 70rpx;
+  //   background: none !important;
+  // }
   // .base-info {
   //   height: 500rpx;
   //   overview: auto;
@@ -536,7 +566,7 @@ export default {
       margin-top: 10rpx;
       .icon-t {
         font-size: 24rpx;
-
+        // color: rgba(0,200,255,0.4);
         .iconfont {
           font-size: 30rpx;
           margin-right: 10rpx;
@@ -548,6 +578,7 @@ export default {
       .value {
         height: 40rpx;
         background: rgba(0, 142, 181, 0.2);
+        // color: rgba(0,200,255,0.4);
         border-radius: 8rpx;
         display: block;
         font-size: 28rpx;
@@ -701,4 +732,14 @@ export default {
     }
   }
 }
+.device-item ::v-deep .u-border {
+    border-color: #e6f1ff33 !important;
+    padding: 2rpx 9rpx !important;
+    width: 200rpx;
+    margin-left: 30rpx;
+    background: none !important;
+  }
+.device-item ::v-deep input {
+    color: #00c8ff !important;
+  }
 </style>

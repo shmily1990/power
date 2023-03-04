@@ -23,3 +23,7 @@ export function getTypeList(data) { // 获取用户类型信息
 export function getRegionList(data) { // 获取区域信息
   return http.post('/api/keeper/userManage/regionList', data)
 }
+
+export function getUserDevice(data) { // 获取设备列表
+  return http.post('/api/keeper/userManage/userDevice', data)
+}

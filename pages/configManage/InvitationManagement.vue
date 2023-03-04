@@ -131,12 +131,8 @@ export default {
     },
     // 跳转到邀约管理页面
     gotoInvitateManagePage() {
-      this.$store.commit('setUrlParams', 1)
       uni.switchTab({
         url: '/pages/invite/index',
-        // success: () => {
-        //   this.$store.commit('setUrlParams', 0)
-        // }
       }
       )
     }

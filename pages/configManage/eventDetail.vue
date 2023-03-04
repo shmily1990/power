@@ -70,7 +70,7 @@
       <view class="card-content">
         <view class="uni-form-item flex">
           <text class="iconfont icon-iconKSYY_SJXQ_2-1"></text>
-          <view class="title number"><u-input v-model="targetForm.editStatus.form.target" :disabled="!targetForm.editStatus" /></view>
+          <view class="title number"><u-input v-model="targetForm.form.target" :disabled="!targetForm.editStatus" class="asddsaasdf" style="background: red" /></view>
           <text class="itemtext">kw</text>
         </view>
       </view>
@@ -627,4 +627,11 @@ export default {
     color: #ffffff80
   }
 }
+::v-deep .u-border {
+    border-color: #e6f1ff33 !important;
+    // padding: 2rpx 9rpx !important;
+    // width: 380rpx;
+    // margin-left: 70rpx;
+    background: none !important;
+  }
 </style>
