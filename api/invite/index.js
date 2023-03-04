@@ -20,3 +20,11 @@ export function getUserDetail(data) { // 用户信息
 export function excuteInviteOperation(data) { // 邀约操作
   return http.post('/api/keeper/InviteManage/inviteOperation', data)
 }
+
+export function getEventInfo(data) { // 获取事件列表
+  return http.post('/api/keeper/InviteManage/eventInfo', data)
+}
+
+export function getUserInfo(data) { // 获取事件列表
+  return http.post('/api/keeper/InviteManage/userInfo', data)
+}

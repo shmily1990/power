@@ -23,7 +23,8 @@ const store = createStore({
 			activeOpen: '',
 			menu: [],
 			univerifyErrorMsg: '',
-			urlParams: 0
+			urlParams: 0,
+			eventID: null
 		},
 		mutations: {
 			login(state, provider) {
@@ -70,11 +71,17 @@ const store = createStore({
 			},
 			setUrlParams(state, value) {
 				state.urlParams = value
+			},
+			setEventID(state, value) {
+				state.eventID = value
 			}
 		},
 		getters: {
 			currentColor(state) {
 				return state.colorList[state.colorIndex]
+			},
+			eventID(state) {
+				return state.eventID
 			}
 		},
 		actions: {

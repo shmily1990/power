@@ -11,22 +11,22 @@
         <view class="uni-form-item flex">
           <text class="iconfont icon-iconKSYY_YYGL_1-1 control curr-img"></text>
           <text class="itemtext title">调控目标</text>
-          <view class="title number">2000</view>
+          <view class="title number">{{targetObj.target}}</view>
           <text class="itemtext">kw</text>
         </view>
         <view class="uni-form-item flex">
           <view class="title">事件类型</view>
-          <input class="uni-input" />
+          <input class="uni-input" disabled v-model="targetObj.eventType" />
         </view>
         <view class="uni-form-item flex">
           <view class="title">开始时间</view>
           <view class="uni-list-cell-db">
-            <datapicker :timeValue.sync="value" />
+            <datapicker :timeValue.sync="targetObj.startDate" disabled />
           </view>
         </view>
         <view class="uni-form-item flex">
           <view class="title">持续时长</view>
-          <input class="uni-input account" />
+          <input class="uni-input account" disabled v-model="targetObj.lastDate" />
           <text class="itemtext">分钟</text>
         </view>
       </view>
@@ -37,13 +37,13 @@
           <text class="iconfont icon-iconKSYY_YYGL_2-0-title"></text>
           <text class="itemtext">邀约截止日期</text>
         </view>
-        <button class="mini-btn" type="default" size="mini">编辑</button>
+        <!-- <button class="mini-btn" type="default" size="mini">编辑</button> -->
       </view>
       <view class="card-content">
         <view class="uni-form-item flex">
           <view class="title">申报截止</view>
           <view class="uni-list-cell-db">
-            <datapicker :timeValue.sync="value1" />
+            <datapicker :timeValue.sync="targetObj.declareTime" />
           </view>
         </view>
         <view class="uni-form-item flex">
@@ -60,12 +60,12 @@
           <text class="iconfont icon-iconKSYY_YYGL_2-0-title"></text>
           <text class="itemtext">参与用户补贴</text>
         </view>
-        <button class="mini-btn" type="default" size="mini">编辑</button>
+        <!-- <button class="mini-btn" type="default" size="mini">编辑</button> -->
       </view>
       <view class="card-content">
         <view class="uni-form-item flex">
           <view class="title">补贴额度</view>
-          <input class="uni-input account" />
+          <input class="uni-input account" v-model="targetObj.subsidy" />
           <text class="itemtext">元/千瓦时</text>
         </view>
         <!-- <view class="uni-form-item flex">
@@ -79,112 +79,74 @@
           <view class="uni-list-cell-db">
             <datapicker :timeValue.sync="value2" />
           </view>
-        </view> -->
+        </view>-->
       </view>
     </view>
     <view class="card card3">
       <view class="card-title">
-               
         <view class="titleleft">
-                   
-          <text class="iconfont icon-iconKSYY_YYGL_3-0-title"></text>          
-          <text class="itemtext">邀约用户选择</text>        
+          <text class="iconfont icon-iconKSYY_YYGL_3-0-title"></text>
+          <text class="itemtext">邀约用户选择</text>
         </view>
       </view>
       <view class="card-content">
-         
-        <view class="uni-form-item flex header"
-          >   
-          <view class="user flex"
-            >     
-            <text class="iconfont icon-iconKSYY_YYGL_3-1 curr-img"></text>      
+        <view class="uni-form-item flex header">
+          <view class="user flex">
+            <text class="iconfont icon-iconKSYY_YYGL_3-1 curr-img"></text>
             <view class="uni-form-item">
-                 <text class="itemtext title">可参与用户</text>      
-              <view class="title"><text class="count">20</text>家</view>        
+              <text class="itemtext title">可参与用户</text>
+              <view class="title">
+                <text class="count">{{userMsg.userTotal}}</text>家
+              </view>
             </view>
           </view>
           <view class="user flex">
-            <text class="iconfont icon-iconKSYY_YYGL_3-2 curr-img"></text>      
+            <text class="iconfont icon-iconKSYY_YYGL_3-2 curr-img"></text>
             <view class="uni-form-item">
-              <text class="itemtext title">总日内响应</text>      
-              <view class="title"><text class="numcount">433</text>kw</view>    
+              <text class="itemtext title">总日内响应</text>
+              <view class="title">
+                <text class="numcount">{{userMsg.responseTotal}}</text>kw
+              </view>
             </view>
           </view>
         </view>
         <view class="check-title flex between">
-                    <view class="title" style="color: #008eb526;"> 筛选 </view>          
+          <view class="title" style="color: #008eb526;">筛选</view>
           <view class="check-choose">
             <checkbox-group @change="checkboxChange">
               <label class="flex">
-                <checkbox value="cb" class="round" :checked="checkValue" />    
-                <view class="title c-title choose-title">
-                      {{ chooseText }}                
-                </view>
+                <checkbox value="cb" class="round" :checked="checkValue" />
+                <view class="title c-title choose-title">{{ chooseText }}</view>
               </label>
             </checkbox-group>
           </view>
         </view>
         <scroll-view scroll-y="true" class="scroll-Y">
-          <view
-            class="check-title check-list"
-            v-for="group in groups"
-            :key="group.id"
-          >
+          <view class="check-title check-list" v-for="group in groups" :key="group.id">
             <view class="title flex check-arrow">
-               
-              <view
-                class="arrow"
-                @click="expandArrow(group)"
-                :class="{ collapse: !group.expand }"
-              ></view>
-              <checkbox-group @change="checkboxChangeHeader($event, group)"
-                >     
-                <label class="flex"
-                  >     
-                  <checkbox
-                    class="round"
-                    :value="group.id"
-                    :checked="group.checked"
-                    :class="{ partChoose: group.partChoose }"
-                  />
-                  <view class="title c-title"> {{ group.title }} </view>      </label
-                >  </checkbox-group
-              > 
+              <view class="arrow" @click="expandArrow(group)" :class="{ collapse: !group.expand }"></view>
+              <checkbox-group @change="checkboxChangeHeader($event, group)">
+                <label class="flex">
+                  <checkbox class="round" :value="group.id" :checked="group.checked" :class="{ partChoose: group.partChoose }" />
+                  <view class="title c-title">{{ group.title }}</view>
+                </label>
+              </checkbox-group>
             </view>
-            <view class="check-choose" v-show="group.expand"
-              > 
+            <view class="check-choose" v-show="group.expand">
               <view class="scroll-view">
-                 
-                <checkbox-group @change="checkboxChangeList($event, group)"
-                  >       
-                  <view
-                    class="title flex between"
-                    v-for="(item, index) in group.children"
-                    :key="index"
-                  >
+                <checkbox-group @change="checkboxChangeList($event, group)">
+                  <view class="title flex between" v-for="(item, index) in group.children" :key="index">
                     <label class="flex">
-                                 
-                      <checkbox
-                        class="round"
-                        :value="item.id"
-                        :checked="item.checked"
-                      />
-                         
-                      <view class="title c-title">
-                        {{ item.title + index }}
-                      </view>
-                       
+                      <checkbox class="round" :value="item.userId" :checked="item.checked" />
+                      <view class="title c-title">{{ item.userName }}</view>
                     </label>
-                       
                     <view class="column">
-                      <text class="title">{{ item.count }}</text
-                      >kw </view
-                    >     
-                  </view> </checkbox-group
-                >    </view
-              >   
+                      <text class="title">{{ item.load }}</text>kw
+                    </view>
+                  </view>
+                </checkbox-group>
+              </view>
             </view>
-             
           </view>
         </scroll-view>
       </view>
@@ -194,7 +156,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import datapicker from "@/components/datePicker";
+import { queryEventByID } from "@/api/event/index.js";
+import { getUserInfo } from "@/api/invite/index.js";
 export default {
   components: {
     datapicker,
@@ -208,90 +173,8 @@ export default {
           checked: false,
           expand: true,
           partChoose: false,
-          title: "电管家集团1",
-          children: [
-            {
-              id: "1-1",
-              checked: false,
-              title: "电管家某某用户",
-              count: 20,
-            },
-            {
-              id: "1-2",
-              checked: false,
-              title: "电管家某某用户",
-              count: 31,
-            },
-            {
-              id: "1-3",
-              checked: false,
-              title: "电管家某某用户",
-              count: 33,
-            },
-            {
-              id: "1-4",
-              checked: false,
-              title: "电管家某某用户",
-              count: 45,
-            },
-            {
-              id: "1-5",
-              checked: false,
-              title: "电管家某某用户",
-              count: 66,
-            },
-            {
-              id: "1-6",
-              checked: false,
-              title: "电管家某某用户",
-              count: 46,
-            },
-          ],
-        },
-        {
-          id: "2",
-          checked: false,
-          expand: true,
-          partChoose: false,
-          title: "电管家集团2",
-          children: [
-            {
-              id: "2-1",
-              checked: false,
-              title: "电管家某某用户",
-              count: 46,
-            },
-            {
-              id: "2-2",
-              checked: false,
-              title: "电管家某某用户",
-              count: 6,
-            },
-            {
-              id: "2-3",
-              checked: false,
-              title: "电管家某某用户",
-              count: 43,
-            },
-            {
-              id: "2-4",
-              checked: false,
-              title: "电管家某某用户",
-              count: 21,
-            },
-            {
-              id: "2-5",
-              checked: false,
-              title: "电管家某某用户",
-              count: 55,
-            },
-            {
-              id: "2-6",
-              checked: false,
-              title: "电管家某某用户",
-              count: 32,
-            },
-          ],
+          title: "电管家集团",
+          children: [],
         },
       ],
       value: "2021-02-03 12:22",
@@ -299,28 +182,85 @@ export default {
       value2: "2023-04-01 10:18",
       checkboxValue: "",
       checkValue: false,
+      targetObj: {
+        eventID: "",
+        target: undefined,
+        eventType: "",
+        startDate: "",
+        lastDate: undefined,
+        declareTime: "",
+        subsidy: undefined,
+      },
+      userMsg: {
+        responseTotal: undefined,
+        userTotal: undefined,
+      },
     };
   },
-  onLoad() {},
+  onReady() {
+    this.queryEventByID(this.eventID);
+  },
   computed: {
+    ...mapGetters(["eventID"]),
     chooseText(val) {
       return this.checkValue ? "全不选" : "全选";
     },
   },
   methods: {
     /**
+     * @description 获取事件详情
+     * @param { number } id - 事件id
+     */
+    async queryEventByID(eventID) {
+      const { resultCode, resultData } = await queryEventByID({ eventID });
+      if (!resultCode) {
+        resultData.startDate = resultData.startDate.slice(0, -3);
+        const { eventID, target, eventType, lastDate } = resultData;
+        this.targetObj = {
+          eventID,
+          target,
+          eventType,
+          startDate: resultData.startDate,
+          lastDate,
+          declareTime: "",
+          subsidy: undefined,
+        };
+        this.getUserInfo(resultData.eventType);
+      }
+    },
+    /**
+     * @description 获取用户列表
+     * @param { number } typeId - 类型id
+     */
+    async getUserInfo(typeId) {
+      const { resultCode, resultData } = await getUserInfo({ typeId });
+      if (!resultCode) {
+        const { responseTotal, userTotal } = resultData;
+        this.userMsg = { responseTotal, userTotal };
+        resultData.customer = [
+          { load: 0, userId: 12, userName: "某用户1" },
+          { load: 20, userId: 13, userName: "某用户2" },
+          { load: 10, userId: 14, userName: "某用户3" },
+          { load: 40, userId: 16, userName: "某用户4" },
+        ];
+        resultData.customer.forEach((item) => {
+          item.checked = false;
+        });
+        this.groups[0].children = resultData.customer;
+      }
+    },
+    /**
      * @description 箭头展开列表数据
      * @param { group } 单个数据项
      */
     expandArrow(group) {
-      console.log(group);
       group.expand = !group.expand;
     },
     /**
      * @description 全选全不选逻辑处理
      * @param { e } 选中的数据项，数组形式，e.detail.value
-     */ checkboxChange(e) {
-      console.log(e, this.checkValue);
+     */
+    checkboxChange(e) {
       this.checkValue = e.detail.value.length > 0;
       this.groups.forEach((item) => {
         item.checked = this.checkValue;
@@ -334,8 +274,8 @@ export default {
      * @description 每个列表大项最上面的复选框勾选逻辑
      * @param { e } 选中的数据项，数组形式，e.detail.value
      * @param { group } 当前列表项的数据
-     */ checkboxChangeHeader(e, group) {
-      console.log(e, group);
+     */
+    checkboxChangeHeader(e, group) {
       group.checked = e.detail.value.length > 0;
       group.children.forEach((item) => {
         item.checked = group.checked;
@@ -347,11 +287,11 @@ export default {
      * @description 每个列表项子项目勾选框选择逻辑
      * @param { e } 选中的数据项，数组形式，e.detail.value
      * @param { group } 当前列表项的数据
-     */ checkboxChangeList(e, group) {
-      console.log(e, group);
+     */
+    checkboxChangeList(e, group) {
       const checkValues = e.detail.value;
       group.children.forEach((item) => {
-        if (checkValues.includes(item.id)) {
+        if (checkValues.includes(String(item.userId))) {
           item.checked = true;
         } else {
           item.checked = false;
@@ -453,7 +393,7 @@ export default {
         color: #ffffff80;
       }
       .title {
-        color: #9FA6AF;
+        color: #9fa6af;
         font-size: 24rpx;
       }
       .number {
