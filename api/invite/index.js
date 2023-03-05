@@ -28,3 +28,7 @@ export function getEventInfo(data) { // 获取事件列表
 export function getUserInfo(data) { // 获取事件列表
   return http.post('/api/keeper/InviteManage/userInfo', data)
 }
+
+export function addInvite(data) { // 发起邀约
+  return http.post('/api/keeper/InviteManage/addInvite', data)
+}

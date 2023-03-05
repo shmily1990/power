@@ -6,7 +6,12 @@
         <text class="targetText" v-show="target">{{ target }}</text>
         <view class="arrow"></view>
         <view class="list" v-if="show">
-          <view class="item" v-for="(item, index) in lists" @click.stop="choose(item)" :key="index">
+          <view
+            class="item"
+            v-for="(item, index) in lists"
+            @click.stop="choose(item)"
+            :key="index"
+          >
             <text class="itemtext">{{ item.eventName }}</text>
           </view>
         </view>
@@ -18,20 +23,39 @@
           <text class="iconfont icon-iconKSYY_YYGL_inactive"></text>
           <text class="itemtext">基本信息</text>
         </view>
-        <button class="mini-btn" type="default" size="mini" @click="operate('card1')">{{ getCardLabel("card1") }}</button>
+        <button
+          class="mini-btn"
+          type="default"
+          size="mini"
+          @click="operate('card1')"
+        >
+          {{ getCardLabel("card1") }}
+        </button>
       </view>
       <view class="card-content">
         <view class="uni-form-item flex">
           <view class="title">事件名称</view>
-          <input class="uni-input" v-model="eventObj.eventName" :disabled="operateDisable.card1" />
+          <input
+            class="uni-input"
+            v-model="eventObj.eventName"
+            :disabled="operateDisable.card1"
+          />
         </view>
         <view class="uni-form-item flex">
           <view class="title">事件来源</view>
-          <input class="uni-input" v-model="eventObj.eventSource" :disabled="operateDisable.card1" />
+          <input
+            class="uni-input"
+            v-model="eventObj.eventSource"
+            :disabled="operateDisable.card1"
+          />
         </view>
         <view class="uni-form-item flex">
           <view class="title">事件类型</view>
-          <input class="uni-input" v-model="eventObj.eventType" :disabled="operateDisable.card1" />
+          <input
+            class="uni-input"
+            v-model="eventObj.eventType"
+            :disabled="operateDisable.card1"
+          />
         </view>
         <view class="uni-form-item flex">
           <view class="title">发布时间</view>
@@ -48,7 +72,10 @@
                 <view class="choose-value uni-input">{{ timeStr }}</view>
               </view>
             </picker>-->
-            <datePicker :timeValue.sync="eventObj.releaseDate" :disabled="operateDisable.card1" />
+            <datePicker
+              :timeValue.sync="eventObj.releaseDate"
+              :disabled="operateDisable.card1"
+            />
           </view>
         </view>
       </view>
@@ -59,13 +86,24 @@
           <text class="iconfont icon-iconKSYY_SJXQ_2-0-title"></text>
           <text class="itemtext">调控指标</text>
         </view>
-        <button class="mini-btn" type="default" size="mini" @click="operate('card2')">{{ getCardLabel("card2") }}</button>
+        <button
+          class="mini-btn"
+          type="default"
+          size="mini"
+          @click="operate('card2')"
+        >
+          {{ getCardLabel("card2") }}
+        </button>
       </view>
       <view class="card-content">
         <view class="uni-form-item flex">
           <text class="iconfont icon-iconKSYY_SJXQ_2-1 curr-img"></text>
           <view class="title">
-            <input class="uni-input number" v-model="eventObj.target" :disabled="operateDisable.card2" />
+            <input
+              class="uni-input number"
+              v-model="eventObj.target"
+              :disabled="operateDisable.card2"
+            />
           </view>
           <text class="itemtext">kw</text>
         </view>
@@ -77,7 +115,14 @@
           <text class="iconfont icon-iconKSYY_SJXQ_3-0-title"></text>
           <text class="itemtext">执行时间</text>
         </view>
-        <button class="mini-btn" type="default" size="mini" @click="operate('card3')">{{ getCardLabel("card3") }}</button>
+        <button
+          class="mini-btn"
+          type="default"
+          size="mini"
+          @click="operate('card3')"
+        >
+          {{ getCardLabel("card3") }}
+        </button>
       </view>
       <view class="card-content">
         <view class="uni-form-item flex">
@@ -94,12 +139,19 @@
                 <view class="choose-value uni-input">{{ timeStr1 }}</view>
               </view>
             </picker>-->
-            <datePicker :timeValue.sync="eventObj.startDate" :disabled="operateDisable.card3" />
+            <datePicker
+              :timeValue.sync="eventObj.startDate"
+              :disabled="operateDisable.card3"
+            />
           </view>
         </view>
         <view class="uni-form-item flex">
           <view class="title">持续时长</view>
-          <input class="uni-input account" v-model="eventObj.lastDate" :disabled="operateDisable.card3" />
+          <input
+            class="uni-input account"
+            v-model="eventObj.lastDate"
+            :disabled="operateDisable.card3"
+          />
           <text class="itemtext">分钟</text>
         </view>
       </view>
@@ -110,7 +162,14 @@
           <text class="iconfont icon-iconKSYY_SJXQ_4-0-title"></text>
           <text class="itemtext">事件描述</text>
         </view>
-        <button class="mini-btn" type="default" size="mini" @click="operate('card4')">{{ getCardLabel("card4") }}</button>
+        <button
+          class="mini-btn"
+          type="default"
+          size="mini"
+          @click="operate('card4')"
+        >
+          {{ getCardLabel("card4") }}
+        </button>
       </view>
       <view class="card-content">
         <!-- <view class="uni-form-item flex">
@@ -187,6 +246,19 @@ export default {
     async getEventInfo() {
       const { resultCode, resultData } = await getEventInfo();
       if (!resultCode) {
+        // const resultData1 = [
+        //   {
+        //     desc: "string",
+        //     eventId: 1,
+        //     eventName: "string",
+        //     lastDate: 10,
+        //     releaseDate: "2023-02-26 01:53:26",
+        //     startDate: "2023-02-27 01:53:26",
+        //     status: 1,
+        //     target: "10.00",
+        //   },
+        // ];
+        // this.lists = resultData1;
         this.lists = resultData;
         if (this.lists.length) {
           this.target = this.lists[0].eventName;
@@ -213,13 +285,25 @@ export default {
      * @param { string } cardType - 对应点击卡片
      */
     operate(cardType) {
+      if (this.eventObj.isRelation) {
+        uni.showToast({ title: "当前事件已关联，无法编辑", icon: "none" });
+        return false;
+      }
+      let isEdit = false;
+      Object.keys(this.operateDisable).forEach((item) => {
+        if (!this.operateDisable[item]) {
+          isEdit = true;
+        }
+      });
+      if (isEdit && this.operateDisable[cardType]) {
+        uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
+        return false;
+      }
       if (!this.operateDisable[cardType]) {
         this.saveEvent();
         return false;
       }
-      Object.keys(this.operateDisable).forEach((item) => {
-        this.operateDisable[item] = true;
-      });
+
       this.operateDisable[cardType] = !this.operateDisable[cardType];
     },
     /**
@@ -234,14 +318,15 @@ export default {
      * @description 保存当前编辑项内容
      */
     async saveEvent() {
-      this.eventObj.startDate = this.eventObj.startDate.replace(/\./g,'-') 
-      this.eventObj.releaseDate = this.eventObj.releaseDate.replace(/\./g,'-') 
+      this.eventObj.startDate = this.eventObj.startDate.replace(/\./g, "-");
+      this.eventObj.releaseDate = this.eventObj.releaseDate.replace(/\./g, "-");
       const { resultCode, resultData } = await updateEvent(this.eventObj);
       if (!resultCode) {
-        Object.keys(this.operateDisable).forEach((item) => {
-          this.operateDisable[item] = true;
-        });
+        uni.showToast({ title: "保持成功", icon: "none" });
       }
+      Object.keys(this.operateDisable).forEach((item) => {
+        this.operateDisable[item] = true;
+      });
     },
     open() {
       this.show = true;

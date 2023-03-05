@@ -12,6 +12,7 @@
         <view class="choose-value uni-input">{{ timeStr }}</view>
       </view>
     </picker>
+    <!-- <view v-if="!timeStr" class="noDateBlock">请选择日期</view> -->
   </view>
 </template>
 
@@ -45,7 +46,7 @@ export default {
   watch: {
     timeValue(val, old) {
       this.timeStr = val;
-      !old && this.initTime();
+      // !old && this.initTime();
     },
   },
   methods: {
@@ -59,10 +60,11 @@ export default {
       );
       this.dateTimeArray = obj.dateTimeArray;
       this.dateTime = obj.dateTime;
-      this.timeStr =
-        (this.timeValue && this.timeValue.replace(/-/g, ".")) ||
-        this.createTimeStr(this.dateTimeArray, this.dateTime);
-      // console.log(this.timeValue, "333", obj);
+      this.timeStr = !this.timeValue
+        ? "请选择日期"
+        : (this.timeValue && this.timeValue.replace(/-/g, ".")) ||
+          this.createTimeStr(this.dateTimeArray, this.dateTime);
+      console.log(this.timeValue, "333", obj);
     },
 
     changeDateTime(e, type) {

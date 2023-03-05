@@ -11,7 +11,7 @@
         <view class="uni-form-item flex">
           <text class="iconfont icon-iconKSYY_YYGL_1-1 control curr-img"></text>
           <text class="itemtext title">调控目标</text>
-          <view class="title number">{{targetObj.target}}</view>
+          <view class="title number">{{ targetObj.target }}</view>
           <text class="itemtext">kw</text>
         </view>
         <view class="uni-form-item flex">
@@ -26,7 +26,11 @@
         </view>
         <view class="uni-form-item flex">
           <view class="title">持续时长</view>
-          <input class="uni-input account" disabled v-model="targetObj.lastDate" />
+          <input
+            class="uni-input account"
+            disabled
+            v-model="targetObj.lastDate"
+          />
           <text class="itemtext">分钟</text>
         </view>
       </view>
@@ -49,7 +53,8 @@
         <view class="uni-form-item flex">
           <view class="title">邀约截止</view>
           <view class="uni-list-cell-db">
-            <datapicker :timeValue.sync="value2" />
+            <datapicker :timeValue.sync="inviteTime" />
+            <!-- <datapicker :timeValue.sync="inviteTime" disabled="true" /> -->
           </view>
         </view>
       </view>
@@ -96,7 +101,8 @@
             <view class="uni-form-item">
               <text class="itemtext title">可参与用户</text>
               <view class="title">
-                <text class="count">{{userMsg.userTotal}}</text>家
+                <text class="count">{{ userMsg.userTotal }}</text
+                >家
               </view>
             </view>
           </view>
@@ -105,13 +111,14 @@
             <view class="uni-form-item">
               <text class="itemtext title">总日内响应</text>
               <view class="title">
-                <text class="numcount">{{userMsg.responseTotal}}</text>kw
+                <text class="numcount">{{ userMsg.responseTotal }}</text
+                >kw
               </view>
             </view>
           </view>
         </view>
         <view class="check-title flex between">
-          <view class="title" style="color: #008eb526;">筛选</view>
+          <view class="title" style="color: #008eb526">筛选</view>
           <view class="check-choose">
             <checkbox-group @change="checkboxChange">
               <label class="flex">
@@ -122,12 +129,25 @@
           </view>
         </view>
         <scroll-view scroll-y="true" class="scroll-Y">
-          <view class="check-title check-list" v-for="group in groups" :key="group.id">
+          <view
+            class="check-title check-list"
+            v-for="group in groups"
+            :key="group.id"
+          >
             <view class="title flex check-arrow">
-              <view class="arrow" @click="expandArrow(group)" :class="{ collapse: !group.expand }"></view>
+              <view
+                class="arrow"
+                @click="expandArrow(group)"
+                :class="{ collapse: !group.expand }"
+              ></view>
               <checkbox-group @change="checkboxChangeHeader($event, group)">
                 <label class="flex">
-                  <checkbox class="round" :value="group.id" :checked="group.checked" :class="{ partChoose: group.partChoose }" />
+                  <checkbox
+                    class="round"
+                    :value="group.id"
+                    :checked="group.checked"
+                    :class="{ partChoose: group.partChoose }"
+                  />
                   <view class="title c-title">{{ group.title }}</view>
                 </label>
               </checkbox-group>
@@ -135,13 +155,22 @@
             <view class="check-choose" v-show="group.expand">
               <view class="scroll-view">
                 <checkbox-group @change="checkboxChangeList($event, group)">
-                  <view class="title flex between" v-for="(item, index) in group.children" :key="index">
+                  <view
+                    class="title flex between"
+                    v-for="(item, index) in group.children"
+                    :key="index"
+                  >
                     <label class="flex">
-                      <checkbox class="round" :value="item.userId" :checked="item.checked" />
+                      <checkbox
+                        class="round"
+                        :value="item.userId"
+                        :checked="item.checked"
+                      />
                       <view class="title c-title">{{ item.userName }}</view>
                     </label>
                     <view class="column">
-                      <text class="title">{{ item.load }}</text>kw
+                      <text class="title">{{ item.load }}</text
+                      >kw
                     </view>
                   </view>
                 </checkbox-group>
@@ -151,7 +180,7 @@
         </scroll-view>
       </view>
     </view>
-    <view class="bottom-btn" @click="createInvitat">发起邀约</view>
+    <view class="bottom-btn" @click="createInvite">发起邀约</view>
   </view>
 </template>
 
@@ -159,7 +188,7 @@
 import { mapGetters } from "vuex";
 import datapicker from "@/components/datePicker";
 import { queryEventByID } from "@/api/event/index.js";
-import { getUserInfo } from "@/api/invite/index.js";
+import { getUserInfo, addInvite } from "@/api/invite/index.js";
 export default {
   components: {
     datapicker,
@@ -191,6 +220,7 @@ export default {
         declareTime: "",
         subsidy: undefined,
       },
+      inviteTime: "",
       userMsg: {
         responseTotal: undefined,
         userTotal: undefined,
@@ -204,6 +234,16 @@ export default {
     ...mapGetters(["eventID"]),
     chooseText(val) {
       return this.checkValue ? "全不选" : "全选";
+    },
+    userCheckList() {
+      const list = this.groups[0].children;
+      let user = [];
+      list.forEach((item) => {
+        if (item.checked) {
+          user.push({ userId: item.userId });
+        }
+      });
+      return user;
     },
   },
   methods: {
@@ -237,16 +277,35 @@ export default {
       if (!resultCode) {
         const { responseTotal, userTotal } = resultData;
         this.userMsg = { responseTotal, userTotal };
-        resultData.customer = [
-          { load: 0, userId: 12, userName: "某用户1" },
-          { load: 20, userId: 13, userName: "某用户2" },
-          { load: 10, userId: 14, userName: "某用户3" },
-          { load: 40, userId: 16, userName: "某用户4" },
-        ];
+        // resultData.customer = [
+        //   { load: 0, userId: 12, userName: "某用户1" },
+        //   { load: 20, userId: 13, userName: "某用户2" },
+        //   { load: 10, userId: 14, userName: "某用户3" },
+        //   { load: 40, userId: 16, userName: "某用户4" },
+        // ];
         resultData.customer.forEach((item) => {
           item.checked = false;
         });
         this.groups[0].children = resultData.customer;
+      }
+    },
+    /**
+     * @description 发起邀约
+     */
+    async createInvite() {
+      const { eventID, eventType, declareTime, subsidy } = this.targetObj;
+      const param = {
+        eventId: eventID,
+        eventType,
+        declareTime,
+        inviteTime: this.inviteTime,
+        subsidy,
+        user: this.user,
+      };
+      const { resultCode, resultData } = await addInvite(param);
+      if (!resultCode) {
+        uni.showToast({ title: "保存成功", icon: "none" });
+        this.$emit("changeTab");
       }
     },
     /**

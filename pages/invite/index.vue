@@ -5,20 +5,25 @@
       title="快速预约"
       @onBack="goBack"
     ></navbar>
-    <tab-swiper :tabList="tabList" class="container" @tabCurrent="tabCurrent" refs="tabs">
+    <tab-swiper
+      :tabList="tabList"
+      class="container"
+      @tabCurrent="tabCurrent"
+      refs="tabs"
+    >
       <template slot="tab0" v-if="tabIdx == 0">
-          <eventDetail />
-        </template>
-        <template slot="tab1" v-if="tabIdx == 1">
-          <inviteManage />
-        </template>
+        <eventDetail />
+      </template>
+      <template slot="tab1" v-if="tabIdx == 1">
+        <inviteManage @changeTab="changeTab" />
+      </template>
     </tab-swiper>
     <u-no-network />
   </view>
 </template>
 
 <script>
-import tabSwiper from '@/components/tabSwiperBar'
+import tabSwiper from "@/components/tabSwiperBar";
 import eventDetail from "./eventDetail.vue";
 import inviteManage from "./inviteManage.vue";
 import navbar from "@/components/topNav.vue"; //引入组件
@@ -28,7 +33,7 @@ export default {
     eventDetail,
     inviteManage,
     navbar,
-    tabSwiper
+    tabSwiper,
   },
   data() {
     return {
@@ -53,10 +58,22 @@ export default {
   onShow: function (e) {},
   methods: {
     /**
+     * @description 切换tab
+     */
+    changeTab() {
+      setTimeout(() => {
+        uni
+          .createSelectorQuery()
+          .in(this)
+          .select(".container")
+          ._component.$children[1].switchTab(0);
+      }, 500);
+    },
+    /**
      * 当前tab页码
      */
     tabCurrent(index) {
-      console.log(index)
+      console.log(index);
       this.tabIdx = index;
     },
   },
