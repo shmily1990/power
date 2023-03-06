@@ -106,22 +106,25 @@ export default {
     },
     // 查询邀约列表
     async queryInviteList() {
-      const { resultData: { infoList }, resultCode } = await getInvitePage({
+      const { resultData, resultCode } = await getInvitePage({
         eventName: '',
         pageIndex: 0,
         pageSize: 9999
       });
       if (!resultCode) {
-        this.currentInviteList = []
-        this.historyInviteList = []
-        infoList.forEach(item => {
-          // 	状态(10:已发起 20:已取消 30:已完成) 已发现属于正在邀约 其它属于历史邀约
-          if (item.inviteState == 10) {
-            this.currentInviteList.push(item)
-          } else {
-            this.historyInviteList.push(item)
-          }
-        })
+        if (resultCode && resultData) {
+          const { infoList } = resultData
+          this.currentInviteList = []
+          this.historyInviteList = []
+          infoList.forEach(item => {
+            // 	状态(10:已发起 20:已取消 30:已完成) 已发现属于正在邀约 其它属于历史邀约
+            if (item.inviteState == 10) {
+              this.currentInviteList.push(item)
+            } else {
+              this.historyInviteList.push(item)
+            }
+          })
+        }
       }
     },
     handleSelect(val) {

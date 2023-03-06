@@ -1,77 +1,144 @@
 <template>
   <view class="user-page">
     <view class="top">
-      <text class="title">新建用户</text>
+      <text class="title">{{ parentId ? '编辑' : '新建'}}用户</text>
     </view>
-    <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title">
+    <view>
+      <u-tabs :list="list1" @change="handChange" :current="currentTabIndex"
+        :activeStyle="{
+            color: '#00C8FF'
+        }"
+        :inactiveStyle="{
+            color: '#e6f1ff33'
+        }"
+      ></u-tabs>
+    </view>
+     
+    <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title" v-if="currentTabIndex == 0">
       <view class="card-content base-info">
-        <u-form :model="form" ref="uForm" :label-style="style">
-          <u-form-item label="用户名称"
-            ><u-input v-model="form.name" disabled
-          /></u-form-item>
-          <u-form-item label="用户地址"
-            ><u-input v-model="form.intro"
-          /></u-form-item>
-          <!-- <u-form-item
-            label="性别"
-            prop="userInfo.sex"
-            borderBottom
-            @click="
-              showSex = true;
-              hideKeyboard();
-            "
-            ref="item1"
-          >
-            <u--input
-              v-model="model1.userInfo.sex"
-              disabled
-              disabledColor="#ffffff"
-              placeholder="请选择性别"
-              border="none"
-            ></u--input>
-            <u-icon slot="right" name="arrow-right"></u-icon>
-          </u-form-item> -->
-          <u-form-item label="用户户号"
-            ><u-input v-model="form.count"
-          /></u-form-item>
-          <u-form-item label="联系人"
-            ><u-input v-model="form.connet"
-          /></u-form-item>
-        </u-form>
-        <u-action-sheet
-          :show="showSex"
-          :actions="actions"
-          title="请选择性别"
-          description="如果选择保密会报错"
-          @close="showSex = false"
-          @select="sexSelect"
-        >
-        </u-action-sheet>
+          <u-form :model="form" ref="uForm" :label-style="style">
+            <u-form-item label="用户名称"
+              ><u-input v-model="form.userName"
+            /></u-form-item>
+            <u-form-item label="用户地址"
+              ><u-input v-model="form.address"
+            /></u-form-item>
+            <u-form-item label="用户类型">
+              <picker
+                @change="handleTypeChange"
+                :value="typeIndex"
+                :range="typeList"
+                range-key="typeName"
+              >
+                <u-input
+                  :value="typeList[typeIndex].typeName"
+                  disabled
+                  suffixIcon="arrow-down-fill"
+                  suffixIconStyle="color: #909399;font-size: 12px;"
+                />
+              </picker>
+            </u-form-item>
+            <u-form-item label="用户户号"
+              ><u-input v-model="form.userNo" :disabled="parentId"
+            /></u-form-item>
+            <u-form-item label="联系人"
+              ><u-input v-model="form.contact" 
+            /></u-form-item>
+            <u-form-item label="手机号"
+              ><u-input v-model="form.phone" type="number"
+            /></u-form-item>
+            <u-form-item label="所属区域">
+              <picker
+                @change="handleRegionChange"
+                :value="regionIndex"
+                :range="regionList"
+                range-key="regionName"
+              >
+                <u-input
+                  :value="regionList[regionIndex].regionName"
+                  disabled
+                  suffixIcon="arrow-down-fill"
+                  suffixIconStyle="color: #909399;font-size: 12px;"
+                />
+              </picker>
+            </u-form-item>
+            <u-form-item label="参与响应">
+              <picker
+                @change="handleResponseChange"
+                :value="responseIndex"
+                :range="responseList"
+                range-key="name"
+              >
+                <u-input
+                  :value="responseList[responseIndex].name"
+                  disabled
+                  suffixIcon="arrow-down-fill"
+                  suffixIconStyle="color: #909399;font-size: 12px;"
+                />
+              </picker>
+            </u-form-item>
+          </u-form>
       </view>
     </List>
-    <List titleTxt="响应配置" fontClass="icon-iconPZGL_YHGL_2-0-title">
+    <List titleTxt="设备档案" fontClass="icon-iconPZGL_YHGL_2-0-title"  v-if="currentTabIndex == 1">
+      <view class="card-content">
+        <view class="device-info">
+          <view class="device-info-head">
+            <text class="order-title">序号</text>
+            <text class="name">响应设备</text>
+            <text class="capacity-title">响应容量</text>
+          </view>
+           <scroll-view scroll-y style="height: 500rpx">
+            <view class="device-info-list">
+              <view class="device-item" v-for="(item, index) in devicesList" :key="index">
+                <view class="left border">{{ index < 9 ? '0' + (index + 1) : index + 1 }}</view>
+                <view class="middle"><u-input placeholder="请输入内容" v-model="item.deviceName" /></view>
+                <view class="capacity">
+                  <u-input v-model="item.volume" type="number" />
+                  <view class="btns">
+                    <u-icon
+                      name="plus-circle"
+                      color="#FAD800"
+                      size="24"
+                      @click="deviceAdd(index)"
+                    ></u-icon>
+                    <u-icon
+                      name="minus-circle"
+                      color="#FAD800"
+                      size="24"
+                      v-if="devicesList.length > 1"
+                      @click="deviceReduce(index)"
+                    ></u-icon>
+                  </view>
+                </view>
+              </view>
+            </view>
+           </scroll-view>
+          
+        </view>
+      </view>
+    </List>
+    <List titleTxt="响应配置" fontClass="icon-iconPZGL_YHGL_2-0-title" v-if="currentTabIndex == 2">
       <view class="card-content">
         <view class="equip flex between">
-          <view class="item load">
+          <view
+            :class="['item', index === currentTab ? 'load' : '']"
+            v-for="(item, index) in tabs"
+            :key="index"
+            @click="currentTab = index"
+          >
             <view class="icon-t"
-              ><text class="iconfont icon-iconDR_quick_active"></text
-              ><text class="txt">快速响应</text></view
+              ><text :class="['iconfont', item.icon]" :style="{ color: index === currentTab ? '#0DFF9A' : 'rgba(0,200,255,0.4)'}"></text
+              ><text class="txt">{{ item.title }}</text></view
             >
-            <text class="value">360</text>
-          </view>
-          <view class="item response">
-            <view class="icon-t"
-              ><text class="iconfont icon-iconDR_day_active"></text
-              ><text class="txt">日内响应</text></view
+            <text
+              class="value"
+              :style="{
+                background: index === currentTab ? '#008eb580' : '#008eb526', color: index === currentTab ? '#0DFF9A' : 'rgba(0,200,255,0.4)'
+
+              }"
+              >{{ sumList[index] }}</text
             >
-            <text class="value">360</text>
-          </view>
-          <view class="item max-response">
-            <view class="icon-t"
-              ><text class="iconfont icon-iconDR_long_active"></text
-              ><text class="txt">中长期响应</text></view
-            >
-            <text class="value">360</text>
           </view>
         </view>
         <view class="device-info">
@@ -83,24 +150,27 @@
           <view class="device-info-list">
             <view
               class="device-item"
-              v-for="(item, index) in deviceList"
-              :key="index"
+              v-for="(item, index) in tabs[currentTab].list"
+              :key="item.id"
             >
-              <text class="order border">{{ index + 1 }}</text>
-              <!-- <text class="name border">{{ item.name }}</text> -->
+              <text class="order border">{{ index < 9 ? '0' + (index + 1) : index + 1 }}</text>
               <picker
                 @change="(e) => bindPickerChange(e, index)"
-                :value="item.deviceValue"
-                :range="selectList"
-                range-key="name"
+                :value="item.deviceTypeIndex || 0"
+                :range="devicesList"
+                range-key="deviceName"
               >
-                <view class="uni-input name border">{{
-                  selectList[item.deviceValue].name
-                }}</view>
+                <u-input
+                  :value="item.deviceName"
+                  disabled
+                  suffixIcon="arrow-down-fill"
+                  suffixIconStyle="color: #909399;font-size: 12px;"
+                />
               </picker>
+              <!-- <text class="name border">{{ item.name }}</text> -->
               <view class="capacity">
-                <u-input :value="item.capacity" />
                 <!-- <text class="value border">12</text> -->
+                <u-input disabled v-model="item.volume" />
                 <view class="btns">
                   <u-icon
                     name="plus-circle"
@@ -112,8 +182,8 @@
                     name="minus-circle"
                     color="#FAD800"
                     size="24"
+                    v-if="tabs[currentTab].list.length > 1"
                     @click="reduce(index)"
-                    v-if="deviceList.length > 1"
                   ></u-icon>
                 </view>
               </view>
@@ -122,16 +192,17 @@
         </view>
       </view>
     </List>
-    <List titleTxt="策略管理 " fontClass="icon-iconPZGL_YHGL_3-0-title">
-      <template slot="optBtn">
-        <button class="mini-btn" type="default" size="mini">编辑</button>
-      </template>
+    <List titleTxt="策略管理 " fontClass="icon-iconPZGL_YHGL_3-0-title" v-if="currentTabIndex == 3">
       <view class="card-content">
         <view class="policy">
-          <view class="policy-item">
+          <view
+            class="policy-item"
+            v-for="(item, index) in strategyList"
+            :key="index"
+          >
             <view class="left flex center column">
-              <text class="iconfont icon-iconPZGL_YHGL_3-1"></text>
-              快速响应
+              <text :class="['iconfont', item.icon]"></text>
+              {{ item.name }}
             </view>
             <view class="right">
               <view class="load labal-value">
@@ -140,7 +211,7 @@
                   <u-input
                     widht="40"
                     style="width: 200rpx"
-                    value="30"
+                    :value="sumList[index]"
                     disabled
                   />
                   <text class="unit">kw</text>
@@ -149,49 +220,11 @@
               <view class="load labal-value">
                 <text class="title">核准负荷</text>
                 <view class="value">
-                  <u-input class="my-input" />
-                  <text class="unit">kw</text>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class="policy-item">
-            <view class="left flex center column">
-              <text class="iconfont icon-iconPZGL_YHGL_3-2"></text>日内响应
-            </view>
-            <view class="right">
-              <view class="load labal-value">
-                <text class="title">录入负荷</text>
-                <view class="value">
-                  <u-input value="30" disabled />
-                  <text class="unit">kw</text>
-                </view>
-              </view>
-              <view class="load labal-value">
-                <text class="title">核准负荷</text>
-                <view class="value">
-                  <u-input />
-                  <text class="unit">kw</text>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class="policy-item">
-            <view class="left flex center column">
-              <text class="iconfont icon-iconPZGL_YHGL_3-3"></text>中长期响应
-            </view>
-            <view class="right">
-              <view class="load labal-value">
-                <text class="title">录入负荷</text>
-                <view class="value">
-                  <u-input value="30" disabled />
-                  <text class="unit">kw</text>
-                </view>
-              </view>
-              <view class="load labal-value">
-                <text class="title">核准负荷</text>
-                <view class="value">
-                  <u-input />
+                  <u-input
+                    class="my-input"
+                    type="number"
+                    v-model="item.approvalLoad"
+                  />
                   <text class="unit">kw</text>
                 </view>
               </view>
@@ -200,6 +233,7 @@
         </view>
       </view>
     </List>
+
     <view class="bottom">
       <view class="btns">
         <text class="btn" @click="cancel">取消</text>
@@ -210,6 +244,7 @@
 </template>
 <script>
 import List from "@/components/list.vue";
+import { getUserInfo, getTypeList, getRegionList, getUserDevice, addUser, updateUser } from "@/api/user/index.js";
 import { uniScrollTop } from "@/utils/common.js";
 export default {
   options: {
@@ -218,103 +253,26 @@ export default {
   components: {
     List,
   },
+  props: {
+    parentId: {
+      type: String,
+      default: ''
+    },
+    jumpTabIndex: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
+       typeIndex: 0,
+      regionIndex: 0, // 所属区域index
+      typeList: [],
+      regionList: [],
       title: "picker",
-      selectList: [
-        {
-          name: "一层公共照明",
-          value: 0,
-          capacity: 12,
-        },
-        {
-          name: "二层公共照明",
-          value: 1,
-          capacity: 24,
-        },
-        {
-          name: "三层公共照明",
-          value: 2,
-          capacity: 36,
-        },
-        {
-          name: "四层公共照明",
-          value: 3,
-          capacity: 48,
-        },
-      ],
-      array: ["一层公共照明", "二层公共照明", "三层公共照明", "四层公共照明"],
-      index: 0,
-      currentTab: 1,
-      showSex: false,
-      model1: {
-        userInfo: {
-          name: "uView UI",
-          sex: "",
-        },
-      },
-      actions: [
-        {
-          name: "男",
-        },
-        {
-          name: "女",
-        },
-        {
-          name: "保密",
-        },
-      ],
-      rules: {
-        "userInfo.name": {
-          type: "string",
-          required: true,
-          message: "请填写姓名",
-          trigger: ["blur", "change"],
-        },
-        "userInfo.sex": {
-          type: "string",
-          max: 1,
-          required: true,
-          message: "请选择男或女",
-          trigger: ["blur", "change"],
-        },
-      },
-      radio: "",
-      switchVal: false,
-      showSex: false,
-      model1: {
-        userInfo: {
-          name: "uView UI",
-          sex: "",
-        },
-      },
-      actions: [
-        {
-          name: "男",
-        },
-        {
-          name: "女",
-        },
-        {
-          name: "保密",
-        },
-      ],
-      list: [
-        {
-          value: "1",
-          label: "江",
-        },
-        {
-          value: "2",
-          label: "湖",
-        },
-      ],
+      currentTabIndex: 0,
       form: {
-        name: "哈哈哈",
-        intro: "1234",
-        sex: "1234",
-        count: "124334",
-        connet: "12234324",
+        partake: 2 // 默认参于
       },
       style: {
         color: "#9FA6AF",
@@ -323,86 +281,516 @@ export default {
         textAlign: "right",
         width: "128rpx",
       },
-      checkboxList: [
+      strategyList: [
         {
-          name: "苹果",
-          checked: false,
-          disabled: false,
+          name: "快速响应",
+          value: 0,
+          approvalLoad: 0, // 核准负荷
+          enterLoad: 0, // 录入负荷
+          icon: "icon-iconPZGL_YHGL_3-1",
+          type: 10
         },
         {
-          name: "雪梨",
-          checked: false,
-          disabled: false,
+          name: "日内响应",
+          approvalLoad: 0, // 核准负荷
+          enterLoad: 0, // 录入负荷
+          icon: "icon-iconPZGL_YHGL_3-2",
+          type: 20
         },
         {
-          name: "柠檬",
-          checked: false,
-          disabled: false,
-        },
-      ],
-      radioList: [
-        {
-          name: "鲜甜",
-          disabled: false,
-        },
-        {
-          name: "麻辣",
-          disabled: false,
+          name: "中长期响应",
+          approvalLoad: 0, // 核准负荷
+          enterLoad: 0, // 录入负荷
+          icon: "icon-iconPZGL_YHGL_3-3",
+          type: 30
         },
       ],
-      radio: "",
-      switchVal: false,
-      deviceList: [
+      userId: null,
+      responseList: [
         {
-          deviceValue: 3,
-          capacity: 0,
+          name: '参与',
+          value: 2
         },
         {
-          deviceValue: 3,
-          capacity: 0,
+          name: '不参与',
+          value: 1
+        }
+      ],
+      responseIndex: 0,
+      // 设备
+      devicesList: [
+        {
+          deviceName: '',
+          volume: 0,
+          deviceId: 0
+        }
+      ],
+      currentTab: 0,
+      tabs: [
+        {
+          title: "快速响应",
+          type: 10,
+          sum: 0,
+          list: [{ volume: 0, id: new Date()}],
+          icon: "icon-iconDR_quick_active",
         },
         {
-          deviceValue: 3,
-          capacity: 0,
+          title: "日内响应",
+          type: 20,
+          sum: 0,
+          list: [{ volume: 0, id: new Date()}],
+          icon: "icon-iconDR_day_active",
         },
         {
-          deviceValue: 3,
-          capacity: 0,
+          title: "中长期响应",
+          type: 30,
+          sum: 0,
+          list: [{ volume: 0, id: new Date()}],
+          icon: "icon-iconDR_long_active",
         },
       ],
+      userInfo: {}
     };
   },
-  onLoad() {},
+  computed: {
+    list1() {
+      const value = [
+        {
+          name: '基础信息',
+          disabled: true
+        }, {
+          name: '设备档案',
+          disabled: true
+        }, {
+          name: '响应配置',
+          disabled: true
+        }, {
+          name: '策略配置',
+          disabled: true
+        }
+      ]
+      return value
+    },
+    sumList() {
+      const sum1 = this.tabs[0].list.reduce((pre, cur) => pre + Number(cur.volume), 0)
+      const sum2 = this.tabs[1].list.reduce((pre, cur) => pre + Number(cur.volume), 0)
+      const sum3 = this.tabs[2].list.reduce((pre, cur) => pre + Number(cur.volume), 0)
+      console.log(this.tabs)
+      return [sum1, sum2, sum3]
+    }
+  },
+  watch: {
+    currentTabIndex(val) {
+      if (val === 2) {
+        // 根据用户id查询设备表数据
+        this.queryDeviceData()
+      }
+    }
+  },
+  onReady() {
+    // 初始化数据
+    this.initData()
+     this.getTypeList();
+    this.getRegionList();
+    // // 如果没数据默认添加一条空
+    // if (!this.devicesList.length) {
+    //   this.devicesList.push({
+    //     deviceName: '',
+    //     volume: 0
+    //   })
+    // }
+  },
   methods: {
-    bindPickerChange: function (e, index) {
-      // this.index = e.detail.value;
-      // this.$set(item, deviceValue, e.detail.value);
-      // this.$set(item, capacity, 16);
-      this.$set(this.deviceList, index, {
-        deviceValue: e.detail.value,
-        capacity: 10,
+    initData() {
+      if (this.parentId) {
+        this.userId = this.parentId
+        this.currentTabIndex = this.jumpTabIndex
+        this.queryUserInfo()
+      }
+    },
+    // 查询用户信息
+    async queryUserInfo() {
+      const { resultCode, resultData } = await getUserInfo({ userId: this.userId })
+      if (!resultCode) {
+        const { user, device, response, strategy } = resultData
+        this.userInfo = resultData
+        this.form = { ...user }
+        this.devicesList = device
+        const list1 = [], list2 = [], list3 = []
+        response.forEach(item => {
+          switch(item.type) {
+            case 10: 
+              list1.push({
+                ...item,
+                id: item.responseId
+              })
+            case 20:
+              list2.push({
+                ...item,
+                id: item.responseId
+              })
+            case 30:
+              list3.push({
+                ...item,
+                id: item.responseId
+              })
+          }
+        })
+        this.tabs = [
+          {
+            title: "快速响应",
+            type: 10,
+            sum: 0,
+            list: list1.length ? list1 : [{ volume: 0, id: new Date()}],
+            icon: "icon-iconDR_quick_active",
+          },
+          {
+            title: "日内响应",
+            type: 20,
+            sum: 0,
+            list: list2.length ? list2 : [{ volume: 0, id: new Date()}],
+            icon: "icon-iconDR_day_active",
+          },
+          {
+            title: "中长期响应",
+            type: 30,
+            sum: 0,
+            list: list3.length ? list3 : [{ volume: 0, id: new Date()}],
+            icon: "icon-iconDR_long_active",
+          }
+        ]
+        if (strategy.length) {
+          let value1 = 0, value2 = 0, value3 = 0
+          let strategyId1 = null, strategyId2 = null, strategyId3 = null
+          strategy.forEach(item => {
+            if (item.type === 10) {
+              value1 = item.approvalLoad
+              strategyId1 = item.strategyId
+            } else if (item.type === 20) {
+              value2 = item.approvalLoad
+              strategyId2 = item.strategyId
+            } else {
+              value3 = item.approvalLoad
+              strategyId3 = item.strategyId
+            }
+          })
+          this.strategyList = [{
+            name: "快速响应",
+            value: 0,
+            approvalLoad: value1, // 核准负荷
+            enterLoad: 0, // 录入负荷
+            icon: "icon-iconPZGL_YHGL_3-1",
+            type: 10,
+            strategyId: strategyId1
+          },
+          {
+            name: "日内响应",
+            approvalLoad: value2, // 核准负荷
+            enterLoad: 0, // 录入负荷
+            icon: "icon-iconPZGL_YHGL_3-2",
+            type: 20,
+            strategyId: strategyId2
+          },
+          {
+            name: "中长期响应",
+            approvalLoad: value3, // 核准负荷
+            enterLoad: 0, // 录入负荷
+            icon: "icon-iconPZGL_YHGL_3-3",
+            type: 30,
+            strategyId: 3
+          }]
+        }
+        // this.strategyList = [{
+        //   name: "快速响应",
+        //   value: 0,
+        //   approvalLoad: 0, // 核准负荷
+        //   enterLoad: 0, // 录入负荷
+        //   icon: "icon-iconPZGL_YHGL_3-1",
+        //   type: 10
+        // },
+        // {
+        //   name: "日内响应",
+        //   approvalLoad: 0, // 核准负荷
+        //   enterLoad: 0, // 录入负荷
+        //   icon: "icon-iconPZGL_YHGL_3-2",
+        //   type: 20
+        // },
+        // {
+        //   name: "中长期响应",
+        //   approvalLoad: 0, // 核准负荷
+        //   enterLoad: 0, // 录入负荷
+        //   icon: "icon-iconPZGL_YHGL_3-3",
+        //   type: 30
+        // }]
+      }
+    },
+    // 获取用户类型列表
+    async getTypeList() {
+      const { resultCode, resultData } = await getTypeList({});
+      if (!resultCode) {
+        this.typeList = resultData;
+        this.form.userType = this.typeList[this.typeIndex]?.typeId || null
+      }
+    },
+    // 获取用户区域列表
+    async getRegionList() {
+      const { resultCode, resultData } = await getRegionList({});
+      this.regionList = resultData;
+       this.form.regionId = this.regionList[this.regionIndex]?.regionId || null
+    },
+    // 区域选择
+    handleRegionChange(e) {
+      this.regionIndex = e.detail.value;
+      this.form.regionId = this.regionList[Number(this.regionIndex)].regionId;
+    },
+    // 用户类型选择
+    handleTypeChange(e) {
+      this.typeIndex = e.detail.value;
+      this.form.userType = this.typeList[Number(this.typeIndex)].typeId;
+    },
+    // 切换tab
+    handChange(e) {
+      this.currentTabIndex = e.index
+    },
+    bindPickerChange(e, index) {
+      const value = e.detail.value
+      this.$set(this.tabs[this.currentTab].list, index, {
+        deviceTypeIndex: Number(value),
+        deviceId: this.devicesList[value].deviceId,
+        deviceName: this.devicesList[value].deviceName,
+        volume: this.devicesList[value].volume,
+        id: this.tabs[this.currentTab].list[index].id
       });
     },
     cancel() {
       this.$emit("update:currentType", "index");
       uniScrollTop();
     },
-    save() {
-      this.$emit("update:currentType", "index");
-      uniScrollTop();
+    async editUserBaseInfo() {
+      const params = {
+        user: this.form,
+        userId: this.userId
+      }
+      const { resultCode } = await updateUser(params)
+      if (!resultCode) {
+         this.currentTabIndex = 1
+      }
     },
-    add(currentIndex) {
-      this.deviceList.splice(currentIndex, 0, {
-        deviceValue: 3,
-        capacity: 0,
+    async save() {
+      if (this.currentTabIndex === 0) {
+        if (this.parentId) {
+          // 编辑
+          this.editUserBaseInfo()
+        } else {
+          // 创建
+          const { resultCode, resultData } = await addUser({
+            user: {
+              ...this.form
+            }
+          })
+          if (!resultCode) {
+            this.userId = resultData.userId
+            this.currentTabIndex = 1
+          }
+        }
+       
+      } else if (this.currentTabIndex === 1){
+        const device = this.devicesList.filter(item => item.deviceName.length > 0 && item.volume.length > 0)
+        if (this.parentId) {
+          const params = {
+            device: device.map(item => {
+              return {
+                ...item,
+                volume: Number(item.volume)
+              }
+            }),
+            userId: this.userId
+          }
+          const { resultCode } = await updateUser(params)
+          if (!resultCode) {
+            this.currentTabIndex = 2
+          }
+        } else {
+          const params = {
+            ascription: {
+              userId: this.userId,
+              device: device.map(item => {
+                return {
+                  ...item,
+                  volume: Number(item.volume)
+                }
+              })
+            }
+          }
+          const { resultCode, resultData } = await addUser(params)
+          if (!resultCode) {
+            this.currentTabIndex = 2
+          }
+        }
+      } else if (this.currentTabIndex === 2) {
+        const response = []
+        this.tabs.forEach(item => {
+          item.list.forEach(cItem => {
+            if (cItem.deviceId) {
+              if (this.parentId) {
+                const opt = {
+                   type: item.type,
+                  deviceId: cItem.deviceId,
+                  volume: cItem.volume,
+                  deviceName: cItem.deviceName
+                }
+                if (cItem.responseId) {
+                  opt.responseId = cItem.responseId
+                }
+                response.push(opt)
+              } else {
+                 response.push({
+                  type: item.type,
+                  deviceId: cItem.deviceId,
+                })
+              }
+            }
+          })
+        })
+        if (this.parentId) {
+          console.log(response)
+          console.log(this.tabs)
+          const params = {
+            response,
+            userId: this.userId
+          }
+          const { resultCode } = await updateUser(params)
+          if (!resultCode) {
+            this.currentTabIndex = 3
+          }
+        } else {
+          const { resultCode, resultData } = await addUser({
+            ascription: {
+              userId: this.userId,
+              response
+            }
+          })
+          if (!resultCode) {
+            this.currentTabIndex = 3
+          }
+        }
+        
+      } else {
+        let strategy = []
+        if (this.parentId) {
+           strategy = this.strategyList.map(item => {
+            const ops = {
+              type: item.type,
+              approvalLoad: Number(item.approvalLoad),
+              strategyId: item.strategyId,
+              enterLoad: item.enterLoad
+            }
+            return ops
+          })
+        } else {
+          strategy = this.strategyList.map(item => {
+            const ops = {
+              type: item.type,
+              approvalLoad: Number(item.approvalLoad),
+            }
+            return ops
+          })
+        }
+        
+        const flat = strategy.every((item, index) => {
+          return parseInt(item.approvalLoad < this.sumList[index])
+        })
+        // if (!flat) {
+        //   console.log(strategy)
+        //   console.log
+        //   uni.showToast({
+        //     title: '',
+        //     icon: 'none',
+        //   })
+        //   return
+        // }
+        if (this.parentId) {
+          const params = {
+            strategy,
+            userId: this.userId
+          }
+          const { resultCode } = await updateUser(params)
+          if (!resultCode) {
+            this.cancel()
+          }
+        } else {
+          const { resultCode, resultData } = await addUser({
+            ascription: {
+              userId: this.userId,
+              strategy
+            }
+          })
+          if (!resultCode) {
+            this.cancel()
+          }
+        }
+        const { resultCode, resultData } = await addUser({
+          ascription: {
+            userId: this.userId,
+            strategy
+          }
+        })
+        if (!resultCode) {
+          this.cancel()
+        }
+      }
+      // this.$emit("update:currentType", "index");
+      // uniScrollTop();
+    },
+    // 设备添加
+    deviceAdd(currentIndex) {
+      console.log(this.devicesList[currentIndex])
+      if (!this.devicesList[currentIndex].deviceName.length) {
+        uni.showToast({
+          title: '请输入设备名称',
+          icon: 'none',
+        })
+        return
+      }
+      this.devicesList.splice(currentIndex, 0, {
+        deviceName: '',
+        volume: 0,
+        deviceId: 0
       });
     },
-    reduce(currentIndex) {
-      this.deviceList.splice(currentIndex, 1);
+    // 设备删除
+    deviceReduce(currentIndex) {
+      this.devicesList.splice(currentIndex, 1);
     },
-    sexSelect(e) {
-      this.model1.userInfo.sex = e.name;
-      this.$refs.form1.validateField("userInfo.sex");
+
+    handleResponseChange(e) {
+      this.responseIndex = e.detail.value;
+      this.form.partake = this.responseList[Number(this.responseIndex)].value;
+    },
+    // 查询设备表数据
+    async queryDeviceData() {
+      if (!this.userId) return
+      const { resultCode, resultData } = await getUserDevice({
+        userId: this.userId
+      })
+      if (!resultCode) {
+        this.devicesList = resultData
+      }
+    },
+    add(currentIndex, item) {
+      console.log(item)
+      // if (!item.deviceId) {
+        
+      //   uni.showToast({
+      //     title: '请选择设备',
+      //     icon: 'none',
+      //   })
+      //   return
+      // }
+      this.tabs[this.currentTab].list.splice(currentIndex, 0, {volume: 0, id: new Date()});
+    },
+    reduce(currentIndex) {
+      this.tabs[this.currentTab].list.splice(currentIndex, 1);
     },
   },
 };
@@ -439,7 +827,7 @@ export default {
   .device-info ::v-deep .u-border {
     border-color: #e6f1ff33 !important;
     padding: 1rpx 9rpx !important;
-    width: 50rpx;
+    width: 200rpx;
     // margin-left: 70rpx;
     background: none !important;
   }
@@ -521,6 +909,10 @@ export default {
         text-align: center;
         align-items: center;
         margin: 10rpx;
+      }
+      .left {
+        padding: 0 8rpx;
+        line-height: 49rpx;
       }
       .border {
         height: 49rpx;

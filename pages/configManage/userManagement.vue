@@ -15,11 +15,14 @@
     <createUserForm
       :currentType.sync="currentType"
       v-if="currentType === 'create'"
+      :parentId="userId"
+      :jumpTabIndex="jumpTabIndex"
     />
     <userResponseDetail
       :currentType.sync="currentType"
       v-if="currentType === 'detail'"
       :userId="userId"
+      :jumpTabIndex.sync="jumpTabIndex"
     />
   </view>
 </template>
@@ -62,6 +65,7 @@ export default {
       ],
       visableCreateModal: true,
       userId: null,
+      jumpTabIndex: 0
     };
   },
   components: {
@@ -72,6 +76,11 @@ export default {
   },
   onReady() {
     this.queryUserList();
+  },
+  watch: {
+    currentType(val) {
+      if (val === 'index') this.queryUserList();
+    }
   },
   methods: {
     // 查询用户列表
@@ -116,6 +125,7 @@ export default {
       uniScrollTop();
     },
     create() {
+      this.userId = null
       this.currentType = "create";
       uniScrollTop();
     },

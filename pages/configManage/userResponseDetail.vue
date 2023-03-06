@@ -10,7 +10,7 @@
           class="mini-btn"
           type="default"
           size="mini"
-          @click="handleEditBaseInfo"
+          @click="update(0)"
         >
           {{ editBaseInfoStatus ? "编辑" : "保存" }}
         </button>
@@ -75,7 +75,7 @@
           class="mini-btn"
           type="default"
           size="mini"
-          @click="handleEditResponse"
+          @click="update(2)"
         >
           {{ editResponseStatus ? "编辑" : "保存" }}
         </button>
@@ -136,7 +136,7 @@
               :key="item.deviceId + index"
             >
               <text class="order border">{{ index + 1 }}</text>
-              <picker
+              <!-- <picker
                 @change="bindPickerChange(e, index)"
                 :value="item.deviceTypeIndex || 0"
                 :range="deviceTypeList"
@@ -148,23 +148,28 @@
                   suffixIcon="arrow-down-fill"
                   suffixIconStyle="color: #909399;font-size: 12px;"
                 />
-              </picker>
+              </picker> -->
+              <u-input
+                  :value="item.deviceName"
+                  disabled
+                  suffixIcon="arrow-down-fill"
+                  suffixIconStyle="color: #909399;font-size: 12px;"
+                />
               <!-- <text class="name border">{{ item.name }}</text> -->
               <view class="capacity">
                 <!-- <text class="value border">12</text> -->
-                <u-input v-model="item.volume" />
+                <u-input v-model="item.volume" disabled />
                 <view class="btns">
                   <u-icon
                     name="plus-circle"
-                    color="#FAD800"
+                    color="#0678a6"
                     size="24"
-                    @click="add(index)"
+
                   ></u-icon>
                   <u-icon
                     name="minus-circle"
-                    color="#FAD800"
+                    color="#0678a6"
                     size="24"
-                    @click="reduce(index)"
                     v-if="tabs[currentTab].list.length > 1"
                   ></u-icon>
                 </view>
@@ -180,7 +185,7 @@
           class="mini-btn"
           type="default"
           size="mini"
-          @click="handleEditPolicy"
+          @click="update(3)"
         >
           {{ editPolicyStatus ? "编辑" : "保存" }}
         </button>
@@ -336,8 +341,10 @@ export default {
   methods: {
     // 获取用户设备列表
     async queryDeviceList() {
-      const { resultCode, resultData } = getUserDevice({ userId: this.userId })
-      if (!resultCode) this.deviceTypeList =resultData
+      const { resultCode, resultData } = await getUserDevice({ userId: this.userId })
+      if (!resultCode) {
+        this.deviceTypeList =resultData
+      }
     },
     // 获取用户类型列表
     async getTypeList() {
@@ -477,10 +484,10 @@ export default {
     reduce(currentIndex) {
       this.tabs[this.currentTab].list.splice(currentIndex, 1);
     },
-    sexSelect(e) {
-      this.model1.userInfo.sex = e.name;
-      this.$refs.form1.validateField("userInfo.sex");
-    },
+    update(index) {
+      this.$emit("update:jumpTabIndex", index);
+      this.$emit("update:currentType", "create");
+    }
   },
 };
 </script>
