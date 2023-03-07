@@ -24,11 +24,11 @@ http.setConfig((config) => {
 //请求拦截
 http.interceptors.request.use((config) => {
 	const userToken = uni.getStorageSync('token')
-	if (!userToken) {
+	if (userToken) {
 		if (!apiWhiteList.includes(config.url)) { // 不再白名单加上token
 			config.header = {
 				...config.header,
-				Authorization: `PNT ul+mhpfxNFk=`
+				Authorization: `PNT ${userToken}`
 			}
 		}
 	}
@@ -54,6 +54,12 @@ http.interceptors.response.use(async (response) => {
 		if (!noMessage.includes(url)) {
 			await showTextToast(message)
 		}
+		Promise.reject(data)
+	}
+	if (resultCode == -100) {
+		uni.redirectTo({
+			url: "/pages/login/index"
+		})
 		Promise.reject(data)
 	}
 	uni.hideLoading();

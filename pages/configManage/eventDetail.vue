@@ -6,7 +6,7 @@
     </view>
 
     <List titleTxt="事件名称" fontClass="icon-iconPZGL_SJGL_5-0-title">
-      <template slot="optBtn">
+      <template slot="optBtn" v-if="eventInfo.status == 1">
         <button
           class="mini-btn"
           type="default"
@@ -32,7 +32,7 @@
       </view>
     </List>
     <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title">
-      <template slot="optBtn">
+      <template slot="optBtn" v-if="eventInfo.status == 1">
         <button class="mini-btn" type="default" size="mini" @click="editBaseInfo">{{ baseInfoForm.editStatus ? '保存' : '编辑' }}</button>
       </template>
       <view class="card-content form-box">
@@ -63,7 +63,7 @@
       </view>
     </List>
     <List titleTxt="调控指标" fontClass="icon-iconKSYY_SJXQ_2-0-title">
-      <template slot="optBtn">
+      <template slot="optBtn" v-if="eventInfo.status == 1">
         <button class="mini-btn" type="default" size="mini" @click="editTarget">{{ targetForm.editStatus ? '保存' : '编辑' }}</button>
       </template>
 
@@ -76,7 +76,7 @@
       </view>
     </List>
     <List titleTxt="执行时间" fontClass="icon-iconKSYY_SJXQ_3-0-title">
-      <template slot="optBtn">
+      <template slot="optBtn" v-if="eventInfo.status == 1">
         <button class="mini-btn" type="default" size="mini" @click="editExecutionTime">{{ executionTime.editStatus ? '保存' : '编辑' }}</button>
       </template>
       <view class="card-content form-box">
@@ -93,7 +93,7 @@
       </view>
     </List>
     <List titleTxt="事件描述" fontClass="icon-iconKSYY_SJXQ_4-0-title">
-      <template slot="optBtn">
+      <template slot="optBtn" v-if="eventInfo.status == 1">
         <button class="mini-btn" type="default" size="mini" @click="editEventDes">{{ eventDesForm.editStatus ? '保存' : '编辑' }}</button>
       </template>
       <view class="card-content">
@@ -265,7 +265,7 @@ export default {
       executionTime: { // 执行时间
         editStatus: false,
         form: {
-          startDate: '2022-02-02 11:22',
+          startDate: '',
           lastDate: ''
         }
       },
@@ -279,14 +279,9 @@ export default {
     };
   },
   computed: {
-    chooseText(val) {
-      return this.checkValue ? "全不选" : "全选";
-    },
     currentEventTypeName() {
-      return (
-        this.typeList.find((c) => c.value === this.baseInfoForm.form.eventType)?.name ||
-        ""
-      );
+      const item = this.typeList.find((c) => c.value == this.baseInfoForm.form.eventType) || {}
+      return item.name;
     },
   },
   onReady() {
@@ -296,7 +291,7 @@ export default {
   mounted() {},
   methods: {
     // 更新接口
-    async update() {
+    async update(currentForm) {
       const { form: { eventName }} = this.eventNameForm
       const { form: { releaseDate, eventType, eventSource }} = this.baseInfoForm
       const { form: { target} } = this.targetForm
@@ -306,7 +301,7 @@ export default {
         eventID: this.eventInfo.eventID,
         eventName,
         releaseDate,
-        eventType: 30,
+        eventType,
         eventSource,
         target,
         startDate,
@@ -314,47 +309,77 @@ export default {
         desc
       }
       const { resultCode } = await updateEvent(params)
+      if (!resultCode) {
+        currentForm.editStatus = false
+        uni.showToast({ title: "更新事件成功", icon: "none" });
+      }
     },
     // 编辑事件名称
     editEventName() {
-      this.eventNameForm.editStatus = !this.eventNameForm.editStatus
       if (!this.eventNameForm.editStatus) {
-        // 编辑接口
-        this.update()
+        if (this.baseInfoForm.editStatus || this.targetForm.editStatus ||this.executionTime.editStatus || this.eventDesForm.editStatus) {
+          uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
+        } else {
+          this.eventNameForm.editStatus = !this.eventNameForm.editStatus
+        }
+      } else {
+        this.update(this.eventNameForm)
       }
     },
     // 编辑基础信息
     editBaseInfo() {
-      this.baseInfoForm.editStatus = !this.baseInfoForm.editStatus
       if (!this.baseInfoForm.editStatus) {
-        // 编辑接口
-        this.update()
+        if (this.eventNameForm.editStatus || this.targetForm.editStatus ||this.executionTime.editStatus || this.eventDesForm.editStatus) {
+          uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
+        } else {
+          this.baseInfoForm.editStatus = !this.baseInfoForm.editStatus
+          this.typeIndex = this.typeList.findIndex(
+            (c) => c.value === this.baseInfoForm.form.eventType
+          );
+        }
       } else {
-        this.typeIndex = this.typeList.findIndex(
-          (c) => c.value === this.baseInfoForm.form.eventType
-        );
+         // 编辑接口
+        this.update(this.baseInfoForm)
       }
     },
     // 编辑指标
     editTarget() {
-      this.targetForm.editStatus = !this.targetForm.editStatus
+      
       if (!this.targetForm.editStatus) {
+        if (this.eventNameForm.editStatus || this.baseInfoForm.editStatus ||this.executionTime.editStatus || this.eventDesForm.editStatus) {
+          uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
+        } else {
+          this.targetForm.editStatus = !this.targetForm.editStatus
+        }
+      } else {
         // 编辑接口
-        this.update()
+        this.update(this.targetForm)
+        
       }
     },
     // 执行时间
     editExecutionTime() {
-      this.executionTime.editStatus = !this.executionTime.editStatus
       if (!this.executionTime.editStatus) {
+        if (this.eventNameForm.editStatus || this.baseInfoForm.editStatus ||this.targetForm.editStatus || this.eventDesForm.editStatus) {
+          uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
+        } else {
+          this.executionTime.editStatus = !this.executionTime.editStatus
+        }
+      } else {
         // 编辑接口
         this.update()
       }
     },
     // 事件描述
     editEventDes() {
-      this.eventDesForm.editStatus = !this.eventDesForm.editStatus
+      
       if (!this.eventDesForm.editStatus) {
+        if (this.eventNameForm.editStatus || this.baseInfoForm.editStatus ||this.targetForm.editStatus || this.executionTime.editStatus) {
+          uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
+        } else {
+          this.eventDesForm.editStatus = !this.eventDesForm.editStatus
+        }
+      } else {
         // 编辑接口
         this.update()
       }

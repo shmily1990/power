@@ -109,7 +109,7 @@ import List from "@/components/list.vue";
 import userDetail from "./userDetail.vue";
 import overview from "@/components/overview";
 import { uniScrollTop } from "@/utils/common.js";
-import { getInviteInfo } from "@/api/invite/index.js";
+import { getInviteInfo, excuteInviteOperation } from "@/api/invite/index.js";
 export default {
   options: {
     styleIsolation: "shared",

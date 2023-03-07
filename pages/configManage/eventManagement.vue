@@ -91,6 +91,16 @@ export default {
     this.queryData()
 
   },
+  watch: {
+    modalTitle(val) {
+      if (val === '') {
+        // 查询概览
+        this.queryOverview()
+        // 查询列表
+        this.queryData()
+      }
+    }
+  },
   mounted() {
     // console.log("4449999");
   },
@@ -126,7 +136,6 @@ export default {
       const params = {
         eventName: this.searchText,
         maxEventId: 0,
-        eventStatus: 1,
         pageCount: 999
       }
       const { resultCode, resultData } = await queryEventByStatusWithPage(params)

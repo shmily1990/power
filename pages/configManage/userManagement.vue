@@ -6,6 +6,7 @@
         placeholder="搜索"
         v-model="searchText"
         :showAction="false"
+        @search="queryUserList"
       ></u-search>
       <userList :height="700" @selectUser="handleSelect" :data="user" />
       <view class="bottom">

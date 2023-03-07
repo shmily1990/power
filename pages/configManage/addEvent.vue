@@ -1,14 +1,14 @@
 <template>
   <view>
     <view class="detail-title flex between">
-      <text>事件详情</text>
+      <text>新建事件</text>
     </view>
 
     <List titleTxt="事件名称" fontClass="icon-iconPZGL_SJGL_5-0-title">
       <view class="card-content form-box">
           <u-form :model="eventNameForm.form" ref="uForm" :label-style="style">
             <u-form-item label="事件名称"
-              ><u-input v-model="eventNameForm.form.eventName" :disabled="!eventNameForm.editStatus"
+              ><u-input v-model="eventNameForm.form.eventName"
             /></u-form-item>
         </u-form>
       </view>
@@ -17,7 +17,7 @@
       <view class="card-content form-box">
         <u-form :model="baseInfoForm.form" ref="uForm" :label-style="style">
           <u-form-item label="事件来源"
-            ><u-input v-model="baseInfoForm.form.eventSource" :disabled="!baseInfoForm.editStatus"
+            ><u-input v-model="baseInfoForm.form.eventSource"
           /></u-form-item>
           <u-form-item label="事件类型">
             <picker
@@ -25,7 +25,6 @@
               :value="typeIndex"
               :range="typeList"
               range-key="name"
-              :disabled="!baseInfoForm.editStatus"
             >
               <u-input
                 :value="currentEventTypeName"
@@ -36,7 +35,7 @@
             </picker>
           </u-form-item>
           <u-form-item label="发布时间">
-            <datapicker :timeValue.sync="baseInfoForm.form.releaseDate"  class="form-item-time" :disabled="!baseInfoForm.editStatus" />
+            <datapicker :timeValue.sync="baseInfoForm.form.releaseDate"  class="form-item-time" />
           </u-form-item>
         </u-form>
       </view>
@@ -45,7 +44,7 @@
       <view class="card-content">
         <view class="uni-form-item flex">
           <text class="iconfont icon-iconKSYY_SJXQ_2-1"></text>
-          <view class="title number"><u-input v-model="targetForm.form.target" :disabled="!targetForm.editStatus" class="asddsaasdf" style="background: red" /></view>
+          <view class="title number"><u-input v-model="targetForm.form.target" class="asddsaasdf" style="background: red" /></view>
           <text class="itemtext">kw</text>
         </view>
       </view>
@@ -54,11 +53,11 @@
       <view class="card-content form-box">
         <u-form :model="executionTime.form" ref="uForm" :label-style="style">
           <u-form-item label="开始时间">
-             <datapicker :timeValue.sync="executionTime.form.startDate" class="form-item-time" :disabled="!executionTime.editStatus" />
+             <datapicker :timeValue.sync="executionTime.form.startDate" class="form-item-time" />
           </u-form-item>
           <u-form-item label="持续时间">
             <view class="formItemAndUnit">
-              <u-input v-model="executionTime.form.lastDate" :disabled="!executionTime.editStatus" /><text class="unit">分钟</text>
+              <u-input v-model="executionTime.form.lastDate" /><text class="unit">分钟</text>
             </view>
           </u-form-item>
         </u-form>
@@ -68,7 +67,6 @@
       <view class="card-content">
         <view class="uni-form-item flex">
           <textarea
-            :disabled="!eventDesForm.editStatus"
             class="textarea"
             placeholder-style="color:#19D8FF"
             placeholder="请输入内容"
@@ -136,7 +134,7 @@ export default {
       executionTime: { // 执行时间
         editStatus: false,
         form: {
-          startDate: '2022-02-02 11:22',
+          startDate: '',
           lastDate: ''
         }
       },
@@ -150,9 +148,6 @@ export default {
     };
   },
   computed: {
-    chooseText(val) {
-      return this.checkValue ? "全不选" : "全选";
-    },
     currentEventTypeName() {
       return (
         this.typeList.find((c) => c.value === this.baseInfoForm.form.eventType)?.name ||
@@ -160,9 +155,7 @@ export default {
       );
     },
   },
-  onReady() {
-    this.getServerData();
-  },
+  onReady() {},
   mounted() {},
   methods: {
     // 提交接口
@@ -174,61 +167,18 @@ export default {
       const { form: { desc }} = this.eventDesForm
       const params = {
         eventName,
-        releaseDate,
+        releaseDate: releaseDate.replace(/\./g, "-"),
         eventType: 30,
         eventSource,
         target,
-        startDate,
+        startDate: startDate.replace(/\./g, "-"),
         lastDate,
         desc
       }
       const { resultCode } = await addEvent(params)
       if (!resultCode) {
+        uni.showToast({ title: "保存事件成功", icon: "none" });
         this.onBack()
-      }
-    },
-    // 编辑事件名称
-    editEventName() {
-      this.eventNameForm.editStatus = !this.eventNameForm.editStatus
-      if (!this.eventNameForm.editStatus) {
-        // 编辑接口
-        this.update()
-      }
-    },
-    // 编辑基础信息
-    editBaseInfo() {
-      this.baseInfoForm.editStatus = !this.baseInfoForm.editStatus
-      if (!this.baseInfoForm.editStatus) {
-        // 编辑接口
-        this.update()
-      } else {
-        this.typeIndex = this.typeList.findIndex(
-          (c) => c.value === this.baseInfoForm.form.eventType
-        );
-      }
-    },
-    // 编辑指标
-    editTarget() {
-      this.targetForm.editStatus = !this.targetForm.editStatus
-      if (!this.targetForm.editStatus) {
-        // 编辑接口
-        this.update()
-      }
-    },
-    // 执行时间
-    editExecutionTime() {
-      this.executionTime.editStatus = !this.executionTime.editStatus
-      if (!this.executionTime.editStatus) {
-        // 编辑接口
-        this.update()
-      }
-    },
-    // 事件描述
-    editEventDes() {
-      this.eventDesForm.editStatus = !this.eventDesForm.editStatus
-      if (!this.eventDesForm.editStatus) {
-        // 编辑接口
-        this.update()
       }
     },
     bindTextAreaBlur(e) {

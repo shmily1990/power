@@ -322,7 +322,7 @@ export default {
       this.eventObj.releaseDate = this.eventObj.releaseDate.replace(/\./g, "-");
       const { resultCode, resultData } = await updateEvent(this.eventObj);
       if (!resultCode) {
-        uni.showToast({ title: "保持成功", icon: "none" });
+        uni.showToast({ title: "保存成功", icon: "none" });
       }
       Object.keys(this.operateDisable).forEach((item) => {
         this.operateDisable[item] = true;
@@ -336,6 +336,7 @@ export default {
       this.eventID = target.eventId;
       this.setEventID(this.eventID);
       this.show = false;
+      this.queryEventByID(this.eventID);
     },
   },
 };

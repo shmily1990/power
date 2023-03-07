@@ -573,6 +573,7 @@ export default {
       }
       const { resultCode } = await updateUser(params)
       if (!resultCode) {
+        uni.showToast({ title: "保存成功", icon: "none" });
          this.currentTabIndex = 1
       }
     },
@@ -589,6 +590,7 @@ export default {
             }
           })
           if (!resultCode) {
+            uni.showToast({ title: "保存成功", icon: "none" });
             this.userId = resultData.userId
             this.currentTabIndex = 1
           }
@@ -608,6 +610,7 @@ export default {
           }
           const { resultCode } = await updateUser(params)
           if (!resultCode) {
+            uni.showToast({ title: "保存成功", icon: "none" });
             this.currentTabIndex = 2
           }
         } else {
@@ -624,6 +627,7 @@ export default {
           }
           const { resultCode, resultData } = await addUser(params)
           if (!resultCode) {
+            uni.showToast({ title: "保存成功", icon: "none" });
             this.currentTabIndex = 2
           }
         }
@@ -661,6 +665,7 @@ export default {
           }
           const { resultCode } = await updateUser(params)
           if (!resultCode) {
+            uni.showToast({ title: "保存成功", icon: "none" });
             this.currentTabIndex = 3
           }
         } else {
@@ -671,6 +676,7 @@ export default {
             }
           })
           if (!resultCode) {
+            uni.showToast({ title: "保存成功", icon: "none" });
             this.currentTabIndex = 3
           }
         }
@@ -716,6 +722,7 @@ export default {
           }
           const { resultCode } = await updateUser(params)
           if (!resultCode) {
+            uni.showToast({ title: "保存成功", icon: "none" });
             this.cancel()
           }
         } else {
@@ -726,17 +733,9 @@ export default {
             }
           })
           if (!resultCode) {
+            uni.showToast({ title: "保存成功", icon: "none" });
             this.cancel()
           }
-        }
-        const { resultCode, resultData } = await addUser({
-          ascription: {
-            userId: this.userId,
-            strategy
-          }
-        })
-        if (!resultCode) {
-          this.cancel()
         }
       }
       // this.$emit("update:currentType", "index");

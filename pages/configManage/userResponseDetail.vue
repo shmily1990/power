@@ -230,11 +230,15 @@
         </view>
       </view>
     </List>
-    <view class="bottom">
+    <!-- <view class="bottom">
       <view class="btns">
         <text class="btn" @click="cancel">取消</text>
         <text class="btn" @click="save">保存</text>
       </view>
+    </view> -->
+    <view class="bottom flex center" @click="cancel">
+      <image src="~@/static/icon-back.png" class="img-back" />
+      <text class="title">返回</text>
     </view>
   </view>
 </template>
@@ -703,22 +707,35 @@ export default {
     background: none !important;
   }
   .bottom {
-    .back {
-      display: flex;
-      justify-content: center;
-      margin-left: -40rpx;
-      margin-top: 10rpx;
-      .title {
-        font-size: 32rpx;
-        padding-left: 20rpx;
-        margin-top: 7rpx;
-      }
-      .img-back {
-        width: 60rpx;
-        height: 60rpx;
-        display: flex;
-      }
+    margin-top: 50rpx;
+    margin-bottom: 60rpx;
+    .title {
+      font-size: 32rpx;
+      padding-left: 20rpx;
+      font-size: 44rpx;
+      color: rgba(0, 179, 255, 0.5);
     }
+    .img-back {
+      width: 80rpx;
+      height: 80rpx;
+      display: flex;
+    }
+    // .back {
+    //   display: flex;
+    //   justify-content: center;
+    //   margin-left: -40rpx;
+    //   margin-top: 10rpx;
+    //   .title {
+    //     font-size: 32rpx;
+    //     padding-left: 20rpx;
+    //     margin-top: 7rpx;
+    //   }
+    //   .img-back {
+    //     width: 60rpx;
+    //     height: 60rpx;
+    //     display: flex;
+    //   }
+    // }
     .btns {
       margin-top: 54rpx;
       display: flex;

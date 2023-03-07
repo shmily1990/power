@@ -6,6 +6,7 @@
         placeholder="搜索"
         v-model="searchText"
         :showAction="false"
+        @search="queryInviteList"
       ></u-search>
       <event
         name="正在邀约"
@@ -107,24 +108,22 @@ export default {
     // 查询邀约列表
     async queryInviteList() {
       const { resultData, resultCode } = await getInvitePage({
-        eventName: '',
+        eventName: this.searchText,
         pageIndex: 0,
         pageSize: 9999
       });
       if (!resultCode) {
-        if (resultCode && resultData) {
-          const { infoList } = resultData
-          this.currentInviteList = []
-          this.historyInviteList = []
-          infoList.forEach(item => {
-            // 	状态(10:已发起 20:已取消 30:已完成) 已发现属于正在邀约 其它属于历史邀约
-            if (item.inviteState == 10) {
-              this.currentInviteList.push(item)
-            } else {
-              this.historyInviteList.push(item)
-            }
-          })
-        }
+        const { infoList } = resultData
+        this.currentInviteList = []
+        this.historyInviteList = []
+        infoList.forEach(item => {
+          // 	状态(10:已发起 20:已取消 30:已完成) 已发现属于正在邀约 其它属于历史邀约
+          if (item.inviteState == 10) {
+            this.currentInviteList.push(item)
+          } else {
+            this.historyInviteList.push(item)
+          }
+        })
       }
     },
     handleSelect(val) {

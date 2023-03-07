@@ -128,29 +128,29 @@ export default {
     },
     // 用户登录
     loginConfirm() {
-      // this.$refs.form.validate().then(async (res) => {
-      //   const { loginName, loginPwd } = this.form;
-      //   this.loading = true;
-      //   try {
-      //     const res = await login({
-      //       loginName,
-      //       loginPwd,
-      //     });
-      //     this.loading = false;
-      //     if (res.resultCode == 0) {
-      //       uni.setStorageSync("token", res.userToken);
-      //       uni.setStorageSync("userInfo", res);
-      //       uni.switchTab({
-      //         url: "/pages/cockpit/index",
-      //       });
-      //     }
-      //   } catch (e) {
-      //     this.loading = false;
-      //   }
-      // });
-      uni.switchTab({
+      this.$refs.form.validate().then(async (res) => {
+        const { loginName, loginPwd } = this.form;
+        this.loading = true;
+        try {
+          const res = await login({
+            loginName,
+            loginPwd,
+          });
+          this.loading = false;
+          if (res.resultCode == 0) {
+            uni.setStorageSync("token", res.userToken);
+            uni.setStorageSync("userInfo", res);
+            uni.switchTab({
               url: "/pages/cockpit/index",
             });
+          }
+        } catch (e) {
+          this.loading = false;
+        }
+      });
+      // uni.switchTab({
+      //         url: "/pages/cockpit/index",
+      //       });
     },
   },
 };

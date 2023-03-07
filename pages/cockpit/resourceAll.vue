@@ -172,6 +172,34 @@ export default {
         this.responsivenessOverview = responsivenessOverview
         if (annualResponse.length) {
           this.buildChart(annualResponse)
+        } else {
+          const res = {
+        categories: [''],
+        series: [
+          {
+            index: 0,
+            name: "响应负荷",
+            type: "column",
+            textSize: 1,
+            // show: false,
+            // data: [40,{"value":30,"color":"#f04864"},55,110,24,58]
+            data: [],
+          },
+          {
+            name: "用户数量",
+            index: 0,
+            type: "line",
+            lineType: "solid",
+            color: "#2fc25b",
+            textSize: 1,
+            pointShape: "none",
+            data: [],
+          },
+        ],
+      }
+          setTimeout(() => {
+            this.chartData = JSON.parse(JSON.stringify(res));
+          }, 500)
         }
       }
     },

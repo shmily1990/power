@@ -176,6 +176,8 @@ export default {
         },
         xAxis: {
           disableGrid: true,
+          labelCount: 4,
+          rotateLabel: true,
           // title: "单位：年"
           axisLineColor: "#396780",
           fontColor: "rgba(255,255,255,0.4)",
