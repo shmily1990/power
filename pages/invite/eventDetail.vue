@@ -51,11 +51,26 @@
         </view>
         <view class="uni-form-item flex">
           <view class="title">事件类型</view>
-          <input
+          <!-- <input
             class="uni-input"
             v-model="eventObj.eventType"
             :disabled="operateDisable.card1"
-          />
+          /> -->
+
+          <picker
+            @change="handleTypeChange"
+            :value="typeIndex"
+            :range="typeList"
+            range-key="name"
+            :disabled="operateDisable.card1"
+          >
+            <u-input
+              :value="currentEventTypeName"
+              disabled
+              suffixIcon="arrow-down-fill"
+              suffixIconStyle="color: #909399;font-size: 12px;"
+            />
+          </picker>
         </view>
         <view class="uni-form-item flex">
           <view class="title">发布时间</view>
@@ -198,15 +213,21 @@
 import datePicker from "@/components/datePicker.vue";
 import { getEventInfo } from "@/api/invite/index.js";
 import { queryEventByID, updateEvent } from "@/api/event/index.js";
+import { uniScrollTop, eventTypeList } from "@/utils/common.js";
 const { dateTimePicker, getMonthDay } = require("@/utils/date.js");
 import { mapMutations } from "vuex";
 
 export default {
+   options: {
+    styleIsolation: "shared",
+  },
   components: {
     datePicker,
   },
   data() {
     return {
+      typeList: eventTypeList,
+      typeIndex: 0,
       lists: ["select1", "select2", "select3", "select4"],
       show: false,
       target: "",
@@ -230,6 +251,12 @@ export default {
         target: "",
       },
     };
+  },
+  computed: {
+    currentEventTypeName() {
+      const item = this.typeList.find((c) => c.value == this.eventObj.eventType) || {}
+      return item.name;
+    },
   },
   onReady() {
     // 查询事件列表
@@ -289,6 +316,11 @@ export default {
         uni.showToast({ title: "当前事件已关联，无法编辑", icon: "none" });
         return false;
       }
+      if (cardType === 'card1') {
+        this.typeIndex = this.typeList.findIndex(
+            (c) => c.value === this.eventObj.eventType
+          );
+      }
       let isEdit = false;
       Object.keys(this.operateDisable).forEach((item) => {
         if (!this.operateDisable[item]) {
@@ -337,6 +369,11 @@ export default {
       this.setEventID(this.eventID);
       this.show = false;
       this.queryEventByID(this.eventID);
+    },
+    // 用户类型选择
+    handleTypeChange(e) {
+      this.typeIndex = e.detail.value;
+      this.eventObj.eventType = this.typeList[Number(this.typeIndex)].value;
     },
   },
 };
@@ -487,4 +524,15 @@ export default {
     }
   }
 }
+::v-deep .u-border {
+    border-color: #e6f1ff33 !important;
+    padding: 9rpx 9rpx !important;
+    width: 320rpx;
+    margin-left: 10rpx;
+    border-radius: 12rpx;
+    background: none !important;
+  }
+::v-deep input {
+    color: #00c8ff !important;
+    }
 </style>

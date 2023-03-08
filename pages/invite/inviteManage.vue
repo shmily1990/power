@@ -297,11 +297,22 @@ export default {
       const param = {
         eventId: eventID,
         eventType,
-        declareTime,
-        inviteTime: this.inviteTime,
+        declareTime, // 申报截止时间不能大于开始时间this.targetObj.startDate
+        inviteTime: this.inviteTime, // 邀约截止 不能大于申报截止
         subsidy,
-        user: this.user,
+        user: this.userCheckList,
       };
+      const time1 = new Date(declareTime)?.getTime()
+      const time2 = new Date(this.inviteTime)?.getTime()
+      const time3 = new Date(this.targetObj.startDate)?.getTime()
+      if (time1 > time3) {
+        uni.showToast({ title: "申报截止时间不能大于开始时间", icon: "none" });
+        return
+      }
+      if (time2 > time1) {
+        uni.showToast({ title: "邀约截止时间不能大于申报截止时间", icon: "none" });
+        return
+      }
       const { resultCode, resultData } = await addInvite(param);
       if (!resultCode) {
         uni.showToast({ title: "保存成功", icon: "none" });

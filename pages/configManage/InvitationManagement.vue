@@ -72,6 +72,14 @@ export default {
     event,
     inviteDetail,
   },
+  watch: {
+    showEventDetail(val) {
+      if (!val) {
+        this.queryInviteInfo()
+        this.queryInviteList()
+      }
+    }
+  },
   onReady() {
     this.queryInviteInfo()
     // 查询邀约列表

@@ -21,6 +21,9 @@
             <u-form-item label="用户名称"
               ><u-input v-model="form.userName" :disabled="editBaseInfoStatus"
             /></u-form-item>
+            <u-form-item label="用户编号"
+              ><u-input v-model="form.userNumber" :disabled="editBaseInfoStatus"
+            /></u-form-item>
             <u-form-item label="用户地址"
               ><u-input v-model="form.address" :disabled="editBaseInfoStatus"
             /></u-form-item>
@@ -387,6 +390,7 @@ export default {
           userType,
           regionId,
           phone,
+          userNumber
         } = user;
         this.form = {
           address,
@@ -396,6 +400,7 @@ export default {
           userType,
           regionId,
           phone,
+          userNumber
         };
         const type10 = response.filter((c) => c.type === 10);
         const type20 = response.filter((c) => c.type === 20);
