@@ -73,7 +73,6 @@ export default {
      * 当前tab页码
      */
     tabCurrent(index) {
-      console.log(index);
       this.tabIdx = index;
     },
   },

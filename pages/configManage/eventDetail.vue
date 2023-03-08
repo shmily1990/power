@@ -70,7 +70,7 @@
       <view class="card-content">
         <view class="uni-form-item flex">
           <text class="iconfont icon-iconKSYY_SJXQ_2-1"></text>
-          <view class="title number"><u-input v-model="targetForm.form.target" :disabled="!targetForm.editStatus" class="asddsaasdf" style="background: red" /></view>
+          <view class="title number"><u-input v-model="targetForm.form.target" :disabled="!targetForm.editStatus" /></view>
           <text class="itemtext">kw</text>
         </view>
       </view>
@@ -109,7 +109,7 @@
           />
         </view>
       </view>
-      <view class="chart-content">
+      <view class="chart-content" v-if="eventInfo.status != 1">
         <view class="chart-title flex">
           <text class="iconfont icon-iconDR_day_inactive"></text>
 

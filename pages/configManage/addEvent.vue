@@ -6,8 +6,8 @@
 
     <List titleTxt="事件名称" fontClass="icon-iconPZGL_SJGL_5-0-title">
       <view class="card-content form-box">
-          <u-form :model="eventNameForm.form" ref="uForm" :label-style="style">
-            <u-form-item label="事件名称"
+          <u-form :model="eventNameForm.form" ref="uForm1" :label-style="style" :rules="rules">
+            <u-form-item label="事件名称" prop="eventName"
               ><u-input v-model="eventNameForm.form.eventName"
             /></u-form-item>
         </u-form>
@@ -15,8 +15,8 @@
     </List>
     <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title">
       <view class="card-content form-box">
-        <u-form :model="baseInfoForm.form" ref="uForm" :label-style="style">
-          <u-form-item label="事件来源"
+        <u-form :model="baseInfoForm.form" ref="uForm2" :label-style="style" :rules="rules">
+          <u-form-item label="事件来源" prop="eventSource"
             ><u-input v-model="baseInfoForm.form.eventSource"
           /></u-form-item>
           <u-form-item label="事件类型">
@@ -34,7 +34,7 @@
               />
             </picker>
           </u-form-item>
-          <u-form-item label="发布时间">
+          <u-form-item label="发布时间" prop="releaseDate">
             <datapicker :timeValue.sync="baseInfoForm.form.releaseDate"  class="form-item-time" />
           </u-form-item>
         </u-form>
@@ -44,18 +44,18 @@
       <view class="card-content">
         <view class="uni-form-item flex">
           <text class="iconfont icon-iconKSYY_SJXQ_2-1"></text>
-          <view class="title number"><u-input v-model="targetForm.form.target" class="asddsaasdf" style="background: red" /></view>
+          <view class="title number"><u-input v-model="targetForm.form.target" /></view>
           <text class="itemtext">kw</text>
         </view>
       </view>
     </List>
     <List titleTxt="执行时间" fontClass="icon-iconKSYY_SJXQ_3-0-title">
       <view class="card-content form-box">
-        <u-form :model="executionTime.form" ref="uForm" :label-style="style">
-          <u-form-item label="开始时间">
+        <u-form :model="executionTime.form" ref="uForm3" :label-style="style" :rules="rules">
+          <u-form-item label="开始时间" prop="startDate">
              <datapicker :timeValue.sync="executionTime.form.startDate" class="form-item-time" />
           </u-form-item>
-          <u-form-item label="持续时间">
+          <u-form-item label="持续时间" prop="lastDate">
             <view class="formItemAndUnit">
               <u-input v-model="executionTime.form.lastDate" /><text class="unit">分钟</text>
             </view>
@@ -144,7 +144,40 @@ export default {
           des: ''
         }
       },
-      typeIndex: 0
+      typeIndex: 0,
+      // 表单校验
+      rules: {
+        eventName: {
+          type: "string",
+          required: true,
+          message: "请输入事件名",
+          trigger: ["blur", "change"],
+        },
+        eventSource: {
+          type: "string",
+          required: true,
+          message: "请输入事件来源",
+          trigger: ["blur", "change"],
+        },
+        releaseDate: {
+          type: "string",
+          required: true,
+          message: "请选择发布时间",
+          trigger: ["blur", "change"],
+        },
+        startDate: {
+          type: "string",
+          required: true,
+          message: "请选择开始时间",
+          trigger: ["blur", "change"],
+        },
+        lastDate: {
+          type: "string",
+          required: true,
+          message: "请输入持续时间",
+          trigger: ["blur", "change"],
+        }
+      },
     };
   },
   computed: {
@@ -160,6 +193,10 @@ export default {
   methods: {
     // 提交接口
     async add() {
+      // 表单校验
+      await this.$refs.uForm1.validate()
+      await this.$refs.uForm2.validate()
+      await this.$refs.uForm3.validate()
       const { form: { eventName }} = this.eventNameForm
       const { form: { releaseDate, eventType, eventSource }} = this.baseInfoForm
       const { form: { target} } = this.targetForm

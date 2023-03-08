@@ -101,9 +101,7 @@ export default {
       }
     }
   },
-  mounted() {
-    // console.log("4449999");
-  },
+  mounted() {},
   methods: {
     async queryOverview() {
       const { resultCode, resultData } = await queryEventTotal()

@@ -15,70 +15,75 @@
     </view>
      
     <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title" v-if="currentTabIndex == 0">
-      <view class="card-content base-info">
-          <u-form :model="form" ref="uForm" :label-style="style">
-            <u-form-item label="用户名称"
-              ><u-input v-model="form.userName"
-            /></u-form-item>
-            <u-form-item label="用户地址"
-              ><u-input v-model="form.address"
-            /></u-form-item>
-            <u-form-item label="用户类型">
-              <picker
-                @change="handleTypeChange"
-                :value="typeIndex"
-                :range="typeList"
-                range-key="typeName"
-              >
-                <u-input
-                  :value="typeList[typeIndex].typeName"
-                  disabled
-                  suffixIcon="arrow-down-fill"
-                  suffixIconStyle="color: #909399;font-size: 12px;"
-                />
-              </picker>
-            </u-form-item>
-            <u-form-item label="用户户号"
-              ><u-input v-model="form.userNo" :disabled="parentId"
-            /></u-form-item>
-            <u-form-item label="联系人"
-              ><u-input v-model="form.contact" 
-            /></u-form-item>
-            <u-form-item label="手机号"
-              ><u-input v-model="form.phone" type="number"
-            /></u-form-item>
-            <u-form-item label="所属区域">
-              <picker
-                @change="handleRegionChange"
-                :value="regionIndex"
-                :range="regionList"
-                range-key="regionName"
-              >
-                <u-input
-                  :value="regionList[regionIndex].regionName"
-                  disabled
-                  suffixIcon="arrow-down-fill"
-                  suffixIconStyle="color: #909399;font-size: 12px;"
-                />
-              </picker>
-            </u-form-item>
-            <u-form-item label="参与响应">
-              <picker
-                @change="handleResponseChange"
-                :value="responseIndex"
-                :range="responseList"
-                range-key="name"
-              >
-                <u-input
-                  :value="responseList[responseIndex].name"
-                  disabled
-                  suffixIcon="arrow-down-fill"
-                  suffixIconStyle="color: #909399;font-size: 12px;"
-                />
-              </picker>
-            </u-form-item>
-          </u-form>
-      </view>
+      <scroll-view scroll-y="true" style="height: 600rpx">
+        <view class="card-content base-info">
+            <u-form :model="form" ref="uForm" :label-style="style" :rules="rules">
+              <u-form-item label="用户名称" prop="userName"
+                ><u-input v-model="form.userName"
+              /></u-form-item>
+              <u-form-item label="用户编号" prop="userNumber"
+                ><u-input v-model="form.userNumber"
+              /></u-form-item>
+              <u-form-item label="用户地址" prop="address"
+                ><u-input v-model="form.address"
+              /></u-form-item>
+              <u-form-item label="用户类型">
+                <picker
+                  @change="handleTypeChange"
+                  :value="typeIndex"
+                  :range="typeList"
+                  range-key="typeName"
+                >
+                  <u-input
+                    :value="typeList[typeIndex].typeName"
+                    disabled
+                    suffixIcon="arrow-down-fill"
+                    suffixIconStyle="color: #909399;font-size: 12px;"
+                  />
+                </picker>
+              </u-form-item>
+              <u-form-item label="用户户号" prop="userNo"
+                ><u-input v-model="form.userNo"
+              /></u-form-item>
+              <u-form-item label="联系人" prop="contact"
+                ><u-input v-model="form.contact" 
+              /></u-form-item>
+              <u-form-item label="手机号" prop="phone"
+                ><u-input v-model="form.phone" type="number"
+              /></u-form-item>
+              <u-form-item label="所属区域">
+                <picker
+                  @change="handleRegionChange"
+                  :value="regionIndex"
+                  :range="regionList"
+                  range-key="regionName"
+                >
+                  <u-input
+                    :value="regionList[regionIndex].regionName"
+                    disabled
+                    suffixIcon="arrow-down-fill"
+                    suffixIconStyle="color: #909399;font-size: 12px;"
+                  />
+                </picker>
+              </u-form-item>
+              <u-form-item label="参与响应">
+                <picker
+                  @change="handleResponseChange"
+                  :value="responseIndex"
+                  :range="responseList"
+                  range-key="name"
+                >
+                  <u-input
+                    :value="responseList[responseIndex].name"
+                    disabled
+                    suffixIcon="arrow-down-fill"
+                    suffixIconStyle="color: #909399;font-size: 12px;"
+                  />
+                </picker>
+              </u-form-item>
+            </u-form>
+        </view>
+      </scroll-view>
     </List>
     <List titleTxt="设备档案" fontClass="icon-iconPZGL_YHGL_2-0-title"  v-if="currentTabIndex == 1">
       <view class="card-content">
@@ -88,7 +93,7 @@
             <text class="name">响应设备</text>
             <text class="capacity-title">响应容量</text>
           </view>
-           <scroll-view scroll-y style="height: 500rpx">
+           <scroll-view scroll-y style="height: 600rpx">
             <view class="device-info-list">
               <view class="device-item" v-for="(item, index) in devicesList" :key="index">
                 <view class="left border">{{ index < 9 ? '0' + (index + 1) : index + 1 }}</view>
@@ -254,10 +259,12 @@ export default {
     List,
   },
   props: {
+    // 编辑id
     parentId: {
       type: String,
       default: ''
     },
+    // 跳转页面
     jumpTabIndex: {
       type: Number,
       default: 0
@@ -265,12 +272,12 @@ export default {
   },
   data() {
     return {
-       typeIndex: 0,
+      typeIndex: 0, // 用户类型
       regionIndex: 0, // 所属区域index
       typeList: [],
       regionList: [],
-      title: "picker",
-      currentTabIndex: 0,
+      // title: "picker",
+      currentTabIndex: 0, // tab
       form: {
         partake: 2 // 默认参于
       },
@@ -349,7 +356,57 @@ export default {
           icon: "icon-iconDR_long_active",
         },
       ],
-      userInfo: {}
+      userInfo: {},
+      // 表单校验
+      rules: {
+        userName: {
+          type: "string",
+          required: true,
+          message: "请输入用户名",
+          trigger: ["blur", "change"],
+        },
+        userNumber: {
+          type: "string",
+          required: true,
+          message: "请输入用户编号",
+          trigger: ["blur", "change"],
+        },
+        address: {
+          type: "string",
+          required: true,
+          message: "请输入地址",
+          trigger: ["blur", "change"],
+        },
+        userNo: {
+          type: "string",
+          required: true,
+          message: "请输入用户户号",
+          trigger: ["blur", "change"],
+        },
+        contact: {
+          type: "string",
+          required: true,
+          message: "请输入联系人",
+          trigger: ["blur", "change"],
+        },
+        phone: [{
+          type: "string",
+          required: true,
+          message: "请输入手机号码",
+          trigger: ["blur", "change"],
+        },
+        {
+          // 自定义验证函数，见上说明
+          validator: (rule, value, callback) => {
+            // 上面有说，返回true表示校验通过，返回false表示不通过
+            // uni.$u.test.mobile()就是返回true或者false的
+            return uni.$u.test.mobile(value);
+          },
+          message: '手机号码不正确',
+          // 触发器可以同时用blur和change
+          trigger: ['change','blur'],
+        }]
+      },
     };
   },
   computed: {
@@ -375,7 +432,6 @@ export default {
       const sum1 = this.tabs[0].list.reduce((pre, cur) => pre + Number(cur.volume), 0)
       const sum2 = this.tabs[1].list.reduce((pre, cur) => pre + Number(cur.volume), 0)
       const sum3 = this.tabs[2].list.reduce((pre, cur) => pre + Number(cur.volume), 0)
-      console.log(this.tabs)
       return [sum1, sum2, sum3]
     }
   },
@@ -392,13 +448,6 @@ export default {
     this.initData()
      this.getTypeList();
     this.getRegionList();
-    // // 如果没数据默认添加一条空
-    // if (!this.devicesList.length) {
-    //   this.devicesList.push({
-    //     deviceName: '',
-    //     volume: 0
-    //   })
-    // }
   },
   methods: {
     initData() {
@@ -415,7 +464,7 @@ export default {
         const { user, device, response, strategy } = resultData
         this.userInfo = resultData
         this.form = { ...user }
-        this.devicesList = device
+        if (device.length) this.devicesList = device // 如果设备没数据不赋值
         const list1 = [], list2 = [], list3 = []
         response.forEach(item => {
           switch(item.type) {
@@ -500,28 +549,6 @@ export default {
             strategyId: 3
           }]
         }
-        // this.strategyList = [{
-        //   name: "快速响应",
-        //   value: 0,
-        //   approvalLoad: 0, // 核准负荷
-        //   enterLoad: 0, // 录入负荷
-        //   icon: "icon-iconPZGL_YHGL_3-1",
-        //   type: 10
-        // },
-        // {
-        //   name: "日内响应",
-        //   approvalLoad: 0, // 核准负荷
-        //   enterLoad: 0, // 录入负荷
-        //   icon: "icon-iconPZGL_YHGL_3-2",
-        //   type: 20
-        // },
-        // {
-        //   name: "中长期响应",
-        //   approvalLoad: 0, // 核准负荷
-        //   enterLoad: 0, // 录入负荷
-        //   icon: "icon-iconPZGL_YHGL_3-3",
-        //   type: 30
-        // }]
       }
     },
     // 获取用户类型列表
@@ -535,8 +562,10 @@ export default {
     // 获取用户区域列表
     async getRegionList() {
       const { resultCode, resultData } = await getRegionList({});
-      this.regionList = resultData;
-       this.form.regionId = this.regionList[this.regionIndex]?.regionId || null
+      if (!resultCode) {
+        this.regionList = resultData;
+        this.form.regionId = this.regionList[this.regionIndex]?.regionId || null
+      }
     },
     // 区域选择
     handleRegionChange(e) {
@@ -579,23 +608,24 @@ export default {
     },
     async save() {
       if (this.currentTabIndex === 0) {
-        if (this.parentId) {
+        this.$refs.uForm.validate().then(async (res) => {
+          if (this.parentId) {
           // 编辑
-          this.editUserBaseInfo()
-        } else {
-          // 创建
-          const { resultCode, resultData } = await addUser({
-            user: {
-              ...this.form
+            this.editUserBaseInfo()
+          } else {
+            // 创建
+            const { resultCode, resultData } = await addUser({
+              user: {
+                ...this.form
+              }
+            })
+            if (!resultCode) {
+              uni.showToast({ title: "保存成功", icon: "none" });
+              this.userId = resultData.userId
+              this.currentTabIndex = 1
             }
-          })
-          if (!resultCode) {
-            uni.showToast({ title: "保存成功", icon: "none" });
-            this.userId = resultData.userId
-            this.currentTabIndex = 1
           }
-        }
-       
+        });
       } else if (this.currentTabIndex === 1){
         const device = this.devicesList.filter(item => item.deviceName.length > 0 && item.volume.length > 0)
         if (this.parentId) {
@@ -638,7 +668,7 @@ export default {
             if (cItem.deviceId) {
               if (this.parentId) {
                 const opt = {
-                   type: item.type,
+                  type: item.type,
                   deviceId: cItem.deviceId,
                   volume: cItem.volume,
                   deviceName: cItem.deviceName
@@ -657,8 +687,6 @@ export default {
           })
         })
         if (this.parentId) {
-          console.log(response)
-          console.log(this.tabs)
           const params = {
             response,
             userId: this.userId
@@ -682,39 +710,25 @@ export default {
         }
         
       } else {
-        let strategy = []
-        if (this.parentId) {
-           strategy = this.strategyList.map(item => {
-            const ops = {
-              type: item.type,
-              approvalLoad: Number(item.approvalLoad),
-              strategyId: item.strategyId,
-              enterLoad: item.enterLoad
-            }
-            return ops
-          })
-        } else {
-          strategy = this.strategyList.map(item => {
-            const ops = {
-              type: item.type,
-              approvalLoad: Number(item.approvalLoad),
-            }
-            return ops
-          })
-        }
-        
-        const flat = strategy.every((item, index) => {
-          return parseInt(item.approvalLoad < this.sumList[index])
+        const strategy = this.strategyList.map(item => {
+          let info = {
+            type: item.type,
+            approvalLoad: Number(item.approvalLoad),
+          }
+          if (this.parentId) {
+            info.strategyId = item.strategyId
+            info.enterLoad = item.enterLoad
+          }
+          return info
         })
-        // if (!flat) {
-        //   console.log(strategy)
-        //   console.log
-        //   uni.showToast({
-        //     title: '',
-        //     icon: 'none',
-        //   })
-        //   return
-        // }
+        // 输入不能大于
+        const flat = strategy.every((item, index) => {
+          return item.approvalLoad <= this.sumList[index]
+        })
+        if (!flat) {
+          uni.showToast({ title: "输入有误, 核准负荷不能大于录入负荷!", icon: "none" });
+          return
+        }
         if (this.parentId) {
           const params = {
             strategy,
@@ -743,7 +757,6 @@ export default {
     },
     // 设备添加
     deviceAdd(currentIndex) {
-      console.log(this.devicesList[currentIndex])
       if (!this.devicesList[currentIndex].deviceName.length) {
         uni.showToast({
           title: '请输入设备名称',
@@ -777,15 +790,6 @@ export default {
       }
     },
     add(currentIndex, item) {
-      console.log(item)
-      // if (!item.deviceId) {
-        
-      //   uni.showToast({
-      //     title: '请选择设备',
-      //     icon: 'none',
-      //   })
-      //   return
-      // }
       this.tabs[this.currentTab].list.splice(currentIndex, 0, {volume: 0, id: new Date()});
     },
     reduce(currentIndex) {

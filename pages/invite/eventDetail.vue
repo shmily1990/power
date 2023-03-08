@@ -370,7 +370,7 @@ export default {
       left: 0%;
       right: 0;
       top: 48rpx;
-      background-color: #fff;
+      background-color: #4f86b4;
       min-height: 200rpx;
       max-height: 300rpx;
       overflow-y: auto;
