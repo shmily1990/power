@@ -109,6 +109,9 @@
               <text class="unit">kw</text>
             </view>
           </view>
+          <view class="empty" v-if="!tabs[currentTab].list.length">
+            <u-empty mode="list"></u-empty>
+          </view>
         </view>
       </view>
     </card>

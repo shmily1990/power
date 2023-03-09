@@ -57,7 +57,9 @@
         </view>
       </List>
     </scroll-view>
-    <view class="empty" v-else>未查询到数据</view>
+    <view class="empty" v-else>
+      <u-empty mode="search"></u-empty>
+    </view>
   </view>
 </template>
 
