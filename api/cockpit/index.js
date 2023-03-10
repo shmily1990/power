@@ -16,3 +16,7 @@ export function quertyRegulatoryAbilityMonitoring(data) { // 查询调控能力�
 export function quertyRegulatoryAbilityDistribute(data) { // 查询调控能力分布
   return http.post('/api/keeper/Cockpit/QuertyRegulatoryAbilityDistribute', data)
 }
+
+export function queryRespCurve(data) { // 查询事件曲线
+  return http.post('/api/keeper/Cockpit/QueryRespCurve', data)
+}

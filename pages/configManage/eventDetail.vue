@@ -112,7 +112,6 @@
       <view class="chart-content" v-if="eventInfo.status != 1">
         <view class="chart-title flex">
           <text class="iconfont icon-iconDR_day_inactive"></text>
-
           <text>响应结果曲线</text>
         </view>
         <view class="chart-box">
@@ -123,7 +122,7 @@
             :inScrollView="true"
             :canvas2d="true"
             canvasId="canvasId85755"
-            :pageScrollTop="600"
+            :pageScrollTop="900"
           />
         </view>
       </view>
@@ -140,6 +139,7 @@
 import List from "@/components/list.vue";
 import datapicker from "@/components/datePicker";
 import { queryEventByID, updateEvent } from "@/api/event/index.js";
+import { queryRespCurve } from "@/api/cockpit/index.js"
 import { uniScrollTop, eventTypeList } from "@/utils/common.js";
 
 export default {
@@ -187,6 +187,8 @@ export default {
           axisLineColor: "#0D6798",
           fontColor: "rgba(0,200,255,0.3)",
           fontSize: 12,
+          itemCount: 4,
+          rotateLabel: true
         },
         yAxis: {
           disabled: false,
@@ -286,7 +288,9 @@ export default {
   },
   onReady() {
     this.getDetail()
-    this.getServerData();
+    if (this.eventInfo.status != 1) {
+      this.queryChartData()
+    }
   },
   mounted() {},
   methods: {
@@ -401,57 +405,96 @@ export default {
         this.eventDesForm.form = { desc }
       }
     },
-    getServerData() {
-      //模拟从服务器获取数据时的延时
-      // setTimeout(() => {
-      //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-      let res = {
-        categories: ["15:00", "15:10", "15:20", "15:30", "15:40"],
-        series: [
-          {
-            name: "目标值",
-            textSize: 1,
-            data: [75, 48, 65, 66, 50, 60],
-            lineStyle: {
-              normal: {
-                //线的颜色
-                color: "#f00",
-                shadowColor: "rgba(0, 0, 0, 1)",
-                shadowBlur: 0,
-                shadowOffsetY: 5,
-                shadowOffsetX: 5,
-              },
-            },
-            itemStyle: {
-              //面积图里的颜色和圆点里的颜色
-              color: "#00ca95",
-              //圆点外的颜色
-              borderColor: "#fff",
-              //圆点的宽度
-              borderWidth: 10,
-              //圆点影子的颜色
-              shadowColor: "rgba(0, 0, 0, 1)",
-              //阴影的模糊级数
-              shadowBlur: 0,
-              //阴影的偏移效果
-              shadowOffsetY: 2,
-              shadowOffsetX: 2,
-            },
-          },
-          {
-            name: "完成量",
-            textSize: 1,
-            data: [90, 80, 100, 80, 90, 100],
-          },
-          {
-            name: "园区",
-            textSize: 1,
-            data: [110, 90, 110, 120, 112, 150],
-          },
-        ],
-      };
-      this.chartData = JSON.parse(JSON.stringify(res));
-      // }, 500);
+    // 获取曲线数据
+    async queryChartData() {
+      const { resultCode, resultData } = await queryRespCurve({ eventId: this.eventInfo.eventID })
+      if (!resultCode) {
+        if (resultData && resultData.length) {
+          const xAxisData = []
+          const data = []
+          resultData.forEach(c => {
+            xAxisData.push(c.responseTime.slice(-5))
+            data.push(c.responseLoad)
+          })
+          let res = {
+            categories: xAxisData,
+            series: [
+              {
+                name: "目标值",
+                textSize: 1,
+                data,
+                lineStyle: {
+                  normal: {
+                    //线的颜色
+                    color: "#f00",
+                    shadowColor: "rgba(0, 0, 0, 1)",
+                    shadowBlur: 0,
+                    shadowOffsetY: 5,
+                    shadowOffsetX: 5,
+                  },
+                },
+                itemStyle: {
+                  //面积图里的颜色和圆点里的颜色
+                  color: "#00ca95",
+                  //圆点外的颜色
+                  borderColor: "#fff",
+                  //圆点的宽度
+                  borderWidth: 10,
+                  //圆点影子的颜色
+                  shadowColor: "rgba(0, 0, 0, 1)",
+                  //阴影的模糊级数
+                  shadowBlur: 0,
+                  //阴影的偏移效果
+                  shadowOffsetY: 2,
+                  shadowOffsetX: 2,
+                },
+              }
+            ],
+          };
+          setTimeout(() => {
+            this.chartData = JSON.parse(JSON.stringify(res));
+          }, 500)
+        } else {
+          let res = {
+            categories: [' '],
+            series: [
+              {
+                name: "目标值",
+                textSize: 1,
+                data: [],
+                lineStyle: {
+                  normal: {
+                    //线的颜色
+                    color: "#f00",
+                    shadowColor: "rgba(0, 0, 0, 1)",
+                    shadowBlur: 0,
+                    shadowOffsetY: 5,
+                    shadowOffsetX: 5,
+                  },
+                },
+                itemStyle: {
+                  //面积图里的颜色和圆点里的颜色
+                  color: "#00ca95",
+                  //圆点外的颜色
+                  borderColor: "#fff",
+                  //圆点的宽度
+                  borderWidth: 10,
+                  //圆点影子的颜色
+                  shadowColor: "rgba(0, 0, 0, 1)",
+                  //阴影的模糊级数
+                  shadowBlur: 0,
+                  //阴影的偏移效果
+                  shadowOffsetY: 2,
+                  shadowOffsetX: 2,
+                },
+              }
+            ],
+          };
+          setTimeout(() => {
+            this.chartData = JSON.parse(JSON.stringify(res));
+          }, 500)
+        }
+      }
     },
     // checkboxChange(e) {
     //   console.log(e, this.checkValue);
@@ -605,7 +648,7 @@ export default {
   }
   .chart-box {
     width: 568rpx;
-    height: 300rpx;
+    height: 350rpx;
   }
 }
 .bottom {

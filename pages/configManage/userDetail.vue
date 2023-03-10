@@ -34,7 +34,9 @@
                 <text class="unit">kw</text>
               </view>
             </view>
-            
+            <view class="empty" v-if="!deviceList.length">
+              <u-empty mode="list"></u-empty>
+            </view>
           </view>
         </view>
         <u-divider class="my-divider"></u-divider>
@@ -45,11 +47,11 @@
         <view class="user-form-info">
           <view class="label-value">
             <text class="title">联系人</text>
-            <text class="value">{{ userDetail.contact }}</text>
+            <text class="value">{{ userDetail.contact || '' }}</text>
           </view>
           <view class="label-value">
             <text class="title">联系方式</text>
-            <text class="value">{{ userDetail.phone }}</text>
+            <text class="value">{{ userDetail.phone || '' }}</text>
           </view>
         </view>
       </view>

@@ -366,17 +366,9 @@ export default {
     // 获取用户区域列表
     async getRegionList() {
       const { resultCode, resultData } = await getRegionList({});
-      // this.regionList = resultData;
-      this.regionList = [
-        {
-          regionId: 1,
-          regionName: "测试",
-        },
-        {
-          regionId: 2,
-          regionName: "程序员",
-        },
-      ];
+      if (!resultCode) {
+        this.regionList = resultData;
+      }
     },
     // 用户详情
     async queryUserDetail() {

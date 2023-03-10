@@ -473,16 +473,19 @@ export default {
                 ...item,
                 id: item.responseId
               })
+              break
             case 20:
               list2.push({
                 ...item,
                 id: item.responseId
               })
+              break
             case 30:
               list3.push({
                 ...item,
                 id: item.responseId
               })
+              break
           }
         })
         this.tabs = [
@@ -583,6 +586,12 @@ export default {
     },
     bindPickerChange(e, index) {
       const value = e.detail.value
+      const selectDeviceId = this.devicesList[value].deviceId
+      const isFind = this.tabs[this.currentTab].list.find(c => c.deviceId === selectDeviceId)
+      if (isFind) {
+        uni.showToast({ title: "同一响应配置设备不能重复添加", icon: "none" });
+        return
+      }
       this.$set(this.tabs[this.currentTab].list, index, {
         deviceTypeIndex: Number(value),
         deviceId: this.devicesList[value].deviceId,

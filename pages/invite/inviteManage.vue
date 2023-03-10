@@ -252,6 +252,10 @@ export default {
      * @param { number } id - 事件id
      */
     async queryEventByID(eventID) {
+      if (!eventID) {
+         uni.showToast({ title: "暂无关联事件，请添加事件", icon: "none" });
+         return
+      }
       const { resultCode, resultData } = await queryEventByID({ eventID });
       if (!resultCode) {
         resultData.startDate = resultData.startDate.slice(0, -3);

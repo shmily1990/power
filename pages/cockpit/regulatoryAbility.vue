@@ -104,6 +104,7 @@
             :chartData="chartData"
             :canvas2d="true"
             :inScrollView="true"
+            ontouch="true"
           />
         </view>
         <view class="range">
@@ -153,6 +154,8 @@ export default {
   data() {
     return {
       opts: {
+        animation: true,
+        enableScroll: true,
         color: [
           "#6DD400",
           "#F7B500",
@@ -165,6 +168,7 @@ export default {
           "#000000",
         ],
         padding: [15, 0, 0, 15],
+        touchMoveLimit: 60,
         enableScroll: false,
         legend: {
           position: "top",
@@ -176,7 +180,7 @@ export default {
         },
         xAxis: {
           disableGrid: true,
-          labelCount: 4,
+          itemCount: 4,
           rotateLabel: true,
           // title: "单位：年"
           axisLineColor: "#396780",

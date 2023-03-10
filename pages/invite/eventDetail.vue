@@ -76,17 +76,6 @@
           <view class="title">发布时间</view>
           <!-- <input class="uni-input" /> -->
           <view class="uni-list-cell-db">
-            <!-- <picker
-              mode="multiSelector"
-              :value="dateTime"
-              @change="changeDateTime($event, 'first')"
-              @columnchange="changeDateTimeColumn($event, 'first')"
-              :range="dateTimeArray"
-            >
-              <view class="lableBox">
-                <view class="choose-value uni-input">{{ timeStr }}</view>
-              </view>
-            </picker>-->
             <datePicker
               :timeValue.sync="eventObj.releaseDate"
               :disabled="operateDisable.card1"
@@ -143,17 +132,6 @@
         <view class="uni-form-item flex">
           <view class="title">开始时间</view>
           <view class="uni-list-cell-db">
-            <!-- <picker
-              mode="multiSelector"
-              :value="dateTime1"
-              @change="changeDateTime($event, 'second')"
-              @columnchange="changeDateTimeColumn($event, 'second')"
-              :range="dateTimeArray1"
-            >
-              <view class="lableBox">
-                <view class="choose-value uni-input">{{ timeStr1 }}</view>
-              </view>
-            </picker>-->
             <datePicker
               :timeValue.sync="eventObj.startDate"
               :disabled="operateDisable.card3"
@@ -162,7 +140,7 @@
         </view>
         <view class="uni-form-item flex">
           <view class="title">持续时长</view>
-          <input
+          <u-input
             class="uni-input account"
             v-model="eventObj.lastDate"
             :disabled="operateDisable.card3"
@@ -361,7 +339,7 @@ export default {
       });
     },
     open() {
-      this.show = true;
+      this.show = !this.show;
     },
     choose(target) {
       this.target = target.eventName;

@@ -84,6 +84,9 @@
                   class="right"
                 />
               </view>
+              <view class="empty" v-if="!filterCustomer.length">
+                <u-empty mode="list"></u-empty>
+              </view>
             </view>
           </view>
         </view>
