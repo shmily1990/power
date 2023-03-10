@@ -37,18 +37,18 @@
               <view class="txt">
                 <view class="top">总日内响应</view>
                 <view class="num response"
-                  >{{ responseType30.total }}<text class="unit">kW</text></view
+                  >{{ responseType20.total }}<text class="unit">kW</text></view
                 >
               </view>
             </view>
             <!--右-->
             <view class="r response">
               <view class="top">
-                <text>实际</text> <text>{{ responseType30.actual }}kW</text> <text>申报比例 {{ responseType30.percentage }}%</text>
+                <text>实际</text> <text>{{ responseType20.actual }}kW</text> <text>申报比例 {{ responseType20.percentage }}%</text>
               </view>
               <template>
                 <u-line-progress
-                  :percentage="responseType30.percentage"
+                  :percentage="responseType20.percentage"
                   inactiveColor="#256079"
                   activeColor="#F7B500"
                   :showText="false"
@@ -72,11 +72,11 @@
             <!--右-->
             <view class="r max-response">
               <view class="top">
-                <text>实际</text> <text>{{ responseType10.actual }}kW</text> <text>申报比例 {{ responseType10.percentage }}%</text>
+                <text>实际</text> <text>{{ responseType30.actual }}kW</text> <text>申报比例 {{ responseType30.percentage }}%</text>
               </view>
               <template>
                 <u-line-progress
-                  :percentage="responseType10.percentage"
+                  :percentage="responseType30.percentage"
                   inactiveColor="#256079"
                   activeColor="#FA6400"
                   :showText="false"
@@ -168,8 +168,10 @@ export default {
           "#000000",
         ],
         padding: [15, 0, 0, 15],
+        height: 350,
+        width: 300,
         touchMoveLimit: 60,
-        enableScroll: false,
+        enableScroll: true,
         legend: {
           position: "top",
           float: "right",
@@ -185,7 +187,7 @@ export default {
           // title: "单位：年"
           axisLineColor: "#396780",
           fontColor: "rgba(255,255,255,0.4)",
-          fontSize: 12,
+          fontSize: 10,
         },
         yAxis: {
           disabled: false,
@@ -313,6 +315,7 @@ export default {
               },
             ]
           }
+          // this.opts.xAxis.formatter = (val) => 'asdf'
           setTimeout(() => {
             this.chartData = JSON.parse(JSON.stringify(res));
           }, 500)
@@ -452,8 +455,8 @@ export default {
     }
   }
   .chart-box {
-    width: 568rpx;
-    height: 350rpx;
+    // width: 568rpx;
+    // height: 350rpx;
     .top {
       display: flex;
       justify-content: space-between;

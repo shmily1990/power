@@ -283,6 +283,10 @@ export default {
         line-height: 48rpx;
         padding-left: 20rpx;
         color: #00c8ff;
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }
