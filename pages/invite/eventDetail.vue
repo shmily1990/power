@@ -28,6 +28,7 @@
           type="default"
           size="mini"
           @click="operate('card1')"
+          v-if="loginUserInfo.userType != 30"
         >
           {{ getCardLabel("card1") }}
         </button>
@@ -95,6 +96,7 @@
           type="default"
           size="mini"
           @click="operate('card2')"
+          v-if="loginUserInfo.userType != 30"
         >
           {{ getCardLabel("card2") }}
         </button>
@@ -124,6 +126,7 @@
           type="default"
           size="mini"
           @click="operate('card3')"
+          v-if="loginUserInfo.userType != 30"
         >
           {{ getCardLabel("card3") }}
         </button>
@@ -160,6 +163,7 @@
           type="default"
           size="mini"
           @click="operate('card4')"
+          v-if="loginUserInfo.userType != 30"
         >
           {{ getCardLabel("card4") }}
         </button>
@@ -193,7 +197,7 @@ import { getEventInfo } from "@/api/invite/index.js";
 import { queryEventByID, updateEvent } from "@/api/event/index.js";
 import { uniScrollTop, eventTypeList } from "@/utils/common.js";
 const { dateTimePicker, getMonthDay } = require("@/utils/date.js");
-import { mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
    options: {
@@ -231,6 +235,9 @@ export default {
     };
   },
   computed: {
+    ...mapState([
+      "loginUserInfo"
+    ]),
     currentEventTypeName() {
       const item = this.typeList.find((c) => c.value == this.eventObj.eventType) || {}
       return item.name;

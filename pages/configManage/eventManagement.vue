@@ -26,7 +26,7 @@
         @eventSelect="handleSelect"
         :eventList="historyData"
       />
-      <view class="bottom">
+      <view class="bottom" v-if="loginUserInfo.userType != 30">
         <text @click="add" class="btn">新建事件</text>
       </view>
     </template>
@@ -42,7 +42,7 @@ import eventDetail from "./eventDetail.vue";
 import addEvent from "./addEvent.vue";
 import { queryEventTotal, queryEventByStatusWithPage } from "@/api/event/index.js";
 import { uniScrollTop } from "@/utils/common.js";
-
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   options: {
     styleIsolation: "shared",
@@ -77,6 +77,11 @@ export default {
       historyData: [],
       eventInfo: {}
     };
+  },
+  computed: {
+    ...mapState([
+      "loginUserInfo"
+    ])
   },
   components: {
     overview,

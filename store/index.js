@@ -24,7 +24,8 @@ const store = createStore({
 			menu: [],
 			univerifyErrorMsg: '',
 			urlParams: 0,
-			eventID: null
+			eventID: null,
+			loginUserInfo: {} // 登录用户信息
 		},
 		mutations: {
 			login(state, provider) {
@@ -74,6 +75,9 @@ const store = createStore({
 			},
 			setEventID(state, value) {
 				state.eventID = value
+			},
+			setLoginUserInfo(state, value) {
+				state.loginUserInfo = value
 			}
 		},
 		getters: {

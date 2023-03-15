@@ -10,8 +10,8 @@
           <view class="mid">
             <text class="mid-name">{{ user.userName }}</text>
             <view class="mid-bottom">
-              <text class="status">参与</text>
-              <text class="value">{{ user.load }} kw</text>
+              <text class="status">{{ user.responseName }}</text>
+              <text class="value" v-if="user.responseId == 30">{{ user.load }} kw</text>
             </view>
           </view>
           <view class="right">
@@ -19,31 +19,33 @@
             <text class="time">{{ userDetail.responseTime || '-' }}</text>
           </view>
         </div>
-        <view class="device-info">
-          <view class="device-info-head">
-            <text>序号</text>
-            <text>响应设备</text>
-            <text>响应容量</text>
-          </view>
-          <view class="device-info-list">
-            <view class="device-item" v-for="(item, index) in deviceList" :key="index">
-              <text class="order border">{{ index + 1}}</text>
-              <text class="name border">{{ item.deviceName }}</text>
-              <view class="capacity">
-                <text class="value border">{{ item.volume }}</text>
-                <text class="unit">kw</text>
+        <template v-if="user.responseId == 30">
+          <view class="device-info">
+            <view class="device-info-head">
+              <text>序号</text>
+              <text>响应设备</text>
+              <text>响应容量</text>
+            </view>
+            <view class="device-info-list">
+              <view class="device-item" v-for="(item, index) in deviceList" :key="index">
+                <text class="order border">{{ index + 1}}</text>
+                <text class="name border">{{ item.deviceName }}</text>
+                <view class="capacity">
+                  <text class="value border">{{ item.volume }}</text>
+                  <text class="unit">kw</text>
+                </view>
+              </view>
+              <view class="empty" v-if="!deviceList.length">
+                <u-empty mode="list"></u-empty>
               </view>
             </view>
-            <view class="empty" v-if="!deviceList.length">
-              <u-empty mode="list"></u-empty>
-            </view>
           </view>
-        </view>
-        <u-divider class="my-divider"></u-divider>
-        <view class="sum"
-          >共计响应<text class="count">{{ userDetail.volumeTotal }}</text
-          ><text class="unit">kw</text></view
-        >
+          <u-divider class="my-divider"></u-divider>
+          <view class="sum"
+            >共计响应<text class="count">{{ userDetail.volumeTotal }}</text
+            ><text class="unit">kw</text></view
+          >
+        </template>
         <view class="user-form-info">
           <view class="label-value">
             <text class="title">联系人</text>

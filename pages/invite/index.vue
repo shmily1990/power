@@ -15,7 +15,8 @@
         <eventDetail />
       </template>
       <template slot="tab1" v-if="tabIdx == 1">
-        <inviteManage @changeTab="changeTab" />
+        <inviteManage @changeTab="changeTab" v-if="loginUserInfo.userType != 30" />
+        <uMyInviteManage v-else />
       </template>
     </tab-swiper>
     <u-no-network />
@@ -27,9 +28,12 @@ import tabSwiper from "@/components/tabSwiperBar";
 import eventDetail from "./eventDetail.vue";
 import inviteManage from "./inviteManage.vue";
 import navbar from "@/components/topNav.vue"; //引入组件
+import uMyInviteManage from "./myInviteManage.vue"
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   components: {
+    uMyInviteManage,
     eventDetail,
     inviteManage,
     navbar,
@@ -37,8 +41,32 @@ export default {
   },
   data() {
     return {
-      tabIdx: 0,
-      tabList: [
+      tabIdx: 0
+    };
+  },
+  computed: {
+    ...mapState([
+      "loginUserInfo"
+    ]),
+    tabList() {
+      const { userType } = this.loginUserInfo
+      if (userType == 30) { // 30 用户 10管理员，20 子管理员
+        return [
+          {
+            id: "tab01",
+            name: "事件详情",
+            iconfont: "icon-iconKSYY_SJXQ_active",
+            newsid: 0,
+          },
+          {
+            id: "tab02",
+            name: "我的邀约",
+            iconfont: "icon-iconKSYY_YYGL_inactive",
+            newsid: 23,
+          }
+        ]
+      }
+      return [
         {
           id: "tab01",
           name: "事件详情",
@@ -50,9 +78,9 @@ export default {
           name: "邀约管理",
           iconfont: "icon-iconKSYY_YYGL_inactive",
           newsid: 23,
-        },
-      ],
-    };
+        }
+      ]
+    }
   },
   onLoad() {},
   onShow: function (e) {},

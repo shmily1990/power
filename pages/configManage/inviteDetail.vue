@@ -96,7 +96,7 @@
           <image src="~@/static/icon-back.png" class="img-back" />
           <text class="title">返回</text>
         </view>
-        <view class="btns">
+        <view class="btns" v-if="loginUserInfo.userType != 30">
           <text class="btn" @click="opeartInvite(20)">放弃邀约</text>
           <text class="btn" @click="opeartInvite(30)">完成邀约</text>
         </view>
@@ -113,6 +113,7 @@ import userDetail from "./userDetail.vue";
 import overview from "@/components/overview";
 import { uniScrollTop } from "@/utils/common.js";
 import { getInviteInfo, excuteInviteOperation } from "@/api/invite/index.js";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   options: {
     styleIsolation: "shared",
@@ -179,6 +180,9 @@ export default {
     }
   },
   computed: {
+    ...mapState([
+      "loginUserInfo"
+    ]),
     partChoose() {
       return !this.defaultCheckdeValues.includes('cb') && this.defaultCheckdeValues.length > 0
     },

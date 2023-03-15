@@ -20,7 +20,7 @@
         @eventSelect="handleSelect"
         :eventList="historyInviteList"
       />
-      <view class="bottom">
+      <view class="bottom" v-if="loginUserInfo.userType != 30">
         <text class="btn" @click="gotoInvitateManagePage">新建邀约</text>
       </view>
     </template>
@@ -34,6 +34,7 @@ import event from "./component/event.vue";
 import inviteDetail from "./inviteDetail.vue";
 import { uniScrollTop } from "@/utils/common.js";
 import { getInviteTotal, getInvitePage } from "@/api/invite/index.js";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   options: {
     styleIsolation: "shared",
@@ -66,6 +67,11 @@ export default {
       historyInviteList: [],
       currentInviteInfo: {}
     };
+  },
+  computed: {
+    ...mapState([
+      "loginUserInfo"
+    ])
   },
   components: {
     overview,

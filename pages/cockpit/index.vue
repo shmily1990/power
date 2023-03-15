@@ -8,13 +8,16 @@
     ></navbar>
     <tab-swiper :tabList="tabList" class="container" @tabCurrent="tabCurrent" refs="tabs">
       <template slot="tab0" v-if="tabIdx == 0">
-        <resourceAll />
+        <resourceAll v-if="loginUserInfo.userType != 30" />
+        <uResourceAll v-else />
       </template>
       <template slot="tab1" v-if="tabIdx == 1">
-        <resourceScatter />
+        <resourceScatter v-if="loginUserInfo.userType != 30" />
+        <uResponse v-else />
       </template>
       <template slot="tab2" v-if="tabIdx == 2">
-        <regulatoryAbility />
+        <regulatoryAbility v-if="loginUserInfo.userType != 30" />
+        <uDeviceRchives v-else />
       </template>
     </tab-swiper>
   </view>
@@ -25,19 +28,57 @@ import resourceAll from "./resourceAll.vue";
 import regulatoryAbility from "./regulatoryAbility.vue";
 import resourceScatter from "./resourceScatter.vue";
 import tabSwiper from '@/components/tabSwiperBar'
-
+import uResourceAll from "./user/uResourceAll.vue"
+import uResponse from "./user/uResponse.vue"
+import uDeviceRchives from "./user/deviceRrchives.vue"
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   components: {
     navbar,
     resourceAll,
     regulatoryAbility,
     resourceScatter,
-    tabSwiper
+    tabSwiper,
+    uResourceAll,
+    uResponse,
+    uDeviceRchives
   },
   data() {
     return {
       backgroundColor: "linear-gradient(90deg, #102D58 0%, #144E6D 100%);",
-      tabList: [
+      tabIdx: 0,
+      scrollInto: "",
+    };
+  },
+  computed: {
+    ...mapState([
+      "loginUserInfo"
+    ]),
+    tabList() {
+      const { userType } = this.loginUserInfo
+      if (userType == 30) { // 30 用户 10管理员，20 子管理员
+        return [
+          {
+            id: "tab01",
+            name: "我的概览",
+            newsid: 0,
+            iconfont: "icon-iconJSC_active_ZYZL",
+          },
+          {
+            id: "tab02",
+            name: "我的响应",
+            newsid: 23,
+            iconfont: "icon-iconJSC_active_ZYZL",
+          },
+          {
+            id: "tab03",
+            name: "我的档案",
+            newsid: 223,
+            iconfont: "icon-iconJSC_active_ZYZL",
+          },
+        ]
+      }
+      return [
         {
           id: "tab01",
           name: "资源总览",
@@ -56,10 +97,8 @@ export default {
           newsid: 223,
            iconfont: "icon-iconJSC_active_ZYZL",
         },
-      ],
-      tabIdx: 0,
-      scrollInto: "",
-    };
+      ]
+    }
   },
   onLoad: function (options) {},
   onReady() {},
@@ -72,6 +111,7 @@ export default {
       this.tabIdx = index;
     },
   },
+  created() {}
 };
 </script>
 

@@ -113,10 +113,7 @@ export default {
   },
   computed: {
     ...mapState([
-      "hasLogin",
-      "colorList",
-      "isUniverifyLogin",
-      "univerifyErrorMsg",
+      "loginUserInfo"
     ]),
   },
   methods: {
@@ -140,6 +137,7 @@ export default {
           if (res.resultCode == 0) {
             uni.setStorageSync("token", res.userToken);
             uni.setStorageSync("userInfo", res);
+            this.$store.commit('setLoginUserInfo', res)
             uni.switchTab({
               url: "/pages/cockpit/index",
             });
@@ -152,7 +150,7 @@ export default {
       //         url: "/pages/cockpit/index",
       //       });
     },
-  },
+  }
 };
 </script>
 
