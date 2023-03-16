@@ -62,13 +62,13 @@ export default {
           },
           {
             name: "事件管理",
-            iconfont: "icon-iconJSC_inactive_ZYFB",
+            iconfont: "icon-iconPZGL_SJGL_inactive",
             id: "tab02",
             newsid: 10,
           },
           {
             name: "资源管理",
-            iconfont: "icon-iconJSC_inactive_TKNL",
+            iconfont: "icon-iconPZGL_YYGL_inactive",
             id: "tab03",
             newsid: 30,
           },
@@ -83,13 +83,13 @@ export default {
         },
         {
           name: "事件管理",
-          iconfont: "icon-iconJSC_inactive_ZYFB",
+          iconfont: "icon-iconPZGL_SJGL_inactive",
           id: "tab02",
           newsid: 10,
         },
         {
           name: "用户管理",
-          iconfont: "icon-iconJSC_inactive_TKNL",
+          iconfont: "icon-iconPZGL_YYGL_inactive",
           id: "tab03",
           newsid: 30,
         },

@@ -68,13 +68,13 @@ export default {
             id: "tab02",
             name: "我的响应",
             newsid: 23,
-            iconfont: "icon-iconJSC_active_ZYZL",
+            iconfont: "icon-UPMYRESPONSE",
           },
           {
             id: "tab03",
             name: "我的档案",
             newsid: 223,
-            iconfont: "icon-iconJSC_active_ZYZL",
+            iconfont: "icon-iconJSC_TKNL_inactive",
           },
         ]
       }
@@ -89,13 +89,13 @@ export default {
           id: "tab02",
           name: "资源分布",
           newsid: 23,
-           iconfont: "icon-iconJSC_active_ZYZL",
+           iconfont: "icon-iconJSC_inactive_ZYFB",
         },
         {
           id: "tab03",
           name: "调控能力",
           newsid: 223,
-           iconfont: "icon-iconJSC_active_ZYZL",
+           iconfont: "icon-iconJSC_TKNL_inactive",
         },
       ]
     }

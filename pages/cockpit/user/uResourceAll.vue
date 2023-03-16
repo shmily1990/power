@@ -48,14 +48,14 @@
         <view class="pie-chart">
           <view class="legend">
             <view class="legend-item">
-              <text class="iconfont icon-iconJSC_2_1" style="width:60rpx;height:60rpx"></text>
+              <text class="iconfont icon-iconUser-JSC-3-2" style="width:60rpx;height:60rpx"></text>
               <view class="txt">
                 <view class="title">年度累计响应次数</view>
                 <view class="num">{{ yearResponseInfo.annualResponseTimes }}<text class="unit">次</text></view>
               </view>
             </view>
             <view class="legend-item">
-              <text class="iconfont icon-iconJSC_2_1" style="width:60rpx;height:60rpx"></text>
+              <text class="iconfont icon-iconUser-JSC-3-1" style="width:60rpx;height:60rpx"></text>
               <view class="txt">
                 <view class="title">年度累计响应负荷</view>
                 <view class="num">{{ responsivenessOverview.annualResponseLoad }}<text class="unit">次</text></view>
@@ -64,7 +64,7 @@
           </view>
           <view class="chart">
             <qiun-data-charts width="80" height="80" type="arcbar" :opts="opts2" :chartData="chartData2" :inScrollView="true" :canvas2d="true" />
-            <!-- <view class="chart-title">年度参与度</view> -->
+            <view class="chart-title">年度参与度</view>
           </view>
         </view>
         <view class="chart-box">
@@ -470,6 +470,13 @@ export default {
     .chart {
       width: 168rpx;
       height: 168rpx;
+      &-title {
+        font-size: 24rpx;
+        font-family: MicrosoftYaHei;
+        color: rgba(230,241,255,0.8);
+        text-align: center;
+        padding-top: 10rpx;
+      }
     }
   }
 }

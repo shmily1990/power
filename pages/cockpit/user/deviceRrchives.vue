@@ -1,6 +1,6 @@
 <template>
   <view class="user-page"> 
-    <List titleTxt="设备档案" fontClass="icon-iconPZGL_YHGL_2-0-title">
+    <List titleTxt="设备档案" fontClass="icon-iconJSC_1_0-title">
       <view class="card-content">
         <view class="device-info">
           <view class="device-info-head">

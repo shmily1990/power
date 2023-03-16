@@ -62,7 +62,7 @@
     <view class="card card2">
       <view class="card-title">
         <view class="titleleft">
-          <text class="iconfont icon-iconKSYY_YYGL_2-0-title"></text>
+          <text class="iconfont icon-icon-PayCircleOutlined"></text>
           <text class="itemtext">参与用户补贴</text>
         </view>
         <!-- <button class="mini-btn" type="default" size="mini">编辑</button> -->
@@ -78,7 +78,7 @@
     <view class="card card3">
       <view class="card-title">
         <view class="titleleft">
-          <text class="iconfont icon-iconKSYY_YYGL_2-0-title"></text>
+          <text class="iconfont icon-iconPZGL_YHGL_2-0-title"></text>
           <text class="itemtext">响应配置</text>
         </view>
         <!-- <button class="mini-btn" type="default" size="mini">编辑</button> -->
@@ -210,15 +210,15 @@
     <view class="card myResponse">
       <view class="card-title">
         <view class="titleleft">
-          <text class="iconfont icon-iconKSYY_YYGL_2-0-title"></text>
+          <text class="iconfont icon-UPMYRESPONSE"></text>
           <text class="itemtext">我的响应</text>
         </view>
         <view class="inviteStatus">{{ inviteInfo.responseState }}</view>
       </view>
       <view class="card-content">
         <view class="btns">
-          <view class="btns-item" :class="{'active': state == 0}" @click="() => state = 0">不参与本次响应</view>
-          <view class="btns-item" :class="{'active': state == 1}" @click="() => state = 1">参与响应<view class="value"><text>{{ sumList[currentTab] }}</text>kw</view></view>
+          <view class="btns-item no-response" :class="{'active': state == 0}" @click="() => state = 0">不参与本次响应</view>
+          <view class="btns-item yes-response" :class="{'active': state == 1}" @click="() => state = 1">参与响应<view class="value"><text>{{ sumList[currentTab] }}</text>kw</view></view>
         </view>
       </view>
     </view>
@@ -884,7 +884,6 @@ background: linear-gradient(360deg, #47A41D 0%, #029B9E 100%);
     display: flex;
     justify-content: space-between;
     &-item {
-      width: 47%;
       height: 80rpx;
       border-radius: 16rpx;
       border: 2rpx solid rgba(14,173,112,0.21);
@@ -896,13 +895,15 @@ background: linear-gradient(360deg, #47A41D 0%, #029B9E 100%);
       display: flex;
       justify-content: center;
       .value {
-        width: 100rpx;
+        width: 160rpx;
         height: 60rpx;
         background: rgba(13, 255, 154, 0.08);
         border-radius: 8rpx;
         margin-top: 10rpx;
         line-height: 60rpx;
         margin-left: 10rpx;
+        display: flex;
+        justify-content: space-around;
         text {
           color: #15FFA5;
           font-family: square-font;
@@ -910,8 +911,16 @@ background: linear-gradient(360deg, #47A41D 0%, #029B9E 100%);
         }
       }
     }
+    .no-response {
+      width: 200rpx;
+    }
+    .yes-response {
+      flex: 1;
+      margin: 0 40rpx;
+    }
     .active {
       border: 2rpx solid #15FFA5;
+      color: #15FFA5;
     }
   }
 }

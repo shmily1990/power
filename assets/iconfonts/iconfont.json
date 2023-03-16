@@ -6,6 +6,62 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "34606640",
+      "name": "iconUser-JSC-3-1",
+      "font_class": "iconUser-JSC-3-1",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "34606641",
+      "name": "iconUser-JSC-3-2",
+      "font_class": "iconUser-JSC-3-2",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "34299483",
+      "name": "icon",
+      "font_class": "icon",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "34606110",
+      "name": "icon (2)",
+      "font_class": "YEAR-RESPONSE-COUNT",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "34606111",
+      "name": "icon (3)",
+      "font_class": "YEAR-RESPONSE-FH",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "34606086",
+      "name": "icon (1)",
+      "font_class": "UPMYRESPONSE",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "34606018",
+      "name": "icon",
+      "font_class": "icon-PayCircleOutlined",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "33969030",
+      "name": "iconElemeCancel",
+      "font_class": "iconElemeCancel",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
       "icon_id": "33968967",
       "name": "iconDR_long_active",
       "font_class": "iconDR_long_active",

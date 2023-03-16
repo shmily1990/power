@@ -62,7 +62,7 @@
     <view class="card card2">
       <view class="card-title">
         <view class="titleleft">
-          <text class="iconfont icon-iconKSYY_YYGL_2-0-title"></text>
+          <text class="iconfont icon-icon-PayCircleOutlined"></text>
           <text class="itemtext">参与用户补贴</text>
         </view>
         <!-- <button class="mini-btn" type="default" size="mini">编辑</button> -->

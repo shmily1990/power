@@ -503,6 +503,7 @@ export default {
 
 .user-response-detail {
   height: 100%;
+  padding-bottom: 40rpx;
   .base-info ::v-deep .u-border {
     border-color: #e6f1ff33 !important;
     padding: 2rpx 9rpx !important;

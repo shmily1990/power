@@ -3,7 +3,7 @@
     <template v-if="!showEventDetail">
       <event
         name="当前邀约"
-        fontClass="icon-iconPZGL_YYGL_2-0-title"
+        fontClass="icon-iconKSYY_SJXQ_active"
         @eventSelect="handleSelect"
         :eventList="currentInviteList"
       />
