@@ -10,7 +10,7 @@
       ></u-search>
       <eventInfo
         name="待执行"
-        fontClass="icon-iconPZGL_YYGL_3-0-title"
+        fontClass="icon-iconPZGL_YYGL_2-0-title"
         @eventSelect="handleSelect"
         :eventList="waitExcuteData"
       />

@@ -2,7 +2,7 @@
   <view>
     <view class="detail-title flex between">
       <text>事件详情</text>
-      <text class="r">{{ eventInfo.eventID }}</text>
+      <!-- <text class="r">{{ eventInfo.eventID }}</text> -->
     </view>
 
     <List titleTxt="事件名称" fontClass="icon-iconPZGL_SJGL_5-0-title">
@@ -109,7 +109,7 @@
           />
         </view>
       </view>
-      <view class="chart-content" v-if="eventInfo.status != 1">
+      <view class="chart-content" v-if="eventInfo.status === 4">
         <view class="chart-title flex">
           <text class="iconfont icon-iconDR_day_inactive"></text>
           <text>响应结果曲线</text>

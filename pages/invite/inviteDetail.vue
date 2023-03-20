@@ -16,7 +16,7 @@
         </view>
         <view class="uni-form-item flex">
           <view class="title">事件类型</view>
-          <input class="uni-input" disabled v-model="targetObj.eventType" />
+          <input class="uni-input" disabled :value="targetObj.eventType" />
         </view>
         <view class="uni-form-item flex">
           <view class="title">开始时间</view>
@@ -47,13 +47,13 @@
         <view class="uni-form-item flex">
           <view class="title">申报截止</view>
           <view class="uni-list-cell-db">
-            <datapicker :timeValue.sync="targetObj.declareTime" />
+            <datapicker :timeValue.sync="targetObj.declareTime" disabled />
           </view>
         </view>
         <view class="uni-form-item flex">
           <view class="title">邀约截止</view>
           <view class="uni-list-cell-db">
-            <datapicker :timeValue.sync="inviteTime" />
+            <datapicker :timeValue.sync="inviteTime" disabled />
             <!-- <datapicker :timeValue.sync="inviteTime" disabled="true" /> -->
           </view>
         </view>
@@ -276,6 +276,11 @@ export default {
       userMsg: {
         responseTotal: undefined,
         userTotal: undefined,
+      },
+      eventNameMap: {
+        10: '快速响应',
+        20: '日内响应',
+        30: '中长期响应'
       },
       //
       tabs: [

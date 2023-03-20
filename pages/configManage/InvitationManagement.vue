@@ -1,6 +1,6 @@
 <template>
   <view class="event-manage">
-    <template v-if="!showEventDetail">
+    <template v-if="!showEventDetail && !showUserDetail">
       <overview :data="data" />
       <u-search
         placeholder="搜索"
@@ -24,7 +24,8 @@
         <text class="btn" @click="gotoInvitateManagePage">新建邀约</text>
       </view>
     </template>
-    <inviteDetail :isShow.sync="showEventDetail" :inviteInfo="currentInviteInfo" v-else />
+    <inviteDetail :isShow.sync="showEventDetail" :inviteInfo="currentInviteInfo" v-if="showEventDetail && !showUserDetail" />
+    <myInviteDetail @back="goBack" :inviteInfo="currentInviteInfo" v-if="!showEventDetail && showUserDetail" />
   </view>
 </template>
 
@@ -32,6 +33,7 @@
 import overview from "@/components/overview";
 import event from "./component/event.vue";
 import inviteDetail from "./inviteDetail.vue";
+import myInviteDetail from "./user/myInviteDetail.vue"
 import { uniScrollTop } from "@/utils/common.js";
 import { getInviteTotal, getInvitePage } from "@/api/invite/index.js";
 import { mapState, mapMutations, mapActions } from "vuex";
@@ -65,7 +67,8 @@ export default {
       showEventDetail: false,
       currentInviteList: [],
       historyInviteList: [],
-      currentInviteInfo: {}
+      currentInviteInfo: {},
+      showUserDetail: false
     };
   },
   computed: {
@@ -77,6 +80,7 @@ export default {
     overview,
     event,
     inviteDetail,
+    myInviteDetail
   },
   watch: {
     showEventDetail(val) {
@@ -142,7 +146,8 @@ export default {
     },
     handleSelect(val) {
       this.currentInviteInfo = val
-      this.showEventDetail = true;
+      this.showEventDetail = this.loginUserInfo.userType != 30;
+      this.showUserDetail = this.loginUserInfo.userType == 30;
       uniScrollTop();
     },
     // 跳转到邀约管理页面
@@ -151,6 +156,10 @@ export default {
         url: '/pages/invite/index',
       }
       )
+    },
+    goBack() {
+      this.showUserDetail = false
+      this.showEventDetail = false
     }
   },
 };

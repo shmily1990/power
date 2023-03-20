@@ -109,6 +109,7 @@
               class="uni-input number"
               v-model="eventObj.target"
               :disabled="operateDisable.card2"
+               type="digit"
             />
           </view>
           <text class="itemtext">kw</text>
@@ -147,6 +148,7 @@
             class="uni-input account"
             v-model="eventObj.lastDate"
             :disabled="operateDisable.card3"
+             type="digit"
           />
           <text class="itemtext">分钟</text>
         </view>
@@ -370,7 +372,15 @@ export default {
   align-items: center;
 }
 .targetText {
-  color: #19d8ff;
+    color: #19d8ff;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 200rpx;
+    display: block;
+    font-size: 24rpx;
+    padding: 0 60rpx 0 10rpx;
+    line-height: 50rpx;
 }
 
 .select-box {

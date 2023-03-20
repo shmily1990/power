@@ -44,7 +44,7 @@
       <view class="card-content">
         <view class="uni-form-item flex">
           <text class="iconfont icon-iconKSYY_SJXQ_2-1"></text>
-          <view class="title number"><u-input v-model="targetForm.form.target" /></view>
+          <view class="title number"><u-input v-model="targetForm.form.target" type="digit" /></view>
           <text class="itemtext">kw</text>
         </view>
       </view>
@@ -57,7 +57,7 @@
           </u-form-item>
           <u-form-item label="持续时间" prop="lastDate">
             <view class="formItemAndUnit">
-              <u-input v-model="executionTime.form.lastDate" /><text class="unit">分钟</text>
+              <u-input v-model="executionTime.form.lastDate" type="digit" /><text class="unit">分钟</text>
             </view>
           </u-form-item>
         </u-form>

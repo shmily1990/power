@@ -170,6 +170,10 @@ export default {
               padding-left: 14rpx;
               color: #00c8ff;
               font-family: square-font;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              display: block;
+              overflow: hidden;
             }
             .unit {
               margin-left: 16rpx;

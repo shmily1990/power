@@ -74,7 +74,7 @@
                   <text class="mid-name">{{ customer.userName }}</text>
                   <view class="mid-bottom">
                     <text class="status">{{ customer.responseName }}</text>
-                    <text class="value">{{ customer.load }}<text class="unit">kw</text></text>
+                    <text class="value" v-if="customer.responseId == 30">{{ customer.load }}<text class="unit">kw</text></text>
                   </view>
                 </view>
                 <u-icon
@@ -96,14 +96,14 @@
           <image src="~@/static/icon-back.png" class="img-back" />
           <text class="title">返回</text>
         </view>
-        <view class="btns" v-if="loginUserInfo.userType != 30">
+        <view class="btns" v-if="inviteInfo.inviteState == 10">
           <text class="btn" @click="opeartInvite(20)">放弃邀约</text>
           <text class="btn" @click="opeartInvite(30)">完成邀约</text>
         </view>
       </view>
     </template>
     <template v-if="currentPage === 'user'">
-      <userDetail @changeCurrentPage="() => (currentPage = 'invite')" :user="userInfo" />
+      <userDetail @changeCurrentPage="() => (currentPage = 'invite')" :user="userInfo" :inviteInfo="inviteInfo" />
     </template>
   </view>
 </template>

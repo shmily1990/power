@@ -16,7 +16,7 @@
         </view>
         <view class="uni-form-item flex">
           <view class="title">事件类型</view>
-          <input class="uni-input" disabled v-model="targetObj.eventType" />
+          <input class="uni-input" disabled :value="eventNameMap[targetObj.eventType]" />
         </view>
         <view class="uni-form-item flex">
           <view class="title">开始时间</view>
@@ -26,11 +26,7 @@
         </view>
         <view class="uni-form-item flex">
           <view class="title">持续时长</view>
-          <input
-            class="uni-input account"
-            disabled
-            v-model="targetObj.lastDate"
-          />
+          <view class="lastDate">{{ targetObj.lastDate }}</view>
           <text class="itemtext">分钟</text>
         </view>
       </view>
@@ -70,7 +66,7 @@
       <view class="card-content">
         <view class="uni-form-item flex">
           <view class="title">补贴额度</view>
-          <input class="uni-input account" v-model="targetObj.subsidy" />
+          <input class="uni-input account" v-model="targetObj.subsidy"  type="digit" />
           <text class="itemtext">元/千瓦时</text>
         </view>
         <!-- <view class="uni-form-item flex">
@@ -224,6 +220,11 @@ export default {
       userMsg: {
         responseTotal: undefined,
         userTotal: undefined,
+      },
+      eventNameMap: {
+        10: '快速响应',
+        20: '日内响应',
+        30: '中长期响应'
       },
     };
   },
@@ -381,6 +382,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.lastDate {
+  width: 132rpx;
+    height: 48rpx;
+    border-radius: 16rpx;
+    border: 2rpx solid rgba(230, 241, 255, 0.2);
+    // color: #0094B3;
+    color: #19d8ff;
+    line-height: 48rpx;
+    font-size: 24rpx;
+    text-align: center;
+    margin: 0 5rpx;
+}
 .flex {
   display: flex;
   align-items: center;

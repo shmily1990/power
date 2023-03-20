@@ -1,17 +1,16 @@
 <template>
   <view class="user-detail">
     <view class="breadcrumb">
-      <text>邀约详情 > 用户响应情况</text>
+      <text>邀约详情 </text>
     </view>
-    <List titleTxt="用户响应情况" fontClass="icon-iconKSYY_YYGL_3-0-title">
+    <List titleTxt="我的邀约详情" fontClass="icon-iconKSYY_YYGL_3-0-title">
       <view class="card-conent">
         <div class="user-info">
-          <!-- <text class="left">02</text> -->
           <view class="mid">
-            <text class="mid-name">{{ user.userName }}</text>
+            <text class="mid-name">{{ userDetail.userName }}</text>
             <view class="mid-bottom">
-              <text class="status">{{ user.responseName }}</text>
-              <text class="value" v-if="user.responseId == 30">{{ user.load }} kw</text>
+              <text class="status">{{ userDetail.stateName }}</text>
+              <text class="value" v-if="userDetail.stateName == '已响应'">{{ userDetail.volumeTotal }} kw</text>
             </view>
           </view>
           <view class="right">
@@ -19,7 +18,7 @@
             <text class="time">{{ userDetail.responseTime || '-' }}</text>
           </view>
         </div>
-        <template v-if="user.responseId == 30">
+        <template v-if="userDetail.stateName == '已响应'">
           <view class="device-info">
             <view class="device-info-head">
               <text>序号</text>
@@ -71,6 +70,7 @@
 import List from "@/components/list";
 import { uniScrollTop } from "@/utils/common.js";
 import { getUserDetail } from "@/api/invite/index.js";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   options: {
     styleIsolation: "shared",
@@ -82,14 +82,18 @@ export default {
     };
   },
   props: {
-    user: {
-      type: Object,
-      default: {}
-    },
     inviteInfo: {
       type: Object,
       default: {}
     }
+  },
+  computed: {
+    ...mapState([
+      "loginUserInfo"
+    ]),
+    userId() {
+      return this.loginUserInfo.userID
+    },
   },
   components: {
     List,
@@ -102,7 +106,7 @@ export default {
     // 查看用户详情
     async getUserInfo() {
       const { resultCode, resultData } = await getUserDetail({
-        userId: this.user.userId,
+        userId: this.userId,
         inviteId: this.inviteInfo.inviteId
       })
       if (!resultCode) {
@@ -111,7 +115,7 @@ export default {
       }
     },
     goBack() {
-      this.$emit("changeCurrentPage");
+      this.$emit("back");
       uniScrollTop();
     },
   },
@@ -143,8 +147,8 @@ export default {
         margin-right: 16rpx;
       }
       .mid {
-        max-width: 70%;
         // flex: 1;
+        max-width: 70%;
         &-name {
           font-size: 32rpx;
           font-family: MicrosoftYaHei;

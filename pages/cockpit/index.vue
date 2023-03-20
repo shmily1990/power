@@ -5,6 +5,7 @@
       :background="backgroundColor"
       title="驾驶舱"
       @onBack="goBack"
+      back
     ></navbar>
     <tab-swiper :tabList="tabList" class="container" @tabCurrent="tabCurrent" refs="tabs">
       <template slot="tab0" v-if="tabIdx == 0">
@@ -110,6 +111,12 @@ export default {
       console.log(index)
       this.tabIdx = index;
     },
+    goBack() {
+      uni.clearStorageSync();
+      uni.redirectTo({
+				url: "/pages/login/index"
+			})
+    }
   },
   created() {}
 };

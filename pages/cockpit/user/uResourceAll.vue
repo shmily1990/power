@@ -13,7 +13,7 @@
           <view class="li">
             <text class="iconfont icon-iconJSC_2_2"></text>
             <view class="txt">
-              <view>响应设备数据</view>
+              <view>响应设备数量</view>
               <view class="num">{{ accessDeviceOverview.respondTotal }}</view>
             </view>
           </view>
@@ -58,7 +58,7 @@
               <text class="iconfont icon-iconUser-JSC-3-1" style="width:60rpx;height:60rpx"></text>
               <view class="txt">
                 <view class="title">年度累计响应负荷</view>
-                <view class="num">{{ responsivenessOverview.annualResponseLoad }}<text class="unit">次</text></view>
+                <view class="num">{{ responsivenessOverview.annualResponseLoad || 0 }}<text class="unit">kW</text></view>
               </view>
             </view>
           </view>
@@ -167,7 +167,7 @@ export default {
           data: [
             {
               position: "left",
-              title: "负荷 kWh",
+              title: " 负荷 kWh",
               axisLineColor: "rgba(255,255,255,0.1)",
               fontColor: "#D8D8D8",
               fontSize: 12,
