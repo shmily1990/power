@@ -58,7 +58,7 @@
               <text class="iconfont icon-iconUser-JSC-3-1" style="width:60rpx;height:60rpx"></text>
               <view class="txt">
                 <view class="title">年度累计响应负荷</view>
-                <view class="num">{{ responsivenessOverview.annualResponseLoad || 0 }}<text class="unit">kW</text></view>
+                <view class="num">{{ yearResponseInfo.annualResponseLoad || 0 }}<text class="unit">kW</text></view>
               </view>
             </view>
           </view>
@@ -208,6 +208,11 @@ export default {
     };
   },
   methods: {
+    // 统一方法便于刷新
+    getData() {
+      // 初始化数据
+      this.queryData()
+    },
     // 查询资源总览数据
     async queryData() {
       this.isEmpty = false
@@ -277,7 +282,7 @@ export default {
       const responseData = []
       const userData = []
       data.forEach(item => {
-        xAxisData.push(item.startMonth)
+        xAxisData.push(item.startMoth)
         responseData.push(item.responseLoad)
         userData.push(item.userNumber)
       })

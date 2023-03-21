@@ -255,6 +255,7 @@ export default {
       width: fit-content;
       padding: 0 20rpx;
       display: flex;
+      min-width: fit-content;
     }
   }
   ::v-deep .u-divider {

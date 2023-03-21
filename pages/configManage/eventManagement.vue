@@ -108,6 +108,12 @@ export default {
   },
   mounted() {},
   methods: {
+    getData() {
+      // 查询概览
+      this.queryOverview()
+      // 查询列表
+      this.queryData()
+    },
     async queryOverview() {
       const { resultCode, resultData } = await queryEventTotal()
       if (!resultCode) {

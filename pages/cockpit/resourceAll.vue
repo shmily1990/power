@@ -161,6 +161,10 @@ export default {
     };
   },
   methods: {
+    // 统一方法便于刷新
+    getData() {
+      this.queryData()
+    },
     // 查询资源总览数据
     async queryData() {
       this.isEmpty = false
@@ -209,7 +213,7 @@ export default {
       const responseData = []
       const userData = []
       data.forEach(item => {
-        xAxisData.push(item.startMonth)
+        xAxisData.push(item.startMoth)
         responseData.push(item.responseLoad)
         userData.push(item.userNumber)
       })
@@ -227,7 +231,7 @@ export default {
           },
           {
             name: "用户数量",
-            index: 0,
+            index: 1,
             type: "line",
             lineType: "solid",
             color: "#2fc25b",
@@ -237,6 +241,7 @@ export default {
           },
         ],
       }
+      console.log(res)
       setTimeout(() => {
         this.chartData = JSON.parse(JSON.stringify(res));
       }, 500)

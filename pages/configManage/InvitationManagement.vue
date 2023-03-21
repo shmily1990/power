@@ -96,6 +96,11 @@ export default {
     this.queryInviteList()
   },
   methods: {
+    getData() {
+      this.queryInviteInfo()
+      // 查询邀约列表
+      this.queryInviteList()
+    },
     // 查询邀约总览
     async queryInviteInfo() {
       const { resultData, resultCode } = await getInviteTotal({});

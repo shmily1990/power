@@ -63,6 +63,11 @@ export default {
     this.queryDeviceList()
   },
   methods: {
+    // 统一方法便于刷新
+    getData() {
+      // 初始化数据
+      this.queryDeviceList()
+    },
     // 获取用户设备列表
     async queryDeviceList() {
       const userId = this.loginUserInfo.userID

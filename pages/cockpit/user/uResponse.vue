@@ -336,6 +336,11 @@ export default {
     },
   },
   methods: {
+    // 统一方法便于刷新
+    getData() {
+      // 初始化数据
+      this.queryUserDetail();
+    },
     // // 获取用户设备列表
     // async queryDeviceList() {
     //   const { resultCode, resultData } = await getUserDevice({ userId: this.userId })

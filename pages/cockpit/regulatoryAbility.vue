@@ -254,6 +254,11 @@ export default {
     this.queryDistribute()
   },
   methods: {
+    // 统一方法便于刷新
+    getData() {
+      this.queryMonitor()
+      this.queryDistribute()
+    },
     // 查询监控数据
     async queryMonitor() {
       const { resultCode, resultData } = await quertyRegulatoryAbilityMonitoring()

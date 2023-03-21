@@ -9,14 +9,14 @@
     <!-- <view class="view-box"> -->
       <tab-swiper :tabList="tabList" class="container" @tabCurrent="tabCurrent" refs="tabs">
         <template slot="tab0" v-if="tabIdx == 0">
-          <invitation-management />
+          <invitation-management ref="child" />
         </template>
         <template slot="tab1" v-if="tabIdx == 1">
-          <event-management />
+          <event-management ref="child" />
         </template>
         <template slot="tab2" v-if="tabIdx == 2" >
-          <user-management v-if="loginUserInfo.userType != 30" />
-          <myResource v-else />
+          <user-management v-if="loginUserInfo.userType != 30" ref="child" />
+          <myResource ref="child" v-else />
         </template>
       </tab-swiper>
     <u-no-network />
@@ -101,6 +101,12 @@ export default {
     // this.tabIdx = 0;
     // this.$refs.tabs.swiperCurrent = 0;
     // uniScrollTop();
+  },
+  async onPullDownRefresh() {
+    if (this.$refs.child) {
+      await this.$refs.child.getData()
+      uni.stopPullDownRefresh();
+    }
   },
   methods: {
     /**

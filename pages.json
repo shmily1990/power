@@ -16,16 +16,16 @@
 		{
 			"path": "pages/cockpit/index",
 			"style": {
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "驾驶舱",
 				"navigationBarBackgroundColor": "#00B0F0",
-				"disableScroll": true
+				"disableScroll": false
 			}
 		},
 		{
 			"path": "pages/configManage/index",
 			"style": {
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "配置管理",
 				"navigationBarBackgroundColor": "#00B0F0"
 				// "disableScroll": true
@@ -34,10 +34,10 @@
 		{
 			"path": "pages/invite/index",
 			"style": {
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "快速邀约",
-				"navigationBarBackgroundColor": "#00B0F0",
-				"disableScroll": true
+				"navigationBarBackgroundColor": "#00B0F0"
+				// "disableScroll": true
 			}
 		}
 		// {

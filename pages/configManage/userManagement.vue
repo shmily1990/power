@@ -84,6 +84,9 @@ export default {
     }
   },
   methods: {
+    getData() {
+      this.queryUserList();
+    },
     // 查询用户列表
     async queryUserList() {
       const {

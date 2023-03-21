@@ -9,16 +9,16 @@
     ></navbar>
     <tab-swiper :tabList="tabList" class="container" @tabCurrent="tabCurrent" refs="tabs">
       <template slot="tab0" v-if="tabIdx == 0">
-        <resourceAll v-if="loginUserInfo.userType != 30" />
-        <uResourceAll v-else />
+        <resourceAll v-if="loginUserInfo.userType != 30" ref="child" />
+        <uResourceAll v-else ref="child" />
       </template>
       <template slot="tab1" v-if="tabIdx == 1">
-        <resourceScatter v-if="loginUserInfo.userType != 30" />
-        <uResponse v-else />
+        <resourceScatter v-if="loginUserInfo.userType != 30" ref="child" />
+        <uResponse v-else ref="child" />
       </template>
       <template slot="tab2" v-if="tabIdx == 2">
-        <regulatoryAbility v-if="loginUserInfo.userType != 30" />
-        <uDeviceRchives v-else />
+        <regulatoryAbility v-if="loginUserInfo.userType != 30" ref="child" />
+        <uDeviceRchives v-else ref="child" />
       </template>
     </tab-swiper>
   </view>
@@ -103,6 +103,13 @@ export default {
   },
   onLoad: function (options) {},
   onReady() {},
+  async onPullDownRefresh() {
+    if (this.$refs.child) {
+      await this.$refs.child.getData()
+      uni.stopPullDownRefresh();
+    }
+  },
+
   methods: {
     /**
      * 当前tab页码

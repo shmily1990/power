@@ -205,7 +205,7 @@ export default {
       const params = {
         eventName,
         releaseDate: releaseDate.replace(/\./g, "-"),
-        eventType: 30,
+        eventType,
         eventSource,
         target,
         startDate: startDate.replace(/\./g, "-"),

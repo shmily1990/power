@@ -61,6 +61,11 @@ export default {
     this.queryUserList();
   },
   methods: {
+    // 统一方法便于刷新
+    getData() {
+      this.queryData()
+      this.queryUserList();
+    },
     handSearch() {
       this.queryUserList()
     },

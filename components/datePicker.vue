@@ -46,7 +46,7 @@ export default {
   watch: {
     timeValue(val, old) {
       this.timeStr = val;
-      // !old && this.initTime();
+      !old && this.initTime();
     },
   },
   methods: {

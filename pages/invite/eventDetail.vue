@@ -254,6 +254,9 @@ export default {
   },
   methods: {
     ...mapMutations(["setEventID"]),
+    getData() {
+      this.getEventInfo();
+    },
     /**
      * @description 获取事件列表信息
      */
@@ -402,12 +405,13 @@ export default {
       left: 0%;
       right: 0;
       top: 48rpx;
-      background-color: #4f86b4;
+      background-color: #366994e6;
       min-height: 200rpx;
       max-height: 300rpx;
       overflow-y: auto;
       z-index: 10;
-
+      font-size: 24rpx;
+      color: #fff;
       .item {
         margin: 10rpx 0;
       }

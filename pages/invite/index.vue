@@ -12,7 +12,7 @@
       refs="tabs"
     >
       <template slot="tab0" v-if="tabIdx == 0">
-        <eventDetail />
+        <eventDetail ref="child" />
       </template>
       <template slot="tab1" v-if="tabIdx == 1">
         <inviteManage @changeTab="changeTab" v-if="loginUserInfo.userType != 30" />
@@ -83,8 +83,22 @@ export default {
     }
   },
   onLoad() {},
-  onShow: function (e) {},
+  onShow: function (e) {
+    this.onRefresh()
+  },
+  async onPullDownRefresh() {
+    if (this.$refs.child) {
+      await this.$refs.child.getData()
+      uni.stopPullDownRefresh();
+    }
+  },
   methods: {
+    /**
+     * @description 切换刷新页面
+     */
+    onRefresh() {
+      this.$refs.child && this.$refs.child.getData()
+    },
     /**
      * @description 切换tab
      */

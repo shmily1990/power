@@ -288,7 +288,7 @@ export default {
   },
   onReady() {
     this.getDetail()
-    if (this.eventInfo.status != 1) {
+    if (this.eventInfo.status === 4) {
       this.queryChartData()
     }
   },
@@ -371,7 +371,7 @@ export default {
         }
       } else {
         // 编辑接口
-        this.update()
+        this.update(this.executionTime)
       }
     },
     // 事件描述
@@ -385,7 +385,7 @@ export default {
         }
       } else {
         // 编辑接口
-        this.update()
+        this.update(this.eventDesForm)
       }
     },
     bindTextAreaBlur(e) {

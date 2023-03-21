@@ -2,7 +2,7 @@
   <view class="user-response-detail">
     <view class="top">
       <text class="title">用户详情</text>
-      <text class="user-name">电管家{{ form.userName || '' }}</text>
+      <text class="user-name">{{ form.userName || '' }}</text>
     </view>
     <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title">
       <template slot="optBtn">
