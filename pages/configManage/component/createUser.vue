@@ -17,7 +17,7 @@
     <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title" v-if="currentTabIndex == 0">
       <scroll-view scroll-y="true" style="height: 600rpx">
         <view class="card-content base-info">
-            <u-form :model="form" ref="uForm" :label-style="style" :rules="rules">
+            <u-form :model="form" ref="uForm" :label-style="{color: '#9FA6AF',fontSize: '24rpx',display: 'block',textAlign: 'right',width: '128rpx'}" :rules="rules">
               <u-form-item label="用户名称" prop="userName"
                 ><u-input v-model="form.userName"
               /></u-form-item>

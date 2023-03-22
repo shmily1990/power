@@ -31,7 +31,7 @@
     >
       <swiper-item
           v-for="(item, index) in tabList"
-          :key="`swiper${index}`"
+          :key="index"
         >
         <scroll-view scroll-y="true" class="swiper-one-list" :scroll-top="scrollTop">
           <view :id="'content-wrap' + index" class="wrap">
@@ -52,6 +52,7 @@ export default {
       scrollTop: 0,
       tabIndex: 0,
       scrollInto: "",
+      isChanging: false
     };
   },
   props: {
@@ -83,9 +84,13 @@ export default {
     },
     onswiperchange(e) {
       let index = e.target.current || e.detail.current;
-      this.tabIndex = index;
-      this.$emit("tabCurrent", this.tabIndex);
-      uniScrollTop();
+      const { source } = e.detail
+      if (source === 'touch') {
+        this.tabIndex = index;
+        this.$emit("tabCurrent", this.tabIndex);
+        uniScrollTop();
+      }
+      
     },
     onswiperscroll() {},
     animationfinish() {},

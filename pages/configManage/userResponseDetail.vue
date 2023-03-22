@@ -12,64 +12,42 @@
           size="mini"
           @click="update(0)"
         >
-          {{ editBaseInfoStatus ? "编辑" : "保存" }}
+          编辑
         </button>
       </template>
       <view class="card-content base-info">
-        <scroll-view scroll-y style="height: 500rpx">
-          <u-form :model="form" ref="uForm" :label-style="style">
-            <u-form-item label="用户名称"
-              ><u-input v-model="form.userName" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="用户编号"
-              ><u-input v-model="form.userNumber" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="用户地址"
-              ><u-input v-model="form.address" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="用户类型">
-              <picker
-                @change="handleTypeChange"
-                :value="typeIndex"
-                :range="typeList"
-                range-key="typeName"
-                :disabled="editBaseInfoStatus"
-              >
-                <u-input
-                  :value="currentUserTypeName"
-                  disabled
-                  suffixIcon="arrow-down-fill"
-                  suffixIconStyle="color: #909399;font-size: 12px;"
-                />
-              </picker>
-            </u-form-item>
-            <u-form-item label="用户户号"
-              ><u-input v-model="form.userNo" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="联系人"
-              ><u-input v-model="form.contact" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="手机号"
-              ><u-input v-model="form.phone" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="所属区域">
-              <picker
-                @change="handleRegionChange"
-                :value="regionIndex"
-                :range="regionList"
-                range-key="regionName"
-                :disabled="editBaseInfoStatus"
-              >
-                <u-input
-                  :value="currentUserRegionName"
-                  disabled
-                  suffixIcon="arrow-down-fill"
-                  suffixIconStyle="color: #909399;font-size: 12px;"
-                />
-              </picker>
-            </u-form-item>
-          </u-form>
-        </scroll-view>
+        <scroll-view scroll-y style="height: 380rpx">
+            <view class="uni-form">
+              <view class="form-item">
+                <view class="label">用户名称</view>
+                <view class="value">{{ form.userName }}</view>
+              </view>
+              <view class="form-item">
+                <view class="label">用户编号</view>
+                <view class="value">{{ form.userNumber }}</view>
+              </view>
+              <view class="form-item">
+                <view class="label">用户类型</view>
+                <view class="value">{{ currentUserTypeName }}</view>
+              </view>
+              <view class="form-item">
+                <view class="label">用户户号</view>
+                <view class="value">{{ form.userNo }}</view>
+              </view>
+              <view class="form-item">
+                <view class="label">联系人</view>
+                <view class="value">{{ form.contact }}</view>
+              </view>
+              <view class="form-item">
+                <view class="label">手机号</view>
+                <view class="value">{{ form.contact }}</view>
+              </view>
+              <view class="form-item">
+                <view class="label">所属区域</view>
+                <view class="value">{{ currentUserRegionName }}</view>
+              </view>
+            </view>
+          </scroll-view>
       </view>
     </List>
     <List titleTxt="响应配置" fontClass="icon-iconPZGL_YHGL_2-0-title">
@@ -80,7 +58,7 @@
           size="mini"
           @click="update(2)"
         >
-          {{ editResponseStatus ? "编辑" : "保存" }}
+          编辑
         </button>
       </template>
       <view class="card-content">
@@ -193,7 +171,7 @@
           size="mini"
           @click="update(3)"
         >
-          {{ editPolicyStatus ? "编辑" : "保存" }}
+          编辑
         </button>
       </template>
       <view class="card-content">
@@ -262,20 +240,8 @@ export default {
   props: ["userId"],
   data() {
     return {
-      typeIndex: 0,
-      regionIndex: 0, // 所属区域index
-      editBaseInfoStatus: true,
-      editPolicyStatus: true,
-      editResponseStatus: true,
       currentTab: 0,
       form: {},
-      style: {
-        color: "#9FA6AF",
-        fontSize: "24rpx",
-        display: "block",
-        textAlign: "right",
-        width: "128rpx",
-      },
       deviceList: [],
       typeList: [],
       regionList: [],
@@ -300,9 +266,6 @@ export default {
           icon: "icon-iconPZGL_YHGL_3-3",
         },
       ],
-      dayResponse: [], // 日内响应
-      fastResponse: [], // 快速响应
-      longResponse: [], // 中长期响应
       tabs: [
         {
           title: "快速响应",
@@ -326,8 +289,7 @@ export default {
           icon: "icon-iconDR_long_active",
         },
       ],
-      deviceTypeList: [], // 设备类型
-      deviceTypeIndex: 0
+      deviceTypeList: [] // 设备类型
     };
   },
   onReady() {
@@ -397,9 +359,20 @@ export default {
           phone,
           userNumber
         };
-        const type10 = response.filter((c) => c.type === 10);
-        const type20 = response.filter((c) => c.type === 20);
-        const type30 = response.filter((c) => c.type === 30);
+        const type10 = [], type20 = [], type30 = []
+        response.forEach(c => {
+          switch(c.type) {
+            case 10:
+              type10.push(c)
+              break
+            case 20:
+              type20.push(c)
+              break
+            case 30:
+              type30.push(c)
+              break
+          }
+        })
         this.tabs = [
           {
             title: "快速响应",
@@ -430,64 +403,11 @@ export default {
         });
       }
     },
-    // 编辑基础信息
-    handleEditBaseInfo() {
-      this.editBaseInfoStatus = !this.editBaseInfoStatus;
-      if (!this.editBaseInfoStatus) {
-        // 处理保存接口
-      } else {
-        // 这里初始化下拉菜单选择项目
-        this.typeIndex = this.typeList.findIndex(
-          (c) => c.typeId === this.form.userType
-        );
-        this.regionIndex = this.regionList.findIndex(
-          (c) => c.regionId === this.form.regionId
-        );
-      }
-    },
-    // 区域选择
-    handleRegionChange(e) {
-      this.regionIndex = e.detail.value;
-      this.form.regionId = this.regionList[Number(this.regionIndex)].regionId;
-    },
-    // 用户类型选择
-    handleTypeChange(e) {
-      this.typeIndex = e.detail.value;
-      this.form.userType = this.typeList[Number(this.typeIndex)].typeId;
-    },
-    // 编辑策略
-    handleEditPolicy() {
-      this.editPolicyStatus = !this.editPolicyStatus;
-    },
-    bindPickerChange: function (e, index) {
-      const current = e.detail.value
-      this.tabs[this.currentTab].list[index].deviceTypeIndex = current
-      this.tabs[this.currentTab].list[index].devieName = this.deviceTypeList[current].deviceName
-      this.tabs[this.currentTab].list[index].deviceId = this.deviceTypeList[current].deviceId
-    },
-    // 编辑响应设备
-    handleEditResponse() {
-      this.editResponseStatus = !this.editResponseStatus;
-      if (this.editResponseStatus) {
-        // 处理保存接口
-      } else {
-        // 这里初始化下拉菜单选择项目
-        if (!this.tabs[this.currentTab].list.length) {
-          this.tabs[this.currentTab].list.push({volume: 0, deviceName: '', deviceTypeIndex: 0, deviceId: null})
-        }
-      }
-    },
     cancel() {
       this.$emit("update:currentType", "index");
       uniScrollTop();
     },
     save() {},
-    add(currentIndex) {
-      this.tabs[this.currentTab].list.splice(currentIndex, 0, { deviceName: "", deviceId: '', deviceTypeIndex: 0 });
-    },
-    reduce(currentIndex) {
-      this.tabs[this.currentTab].list.splice(currentIndex, 1);
-    },
     update(index) {
       this.$emit("update:jumpTabIndex", index);
       this.$emit("update:currentType", "create");
@@ -497,6 +417,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.uni-form {
+  .form-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12rpx;
+    margin-left: 12rpx;
+  }
+  .label {
+    font-size: 24rpx;
+    color: #9FA6AF;
+    margin-right: 6rpx;
+    width: 100rpx;
+    text-align: right;
+  }
+  .value {
+    width: 422rpx;
+    height: 48rpx;
+    border-radius: 16rpx;
+    border: 2rpx solid rgba(230,241,255,0.2);
+    font-size: 24rpx;
+    color: #00C8FF;
+    line-height: 48rpx;
+    text-align: center;
+    border: 2rpx solid rgba(230,241,255,0.2);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
 .load {
   color: $uni-color-load;
 }

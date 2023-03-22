@@ -2,83 +2,43 @@
   <view class="user-response-detail">
     <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title">
       <template slot="optBtn">
-        <!-- <button
-          class="mini-btn"
-          type="default"
-          size="mini"
-          @click="update(0)"
-        >
-          {{ editBaseInfoStatus ? "编辑" : "保存" }}
-        </button> -->
       </template>
       <view class="card-content base-info">
-        <scroll-view scroll-y style="height: 500rpx">
-          <u-form :model="form" ref="uForm" :label-style="style">
-            <u-form-item label="用户名称"
-              ><u-input v-model="form.userName" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="用户编号"
-              ><u-input v-model="form.userNumber" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="用户地址"
-              ><u-input v-model="form.address" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="用户类型">
-              <picker
-                @change="handleTypeChange"
-                :value="typeIndex"
-                :range="typeList"
-                range-key="typeName"
-                :disabled="editBaseInfoStatus"
-              >
-                <u-input
-                  :value="currentUserTypeName"
-                  disabled
-                  suffixIcon="arrow-down-fill"
-                  suffixIconStyle="color: #909399;font-size: 12px;"
-                />
-              </picker>
-            </u-form-item>
-            <u-form-item label="用户户号"
-              ><u-input v-model="form.userNo" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="联系人"
-              ><u-input v-model="form.contact" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="手机号"
-              ><u-input v-model="form.phone" :disabled="editBaseInfoStatus"
-            /></u-form-item>
-            <u-form-item label="所属区域">
-              <picker
-                @change="handleRegionChange"
-                :value="regionIndex"
-                :range="regionList"
-                range-key="regionName"
-                :disabled="editBaseInfoStatus"
-              >
-                <u-input
-                  :value="currentUserRegionName"
-                  disabled
-                  suffixIcon="arrow-down-fill"
-                  suffixIconStyle="color: #909399;font-size: 12px;"
-                />
-              </picker>
-            </u-form-item>
-          </u-form>
+        <scroll-view scroll-y style="height: 380rpx">
+          <view class="uni-form">
+            <view class="form-item">
+              <view class="label">用户名称</view>
+              <view class="value">{{ form.userName }}</view>
+            </view>
+            <view class="form-item">
+              <view class="label">用户编号</view>
+              <view class="value">{{ form.userNumber }}</view>
+            </view>
+            <view class="form-item">
+              <view class="label">用户类型</view>
+              <view class="value">{{ currentUserTypeName }}</view>
+            </view>
+            <view class="form-item">
+              <view class="label">用户户号</view>
+              <view class="value">{{ form.userNo }}</view>
+            </view>
+            <view class="form-item">
+              <view class="label">联系人</view>
+              <view class="value">{{ form.contact }}</view>
+            </view>
+            <view class="form-item">
+              <view class="label">手机号</view>
+              <view class="value">{{ form.contact }}</view>
+            </view>
+            <view class="form-item">
+              <view class="label">所属区域</view>
+              <view class="value">{{ currentUserRegionName }}</view>
+            </view>
+          </view>
         </scroll-view>
       </view>
     </List>
     <List titleTxt="响应配置" fontClass="icon-iconPZGL_YHGL_2-0-title">
-      <!-- <template slot="optBtn">
-        <button
-          class="mini-btn"
-          type="default"
-          size="mini"
-          @click="update(2)"
-        >
-          {{ editResponseStatus ? "编辑" : "保存" }}
-        </button>
-      </template> -->
       <view class="card-content">
         <view class="equip flex between">
           <view
@@ -100,27 +60,6 @@
               >{{ item.sum }}</text
             >
           </view>
-          <!-- <view class="item load">
-            <view class="icon-t"
-              ><text class="iconfont icon-iconDR_quick_active"></text
-              ><text class="txt">快速响应</text></view
-            >
-            <text class="value">360</text>
-          </view>
-          <view class="item response">
-            <view class="icon-t"
-              ><text class="iconfont icon-iconDR_day_active"></text
-              ><text class="txt">日内响应</text></view
-            >
-            <text class="value">360</text>
-          </view>
-          <view class="item max-response">
-            <view class="icon-t"
-              ><text class="iconfont icon-iconDR_long_active"></text
-              ><text class="txt">中长期响应</text></view
-            >
-            <text class="value">360</text>
-          </view> -->
         </view>
         <view class="device-info">
           <view class="device-info-head">
@@ -135,29 +74,16 @@
               :key="item.deviceId + index"
             >
               <text class="order border">{{ index + 1 }}</text>
-              <!-- <picker
-                @change="bindPickerChange(e, index)"
-                :value="item.deviceTypeIndex || 0"
-                :range="deviceTypeList"
-                range-key="deviceName"
-              >
-                <u-input
+              <!-- <u-input
                   :value="item.deviceName"
                   disabled
                   suffixIcon="arrow-down-fill"
                   suffixIconStyle="color: #909399;font-size: 12px;"
-                />
-              </picker> -->
-              <u-input
-                  :value="item.deviceName"
-                  disabled
-                  suffixIcon="arrow-down-fill"
-                  suffixIconStyle="color: #909399;font-size: 12px;"
-                />
-              <!-- <text class="name border">{{ item.name }}</text> -->
+                /> -->
+              <text class="name border">{{ item.deviceName }}</text>
               <view class="capacity">
-                <!-- <text class="value border">12</text> -->
-                <u-input v-model="item.volume" disabled />
+                <text class="value border">{{ item.volume }}</text>
+                <!-- <u-input v-model="item.volume" disabled /> -->
                 <view class="btns">
                   <u-icon
                     name="plus-circle"
@@ -182,16 +108,6 @@
       </view>
     </List>
     <List titleTxt="策略管理 " fontClass="icon-iconPZGL_YHGL_3-0-title">
-      <!-- <template slot="optBtn">
-        <button
-          class="mini-btn"
-          type="default"
-          size="mini"
-          @click="update(3)"
-        >
-          {{ editPolicyStatus ? "编辑" : "保存" }}
-        </button>
-      </template> -->
       <view class="card-content">
         <view class="policy">
           <view
@@ -222,7 +138,7 @@
                   <u-input
                     class="my-input"
                     v-model="item.approvalLoad"
-                    :disabled="editPolicyStatus"
+                    disabled
                   />
                   <text class="unit">kw</text>
                 </view>
@@ -248,20 +164,8 @@ export default {
   },
   data() {
     return {
-      typeIndex: 0,
-      regionIndex: 0, // 所属区域index
-      editBaseInfoStatus: true,
-      editPolicyStatus: true,
-      editResponseStatus: true,
       currentTab: 0,
       form: {},
-      style: {
-        color: "#9FA6AF",
-        fontSize: "24rpx",
-        display: "block",
-        textAlign: "right",
-        width: "128rpx",
-      },
       deviceList: [],
       typeList: [],
       regionList: [],
@@ -286,9 +190,6 @@ export default {
           icon: "icon-iconPZGL_YHGL_3-3",
         },
       ],
-      dayResponse: [], // 日内响应
-      fastResponse: [], // 快速响应
-      longResponse: [], // 中长期响应
       tabs: [
         {
           title: "快速响应",
@@ -314,14 +215,12 @@ export default {
       ],
       deviceTypeList: [], // 设备类型
       deviceTypeIndex: 0
-      // userId: ''
     };
   },
   onReady() {
     this.getTypeList();
     this.getRegionList();
     this.queryUserDetail();
-    // this.queryDeviceList()
   },
   computed: {
     currentUserTypeName() {
@@ -341,13 +240,6 @@ export default {
       // 初始化数据
       this.queryUserDetail();
     },
-    // // 获取用户设备列表
-    // async queryDeviceList() {
-    //   const { resultCode, resultData } = await getUserDevice({ userId: this.userId })
-    //   if (!resultCode) {
-    //     this.deviceTypeList =resultData
-    //   }
-    // },
     // 获取用户类型列表
     async getTypeList() {
       const { resultCode, resultData } = await getTypeList({});
@@ -389,9 +281,20 @@ export default {
           phone,
           userNumber
         };
-        const type10 = response.filter((c) => c.type === 10);
-        const type20 = response.filter((c) => c.type === 20);
-        const type30 = response.filter((c) => c.type === 30);
+        const type10 = [], type20 = [], type30 = []
+        response.forEach(c => {
+          switch(c.type) {
+            case 10:
+              type10.push(c)
+              break
+            case 20:
+              type20.push(c)
+              break
+            case 30:
+              type30.push(c)
+              break
+          }
+        })
         this.tabs = [
           {
             title: "快速响应",
@@ -421,74 +324,41 @@ export default {
           c.enterLoad = strategy[index]?.enterLoad;
         });
       }
-    },
-    // 编辑基础信息
-    handleEditBaseInfo() {
-      this.editBaseInfoStatus = !this.editBaseInfoStatus;
-      if (!this.editBaseInfoStatus) {
-        // 处理保存接口
-      } else {
-        // 这里初始化下拉菜单选择项目
-        this.typeIndex = this.typeList.findIndex(
-          (c) => c.typeId === this.form.userType
-        );
-        this.regionIndex = this.regionList.findIndex(
-          (c) => c.regionId === this.form.regionId
-        );
-      }
-    },
-    // 区域选择
-    handleRegionChange(e) {
-      this.regionIndex = e.detail.value;
-      this.form.regionId = this.regionList[Number(this.regionIndex)].regionId;
-    },
-    // 用户类型选择
-    handleTypeChange(e) {
-      this.typeIndex = e.detail.value;
-      this.form.userType = this.typeList[Number(this.typeIndex)].typeId;
-    },
-    // 编辑策略
-    handleEditPolicy() {
-      this.editPolicyStatus = !this.editPolicyStatus;
-    },
-    bindPickerChange: function (e, index) {
-      const current = e.detail.value
-      this.tabs[this.currentTab].list[index].deviceTypeIndex = current
-      this.tabs[this.currentTab].list[index].devieName = this.deviceTypeList[current].deviceName
-      this.tabs[this.currentTab].list[index].deviceId = this.deviceTypeList[current].deviceId
-    },
-    // 编辑响应设备
-    handleEditResponse() {
-      this.editResponseStatus = !this.editResponseStatus;
-      if (this.editResponseStatus) {
-        // 处理保存接口
-      } else {
-        // 这里初始化下拉菜单选择项目
-        if (!this.tabs[this.currentTab].list.length) {
-          this.tabs[this.currentTab].list.push({volume: 0, deviceName: '', deviceTypeIndex: 0, deviceId: null})
-        }
-      }
-    },
-    cancel() {
-      this.$emit("update:currentType", "index");
-      uniScrollTop();
-    },
-    save() {},
-    add(currentIndex) {
-      this.tabs[this.currentTab].list.splice(currentIndex, 0, { deviceName: "", deviceId: '', deviceTypeIndex: 0 });
-    },
-    reduce(currentIndex) {
-      this.tabs[this.currentTab].list.splice(currentIndex, 1);
-    },
-    update(index) {
-      this.$emit("update:jumpTabIndex", index);
-      this.$emit("update:currentType", "create");
     }
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.uni-form {
+  .form-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12rpx;
+    margin-left: 12rpx;
+  }
+  .label {
+    font-size: 24rpx;
+    color: #9FA6AF;
+    margin-right: 6rpx;
+    width: 100rpx;
+    text-align: right;
+  }
+  .value {
+    width: 422rpx;
+    height: 48rpx;
+    border-radius: 16rpx;
+    border: 2rpx solid rgba(230,241,255,0.2);
+    font-size: 24rpx;
+    color: #00C8FF;
+    line-height: 48rpx;
+    text-align: center;
+    border: 2rpx solid rgba(230,241,255,0.2);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
 .load {
   color: $uni-color-load;
 }
