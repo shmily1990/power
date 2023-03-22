@@ -41,7 +41,7 @@
               </view>
               <view class="form-item">
                 <view class="label">手机号</view>
-                <view class="value">{{ form.contact }}</view>
+                <view class="value">{{ form.phone }}</view>
               </view>
               <view class="form-item">
                 <view class="label">所属区域</view>
