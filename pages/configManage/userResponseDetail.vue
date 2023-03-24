@@ -135,11 +135,12 @@
                   disabled
                   suffixIcon="arrow-down-fill"
                   suffixIconStyle="color: #909399;font-size: 12px;"
+                  :font-size="12"
                 />
               <!-- <text class="name border">{{ item.name }}</text> -->
               <view class="capacity">
                 <!-- <text class="value border">12</text> -->
-                <u-input v-model="item.volume" disabled />
+                <u-input v-model="item.volume" disabled :font-size="12" />
                 <view class="btns">
                   <u-icon
                     name="plus-circle"

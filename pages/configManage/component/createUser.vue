@@ -170,12 +170,13 @@
                   disabled
                   suffixIcon="arrow-down-fill"
                   suffixIconStyle="color: #909399;font-size: 12px;"
+                  :font-size="12"
                 />
               </picker>
               <!-- <text class="name border">{{ item.name }}</text> -->
               <view class="capacity">
                 <!-- <text class="value border">12</text> -->
-                <u-input disabled v-model="item.volume" />
+                <u-input disabled v-model="item.volume" :font-size="12" />
                 <view class="btns">
                   <u-icon
                     name="plus-circle"
@@ -315,13 +316,13 @@ export default {
       userId: null,
       responseList: [
         {
+          name: '不参与',
+          value: 1
+        },
+        {
           name: '参与',
           value: 2
         },
-        {
-          name: '不参与',
-          value: 1
-        }
       ],
       responseIndex: 0,
       // 设备
@@ -395,17 +396,7 @@ export default {
           message: "请输入手机号码",
           trigger: ["blur", "change"],
         },
-        {
-          // 自定义验证函数，见上说明
-          validator: (rule, value, callback) => {
-            // 上面有说，返回true表示校验通过，返回false表示不通过
-            // uni.$u.test.mobile()就是返回true或者false的
-            return uni.$u.test.mobile(value);
-          },
-          message: '手机号码不正确',
-          // 触发器可以同时用blur和change
-          trigger: ['change','blur'],
-        }]
+        {validator: /^1[3456789]\d{9}$/, message: '请输入正确的手机号码'}]
       },
     };
   },
@@ -463,6 +454,7 @@ export default {
       if (!resultCode) {
         const { user, device, response, strategy } = resultData
         this.userInfo = resultData
+        this.responseIndex = user.partake - 1
         this.form = { ...user }
         if (device.length) this.devicesList = device // 如果设备没数据不赋值
         const list1 = [], list2 = [], list3 = []
@@ -931,6 +923,7 @@ export default {
         border-radius: 16rpx;
         border: 2rpx solid rgba(230, 241, 255, 0.2);
         line-height: 40rpx;
+        font-size: 24rpx;
       }
       .order {
         width: 10%;

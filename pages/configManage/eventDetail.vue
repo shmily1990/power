@@ -197,6 +197,7 @@ export default {
           gridColor: "#9FA6AF",
           padding: 10,
           showTitle: true,
+          titleOffsetX: 16,
           data: [
             {
               position: "left",
@@ -206,7 +207,7 @@ export default {
               fontSize: 12,
               titleFontSize: 14,
               titleFontColor: "rgba(0,200,255,0.3)",
-              titleOffsetY: -6,
+              titleOffsetX: 16,
             },
           ],
         },

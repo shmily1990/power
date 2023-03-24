@@ -122,6 +122,7 @@ export default {
           gridColor: "#9FA6AF",
           padding: 10,
           showTitle: true,
+          titleOffsetX: 16,
           data: [
             {
               position: "left",
@@ -130,7 +131,7 @@ export default {
               fontColor: "#D8D8D8",
               fontSize: 12,
               titleFontColor: "#9FA6AF",
-              titleOffsetY: -6,
+              titleOffsetX: 16,
             },
           ],
         },
@@ -319,7 +320,7 @@ export default {
   }
   .chart-box {
     width: 568rpx;
-    height: 350rpx;
+    height: 400rpx;
     margin-top: -124rpx;
     .top {
       display: flex;

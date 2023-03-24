@@ -70,7 +70,7 @@
       <view class="card-content">
         <view class="uni-form-item flex">
           <view class="title">补贴额度</view>
-          <input class="uni-input account" v-model="targetObj.subsidy" />
+          <input class="uni-input account" v-model="targetObj.subsidy" disabled />
           <text class="itemtext">元/千瓦时</text>
         </view>
       </view>
@@ -178,12 +178,13 @@
                   disabled
                   suffixIcon="arrow-down-fill"
                   suffixIconStyle="color: #909399;font-size: 12px;"
+                  :font-size="12"
                 />
               </picker>
               <!-- <text class="name border">{{ item.name }}</text> -->
               <view class="capacity">
                 <!-- <text class="value border">12</text> -->
-                <u-input disabled v-model="item.deviceVolume" />
+                <u-input disabled v-model="item.deviceVolume" :font-size="12" />
                 <view class="btns">
                   <u-icon
                     name="plus-circle"
@@ -369,6 +370,7 @@ export default {
           declareTime: declareDate,
           subsidy
         }
+        this.state = this.inviteInfo.stateValue || 0
         // 获取事件类型
         this.currentTab = typeId == 10 ? 0 : typeId == 20 ? 1 : 2
         this.inviteTime = inviteDate

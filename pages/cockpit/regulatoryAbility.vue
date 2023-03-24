@@ -105,6 +105,7 @@
             :canvas2d="true"
             :inScrollView="true"
             ontouch="true"
+            :background="color"
           />
         </view>
         <view class="range">
@@ -187,7 +188,7 @@ export default {
           // title: "单位：年"
           axisLineColor: "#396780",
           fontColor: "rgba(255,255,255,0.4)",
-          fontSize: 10,
+          fontSize: 10
         },
         yAxis: {
           disabled: false,
@@ -239,6 +240,7 @@ export default {
         actual: 0,
         percentage: 0
       },
+      color: 'rgba(0,0,0, 0)',
       maxResponse: {},
       minResponse: {}
 

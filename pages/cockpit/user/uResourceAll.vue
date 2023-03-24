@@ -416,7 +416,7 @@ export default {
   }
   .chart-box {
     width: 568rpx;
-    height: 350rpx;
+    height: 400rpx;
     margin-top: -124rpx;
     .top {
       display: flex;
