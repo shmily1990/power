@@ -10,7 +10,9 @@
             @click="handleSelectEvent(item)"
           >
             <view class="left" @click.stop="handleSelect(item)">
-              <text class="order">{{ (index + 1) < 10 ? 'N0' + (index + 1) : 'N' + (index + 1) }}</text>
+              <text class="order">{{
+                index + 1 < 10 ? "N0" + (index + 1) : "N" + (index + 1)
+              }}</text>
               <view class="drop-icon">
                 <u-icon
                   :name="
@@ -38,14 +40,14 @@
                     <text class="unit">kw</text>
                   </view>
                 </view>
-                <view class="label-value">
+                <view class="label-value" v-if="loginUserInfo.userType !== 30">
                   <text class="title">当前响应用户</text>
                   <view class="value">
                     <text class="count">{{ item.currentUserTotal }}</text>
                     <text class="unit">户</text>
                   </view>
                 </view>
-                <view class="label-value">
+                <view class="label-value" v-if="loginUserInfo.userType !== 30">
                   <text class="title">当前响应指标</text>
                   <view class="value">
                     <text class="count">{{ item.currentTargetTotal }}</text>
@@ -63,6 +65,7 @@
 
 <script>
 import List from "@/components/list.vue";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   options: {
     styleIsolation: "shared",
@@ -74,6 +77,9 @@ export default {
   },
   components: {
     List,
+  },
+  computed: {
+    ...mapState(["loginUserInfo"]),
   },
   props: {
     name: {
@@ -87,7 +93,7 @@ export default {
     eventList: {
       type: Array,
       default: [],
-    }
+    },
   },
   onReady() {},
   methods: {
@@ -95,8 +101,9 @@ export default {
       this.$emit("eventSelect", item);
     },
     handleSelect(item) {
-      this.selectOrder = item.inviteId === this.selectOrder ? "" : item.inviteId;
-    }
+      this.selectOrder =
+        item.inviteId === this.selectOrder ? "" : item.inviteId;
+    },
   },
 };
 </script>

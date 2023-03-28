@@ -43,21 +43,29 @@
             <image class="jsc-icon" src="/static/jsc-icon1.png" alt="" />
             <view class="txt">
               <view>快速响应</view>
-              <view class="num"> {{ responsivenessOverview.adjustableReview }}<text>kW</text></view>
+              <view class="num">
+                {{ responsivenessOverview.adjustableReview
+                }}<text>kW</text></view
+              >
             </view>
           </view>
           <view class="li">
             <image class="jsc-icon" src="/static/jsc-icon2.png" alt="" />
             <view class="txt">
               <view>日内响应</view>
-              <view class="num">{{ responsivenessOverview.intradayResponse }}<text>kW</text></view>
+              <view class="num"
+                >{{ responsivenessOverview.intradayResponse
+                }}<text>kW</text></view
+              >
             </view>
           </view>
           <view class="li">
             <image class="jsc-icon" src="/static/jsc-icon3.png" alt="" />
             <view class="txt">
               <view>中长期响应</view>
-              <view class="num">{{ responsivenessOverview.maxResponse }}<text>kW</text></view>
+              <view class="num"
+                >{{ responsivenessOverview.maxResponse }}<text>kW</text></view
+              >
             </view>
           </view>
         </view>
@@ -74,6 +82,9 @@
           />
         </view>
       </List>
+      <view class="bottom">
+        <text @click="logout" class="btn">退出登录</text>
+      </view>
     </view>
   </view>
 </template>
@@ -146,78 +157,92 @@ export default {
         },
       },
       chartData: {},
-      accessUserOverview: { // 用户
+      accessUserOverview: {
+        // 用户
         accessTotal: 0,
-        respondTotal: 0
+        respondTotal: 0,
       },
-      accessDeviceOverview: { // 设备
+      accessDeviceOverview: {
+        // 设备
         accessTotal: 0,
-        respondTotal: 0
+        respondTotal: 0,
       },
-      responsivenessOverview: { // 响应
+      responsivenessOverview: {
+        // 响应
         adjustableReview: 0,
         intradayResponse: 0,
-        maxResponse: 0
-      }
+        maxResponse: 0,
+      },
     };
   },
   methods: {
+    logout() {
+      uni.clearStorageSync();
+      uni.redirectTo({
+        url: "/pages/login/index",
+      });
+    },
     // 统一方法便于刷新
     getData() {
-      this.queryData()
+      this.queryData();
     },
     // 查询资源总览数据
     async queryData() {
-      this.isEmpty = false
-      const { resultCode, resultData } = await queryResourceOverview()
+      this.isEmpty = false;
+      const { resultCode, resultData } = await queryResourceOverview();
       if (!resultCode) {
-        const { accessUserOverview, accessDeviceOverview, responsivenessOverview, annualResponse } = resultData
-        this.accessUserOverview = accessUserOverview
-        this.accessDeviceOverview = accessDeviceOverview
-        this.responsivenessOverview = responsivenessOverview
+        const {
+          accessUserOverview,
+          accessDeviceOverview,
+          responsivenessOverview,
+          annualResponse,
+        } = resultData;
+        this.accessUserOverview = accessUserOverview;
+        this.accessDeviceOverview = accessDeviceOverview;
+        this.responsivenessOverview = responsivenessOverview;
         if (annualResponse.length) {
-          this.buildChart(annualResponse)
+          this.buildChart(annualResponse);
         } else {
           const res = {
-        categories: [''],
-        series: [
-          {
-            index: 0,
-            name: "响应负荷",
-            type: "column",
-            textSize: 1,
-            // show: false,
-            // data: [40,{"value":30,"color":"#f04864"},55,110,24,58]
-            data: [],
-          },
-          {
-            name: "用户数量",
-            index: 0,
-            type: "line",
-            lineType: "solid",
-            color: "#2fc25b",
-            textSize: 1,
-            pointShape: "none",
-            data: [],
-          },
-        ],
-      }
+            categories: [""],
+            series: [
+              {
+                index: 0,
+                name: "响应负荷",
+                type: "column",
+                textSize: 1,
+                // show: false,
+                // data: [40,{"value":30,"color":"#f04864"},55,110,24,58]
+                data: [],
+              },
+              {
+                name: "用户数量",
+                index: 0,
+                type: "line",
+                lineType: "solid",
+                color: "#2fc25b",
+                textSize: 1,
+                pointShape: "none",
+                data: [],
+              },
+            ],
+          };
           setTimeout(() => {
             this.chartData = JSON.parse(JSON.stringify(res));
-          }, 500)
+          }, 500);
         }
       }
     },
 
     buildChart(data) {
-      const xAxisData = []
-      const responseData = []
-      const userData = []
-      data.forEach(item => {
-        xAxisData.push(item.startMoth)
-        responseData.push(item.responseLoad)
-        userData.push(item.userNumber)
-      })
+      const xAxisData = [];
+      const responseData = [];
+      const userData = [];
+      data.forEach((item) => {
+        xAxisData.push(item.startMoth);
+        responseData.push(item.responseLoad);
+        userData.push(item.userNumber);
+      });
       let res = {
         categories: xAxisData,
         series: [
@@ -241,16 +266,15 @@ export default {
             data: userData,
           },
         ],
-      }
-      console.log(res)
+      };
+      console.log(res);
       setTimeout(() => {
         this.chartData = JSON.parse(JSON.stringify(res));
-      }, 500)
-    }
-
+      }, 500);
+    },
   },
   onReady() {
-    this.queryData()
+    this.queryData();
   },
 };
 </script>
@@ -338,6 +362,22 @@ export default {
         }
       }
     }
+  }
+}
+.bottom {
+  margin-top: 28rpx;
+  .btn {
+    width: 440rpx;
+    height: 90rpx;
+    background: linear-gradient(360deg, #0145d4 0%, #00b2fd 100%);
+    border-radius: 20rpx;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 90rpx;
+    font-weight: bold;
+    font-size: 40rpx;
+    color: #ffffff;
+    display: block;
   }
 }
 </style>

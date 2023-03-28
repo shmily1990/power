@@ -44,6 +44,7 @@
 </template>
 <script>
 import { uniScrollTop } from "@/utils/common.js";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   components: {},
   data() {
@@ -61,7 +62,19 @@ export default {
       default: [],
     },
   },
+  computed: {
+    ...mapState([
+      "isChangeScrollTop"
+    ]),
+  },
   onLoad: function (options) {},
+  watch: {
+    isChangeScrollTop(val) {
+      console.log(val)
+      this.scrollTop = 0
+      uniScrollTop();
+    }
+  },
   onShow() {},
   onReady() {},
   // 上拉刷新

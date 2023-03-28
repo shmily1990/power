@@ -9,7 +9,7 @@
           <view class="mid">
             <text class="mid-name">{{ userDetail.userName }}</text>
             <view class="mid-bottom">
-              <text class="status">{{ userDetail.stateName }}</text>
+              <text class="status" :class="{'response': userDetail.stateName == '已响应'}">{{ userDetail.stateName }}</text>
               <text class="value" v-if="userDetail.stateName == '已响应'">{{ userDetail.volumeTotal }} kw</text>
             </view>
           </view>
@@ -163,10 +163,14 @@ export default {
             display: inline-block;
             width: 128rpx;
             height: 44rpx;
-            background: rgba(0, 145, 255, 0.6);
+            background: rgba(0,200,255,0.2);
             font-size: 24rpx;
             color: #fff;
             border-radius: 10rpx;
+            line-height: 44rpx;
+          }
+          .response {
+            background: rgba(0, 145, 255, 0.6);
           }
           .value {
             font-size: 32rpx;

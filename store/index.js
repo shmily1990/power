@@ -25,9 +25,13 @@ const store = createStore({
 			univerifyErrorMsg: '',
 			urlParams: 0,
 			eventID: null,
-			loginUserInfo: {} // 登录用户信息
+			loginUserInfo: {}, // 登录用户信息
+			isChangeScrollTop: false
 		},
 		mutations: {
+			setIsChangeScrollTop(state) {
+				state.isChangeScrollTop = !state.isChangeScrollTop
+			},
 			login(state, provider) {
 				state.hasLogin = true;
 				state.loginProvider = provider;

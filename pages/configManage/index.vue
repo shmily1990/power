@@ -2,23 +2,25 @@
   <view class="uni-page">
     <!-- 使用组件  规范写法: top-nav -->
     <!--注： 顶部导航组件一定要写在顶部 -->
-    <navbar
-      class="header customNavBar"
-      title="配置管理"
-    ></navbar>
+    <navbar class="header customNavBar" title="配置管理"></navbar>
     <!-- <view class="view-box"> -->
-      <tab-swiper :tabList="tabList" class="container" @tabCurrent="tabCurrent" refs="tabs">
-        <template slot="tab0" v-if="tabIdx == 0">
-          <invitation-management ref="child" />
-        </template>
-        <template slot="tab1" v-if="tabIdx == 1">
-          <event-management ref="child" />
-        </template>
-        <template slot="tab2" v-if="tabIdx == 2" >
-          <user-management v-if="loginUserInfo.userType != 30" ref="child" />
-          <myResource ref="child" v-else />
-        </template>
-      </tab-swiper>
+    <tab-swiper
+      :tabList="tabList"
+      class="container"
+      @tabCurrent="tabCurrent"
+      ref="tabs"
+    >
+      <template slot="tab0" v-if="tabIdx == 0">
+        <invitation-management ref="child" />
+      </template>
+      <template slot="tab1" v-if="tabIdx == 1">
+        <event-management ref="child" :changeScrollTop="handleChangeScrollTop" />
+      </template>
+      <template slot="tab2" v-if="tabIdx == 2">
+        <user-management v-if="loginUserInfo.userType != 30" ref="child" />
+        <myResource ref="child" v-else />
+      </template>
+    </tab-swiper>
     <u-no-network />
   </view>
 </template>
@@ -29,8 +31,8 @@ import invitationManagement from "./InvitationManagement.vue";
 import userManagement from "./userManagement.vue";
 import eventManagement from "./eventManagement.vue";
 import navbar from "@/components/topNav.vue"; //引入组件
-import tabSwiper from '@/components/tabSwiperBar'
-import myResource from "./user/myResource.vue"
+import tabSwiper from "@/components/tabSwiperBar";
+import myResource from "./user/myResource.vue";
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   components: {
@@ -39,20 +41,19 @@ export default {
     eventManagement,
     navbar,
     tabSwiper,
-    myResource
+    myResource,
   },
   data() {
     return {
-      tabIdx: 0
+      tabIdx: 0,
     };
   },
   computed: {
-    ...mapState([
-      "loginUserInfo"
-    ]),
+    ...mapState(["loginUserInfo"]),
     tabList() {
-      const { userType } = this.loginUserInfo
-      if (userType == 30) { // 30 用户 10管理员，20 子管理员
+      const { userType } = this.loginUserInfo;
+      if (userType == 30) {
+        // 30 用户 10管理员，20 子管理员
         return [
           {
             name: "邀约管理",
@@ -72,7 +73,7 @@ export default {
             id: "tab03",
             newsid: 30,
           },
-        ]
+        ];
       }
       return [
         {
@@ -93,22 +94,31 @@ export default {
           id: "tab03",
           newsid: 30,
         },
-      ]
-    }
+      ];
+    },
   },
   onLoad() {},
   onShow: function (e) {
-    // this.tabIdx = 0;
-    // this.$refs.tabs.swiperCurrent = 0;
-    // uniScrollTop();
+    this.onRefresh();
   },
   async onPullDownRefresh() {
     if (this.$refs.child) {
-      await this.$refs.child.getData()
+      await this.$refs.child.getData();
       uni.stopPullDownRefresh();
     }
   },
   methods: {
+    handleChangeScrollTop() {
+      console.log(666)
+      console.log(this.$refs)
+      this.$refs.tabs.scrollTop = 0
+    },
+    /**
+     * @description 切换刷新页面
+     */
+    onRefresh() {
+      this.$refs.child && this.$refs.child.getData();
+    },
     /**
      * 当前tab页码
      */

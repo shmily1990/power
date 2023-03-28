@@ -106,8 +106,10 @@ export default {
       }
     }
   },
+  props: {},
   mounted() {},
   methods: {
+    ...mapMutations(["setIsChangeScrollTop"]),
     getData() {
       // 查询概览
       this.queryOverview()
@@ -175,7 +177,8 @@ export default {
     // 添加事件
     add() {
       this.modalTitle = "add";
-      uniScrollTop();
+      this.setIsChangeScrollTop()
+      // uniScrollTop();
     },
   },
 };

@@ -165,8 +165,7 @@
                       <view class="title c-title">{{ item.userName }}</view>
                     </label>
                     <view class="column">
-                      <text class="title">{{ item.load }}</text
-                      >kw
+                      <text class="title">{{ item.load }}</text><text class="unit">kw</text>
                     </view>
                   </view>
                 </checkbox-group>
@@ -475,6 +474,7 @@ export default {
       margin-bottom: 12rpx;
       .itemtext {
         color: #ffffff80;
+        font-size: 24rpx;
       }
       .iconfont {
         color: #ffffff80;
@@ -570,6 +570,10 @@ export default {
     font-weight: 500;
     color: #f7b500;
     margin-right: 12rpx;
+  }
+  .unit {
+    color: rgba(215,216,224,0.5);
+    padding-left: 10rpx;
   }
 
   .arrow {

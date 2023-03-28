@@ -24,8 +24,16 @@
         <text class="btn" @click="gotoInvitateManagePage">新建邀约</text>
       </view>
     </template>
-    <inviteDetail :isShow.sync="showEventDetail" :inviteInfo="currentInviteInfo" v-if="showEventDetail && !showUserDetail" />
-    <myInviteDetail @back="goBack" :inviteInfo="currentInviteInfo" v-if="!showEventDetail && showUserDetail" />
+    <inviteDetail
+      :isShow.sync="showEventDetail"
+      :inviteInfo="currentInviteInfo"
+      v-if="showEventDetail && !showUserDetail"
+    />
+    <myInviteDetail
+      @back="goBack"
+      :inviteInfo="currentInviteInfo"
+      v-if="!showEventDetail && showUserDetail"
+    />
   </view>
 </template>
 
@@ -33,7 +41,7 @@
 import overview from "@/components/overview";
 import event from "./component/event.vue";
 import inviteDetail from "./inviteDetail.vue";
-import myInviteDetail from "./user/myInviteDetail.vue"
+import myInviteDetail from "./user/myInviteDetail.vue";
 import { uniScrollTop } from "@/utils/common.js";
 import { getInviteTotal, getInvitePage } from "@/api/invite/index.js";
 import { mapState, mapMutations, mapActions } from "vuex";
@@ -68,45 +76,43 @@ export default {
       currentInviteList: [],
       historyInviteList: [],
       currentInviteInfo: {},
-      showUserDetail: false
+      showUserDetail: false,
     };
   },
   computed: {
-    ...mapState([
-      "loginUserInfo"
-    ])
+    ...mapState(["loginUserInfo"]),
   },
   components: {
     overview,
     event,
     inviteDetail,
-    myInviteDetail
+    myInviteDetail,
   },
   watch: {
     showEventDetail(val) {
       if (!val) {
-        this.queryInviteInfo()
-        this.queryInviteList()
+        this.queryInviteInfo();
+        this.queryInviteList();
       }
-    }
+    },
   },
   onReady() {
-    this.queryInviteInfo()
+    this.queryInviteInfo();
     // 查询邀约列表
-    this.queryInviteList()
+    this.queryInviteList();
   },
   methods: {
     getData() {
-      this.queryInviteInfo()
+      this.queryInviteInfo();
       // 查询邀约列表
-      this.queryInviteList()
+      this.queryInviteList();
     },
     // 查询邀约总览
     async queryInviteInfo() {
       const { resultData, resultCode } = await getInviteTotal({});
       if (!resultCode) {
-        const { afootTotal, currentYearTotal, completeTotal} = resultData
-        this.data =  [
+        const { afootTotal, currentYearTotal, completeTotal } = resultData;
+        this.data = [
           {
             name: "正在邀约",
             value: afootTotal,
@@ -125,7 +131,7 @@ export default {
             unit: "条",
             icon: "icon-iconPZGL_SJGL_1-3",
           },
-        ]
+        ];
       }
     },
     // 查询邀约列表
@@ -133,24 +139,24 @@ export default {
       const { resultData, resultCode } = await getInvitePage({
         eventName: this.searchText,
         pageIndex: 0,
-        pageSize: 9999
+        pageSize: 9999,
       });
       if (!resultCode) {
-        const { infoList } = resultData
-        this.currentInviteList = []
-        this.historyInviteList = []
-        infoList.forEach(item => {
+        const { infoList } = resultData;
+        this.currentInviteList = [];
+        this.historyInviteList = [];
+        infoList.forEach((item) => {
           // 	状态(10:已发起 20:已取消 30:已完成) 已发现属于正在邀约 其它属于历史邀约
           if (item.inviteState == 10) {
-            this.currentInviteList.push(item)
+            this.currentInviteList.push(item);
           } else {
-            this.historyInviteList.push(item)
+            this.historyInviteList.push(item);
           }
-        })
+        });
       }
     },
     handleSelect(val) {
-      this.currentInviteInfo = val
+      this.currentInviteInfo = val;
       this.showEventDetail = this.loginUserInfo.userType != 30;
       this.showUserDetail = this.loginUserInfo.userType == 30;
       uniScrollTop();
@@ -158,14 +164,13 @@ export default {
     // 跳转到邀约管理页面
     gotoInvitateManagePage() {
       uni.switchTab({
-        url: '/pages/invite/index',
-      }
-      )
+        url: "/pages/invite/index",
+      });
     },
     goBack() {
-      this.showUserDetail = false
-      this.showEventDetail = false
-    }
+      this.showUserDetail = false;
+      this.showEventDetail = false;
+    },
   },
 };
 </script>

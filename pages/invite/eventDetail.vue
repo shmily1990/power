@@ -70,6 +70,7 @@
               disabled
               suffixIcon="arrow-down-fill"
               suffixIconStyle="color: #909399;font-size: 12px;"
+              font-size="12"
             />
           </picker>
         </view>

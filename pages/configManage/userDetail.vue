@@ -10,7 +10,7 @@
           <view class="mid">
             <text class="mid-name">{{ user.userName }}</text>
             <view class="mid-bottom">
-              <text class="status">{{ user.responseName }}</text>
+              <text class="status" :class="{'response': customer.responseId === 30}">{{ user.responseName }}</text>
               <text class="value" v-if="user.responseId == 30">{{ user.load }} kw</text>
             </view>
           </view>
@@ -159,10 +159,14 @@ export default {
             display: inline-block;
             width: 128rpx;
             height: 44rpx;
-            background: rgba(0, 145, 255, 0.6);
+            background: rgba(0,200,255,0.2);
             font-size: 24rpx;
             color: #fff;
             border-radius: 10rpx;
+            line-height: 44rpx;
+          }
+          .response {
+            background: #0091ff;
           }
           .value {
             font-size: 32rpx;

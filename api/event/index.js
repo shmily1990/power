@@ -20,3 +20,6 @@ export function updateEvent(data) { // 更新
 export function addEvent(data) { // 新增
   return http.post('/api/keeper/EventManage/AddEvent', data)
 }
+export function querySubsidyBenefits(data) {
+  return http.post('/api/keeper/EventManage/QuerySubsidyBenefits', data)
+}

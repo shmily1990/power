@@ -13,32 +13,43 @@
           size="mini"
           @click="editEventName"
         >
-          {{ eventNameForm.editStatus ? '保存' : '编辑' }}
+          {{ eventNameForm.editStatus ? "保存" : "编辑" }}
         </button>
       </template>
       <view class="card-content form-box">
-          <u-form :model="eventNameForm.form" ref="uForm" :label-style="style">
-            <u-form-item label="事件名称"
-              ><u-input v-model="eventNameForm.form.eventName" :disabled="!eventNameForm.editStatus"
-            /></u-form-item>
-            <u-form-item label="是否关联">
-              <u-input
-                :value="eventNameForm.form.isRelation ? '已关联' : '未关联'"
-                disabled
-                class="r4easdf"
-              />
-            </u-form-item>
+        <u-form :model="eventNameForm.form" ref="uForm" :label-style="style">
+          <u-form-item label="事件名称"
+            ><u-input
+              v-model="eventNameForm.form.eventName"
+              :disabled="!eventNameForm.editStatus"
+          /></u-form-item>
+          <u-form-item label="是否关联">
+            <u-input
+              :value="eventNameForm.form.isRelation ? '已关联' : '未关联'"
+              disabled
+              class="r4easdf"
+            />
+          </u-form-item>
         </u-form>
       </view>
     </List>
     <List titleTxt="基本信息" fontClass="icon-iconKSYY_SJXQ_1-0-title">
       <template slot="optBtn" v-if="eventInfo.status == 1">
-        <button class="mini-btn" type="default" size="mini" @click="editBaseInfo">{{ baseInfoForm.editStatus ? '保存' : '编辑' }}</button>
+        <button
+          class="mini-btn"
+          type="default"
+          size="mini"
+          @click="editBaseInfo"
+        >
+          {{ baseInfoForm.editStatus ? "保存" : "编辑" }}
+        </button>
       </template>
       <view class="card-content form-box">
         <u-form :model="baseInfoForm.form" ref="uForm" :label-style="style">
           <u-form-item label="事件来源"
-            ><u-input v-model="baseInfoForm.form.eventSource" :disabled="!baseInfoForm.editStatus"
+            ><u-input
+              v-model="baseInfoForm.form.eventSource"
+              :disabled="!baseInfoForm.editStatus"
           /></u-form-item>
           <u-form-item label="事件类型">
             <picker
@@ -57,36 +68,60 @@
             </picker>
           </u-form-item>
           <u-form-item label="发布时间">
-            <datapicker :timeValue.sync="baseInfoForm.form.releaseDate"  class="form-item-time" :disabled="!baseInfoForm.editStatus" />
+            <datapicker
+              :timeValue.sync="baseInfoForm.form.releaseDate"
+              class="form-item-time"
+              :disabled="!baseInfoForm.editStatus"
+            />
           </u-form-item>
         </u-form>
       </view>
     </List>
     <List titleTxt="调控指标" fontClass="icon-iconKSYY_SJXQ_2-0-title">
       <template slot="optBtn" v-if="eventInfo.status == 1">
-        <button class="mini-btn" type="default" size="mini" @click="editTarget">{{ targetForm.editStatus ? '保存' : '编辑' }}</button>
+        <button class="mini-btn" type="default" size="mini" @click="editTarget">
+          {{ targetForm.editStatus ? "保存" : "编辑" }}
+        </button>
       </template>
 
       <view class="card-content">
         <view class="uni-form-item flex">
           <text class="iconfont icon-iconKSYY_SJXQ_2-1"></text>
-          <view class="title number"><u-input v-model="targetForm.form.target" :disabled="!targetForm.editStatus" /></view>
+          <view class="title number"
+            ><u-input
+              v-model="targetForm.form.target"
+              :disabled="!targetForm.editStatus"
+          /></view>
           <text class="itemtext">kw</text>
         </view>
       </view>
     </List>
     <List titleTxt="执行时间" fontClass="icon-iconKSYY_SJXQ_3-0-title">
       <template slot="optBtn" v-if="eventInfo.status == 1">
-        <button class="mini-btn" type="default" size="mini" @click="editExecutionTime">{{ executionTime.editStatus ? '保存' : '编辑' }}</button>
+        <button
+          class="mini-btn"
+          type="default"
+          size="mini"
+          @click="editExecutionTime"
+        >
+          {{ executionTime.editStatus ? "保存" : "编辑" }}
+        </button>
       </template>
       <view class="card-content form-box">
         <u-form :model="executionTime.form" ref="uForm" :label-style="style">
           <u-form-item label="开始时间">
-             <datapicker :timeValue.sync="executionTime.form.startDate" class="form-item-time" :disabled="!executionTime.editStatus" />
+            <datapicker
+              :timeValue.sync="executionTime.form.startDate"
+              class="form-item-time"
+              :disabled="!executionTime.editStatus"
+            />
           </u-form-item>
           <u-form-item label="持续时间">
             <view class="formItemAndUnit">
-              <u-input v-model="executionTime.form.lastDate" :disabled="!executionTime.editStatus" /><text class="unit">分钟</text>
+              <u-input
+                v-model="executionTime.form.lastDate"
+                :disabled="!executionTime.editStatus"
+              /><text class="unit">分钟</text>
             </view>
           </u-form-item>
         </u-form>
@@ -94,7 +129,14 @@
     </List>
     <List titleTxt="事件描述" fontClass="icon-iconKSYY_SJXQ_4-0-title">
       <template slot="optBtn" v-if="eventInfo.status == 1">
-        <button class="mini-btn" type="default" size="mini" @click="editEventDes">{{ eventDesForm.editStatus ? '保存' : '编辑' }}</button>
+        <button
+          class="mini-btn"
+          type="default"
+          size="mini"
+          @click="editEventDes"
+        >
+          {{ eventDesForm.editStatus ? "保存" : "编辑" }}
+        </button>
       </template>
       <view class="card-content">
         <view class="uni-form-item flex">
@@ -126,6 +168,27 @@
           />
         </view>
       </view>
+      <view class="chart-content bottom">
+        <view class="chart-title flex">
+          <text class="iconfont icon-iconUser-PZGL-money1"></text>
+          <text>预计补贴收益</text>
+        </view>
+        <view class="flex">
+          <view class="left">
+            <text class="iconfont icon-iconUser-PZGL-money2"></text>
+            <text class="value">77</text>
+            <text class="suffix">元</text>
+          </view>
+          <view class="right">
+            <view class="item"
+              >补贴额度<text class="border w-92">{{ subsidy}}</text>元/千瓦</view
+            >
+            <view class="item"
+              >响应额度<text class="border w-120">{{ responseTarget }}</text>千瓦</view
+            >
+          </view>
+        </view>
+      </view>
     </List>
 
     <view class="bottom flex center" @click="onBack">
@@ -138,12 +201,12 @@
 <script>
 import List from "@/components/list.vue";
 import datapicker from "@/components/datePicker";
-import { queryEventByID, updateEvent } from "@/api/event/index.js";
-import { queryRespCurve } from "@/api/cockpit/index.js"
+import { queryEventByID, updateEvent, querySubsidyBenefits } from "@/api/event/index.js";
+import { queryRespCurve } from "@/api/cockpit/index.js";
 import { uniScrollTop, eventTypeList } from "@/utils/common.js";
 
 export default {
-   options: {
+  options: {
     styleIsolation: "shared",
   },
   components: {
@@ -153,8 +216,8 @@ export default {
   props: {
     eventInfo: {
       type: Object,
-      default: {}
-    }
+      default: {},
+    },
   },
   data() {
     return {
@@ -188,7 +251,7 @@ export default {
           fontColor: "rgba(0,200,255,0.3)",
           fontSize: 12,
           itemCount: 4,
-          rotateLabel: true
+          rotateLabel: true,
         },
         yAxis: {
           disabled: false,
@@ -244,64 +307,94 @@ export default {
         textAlign: "right",
         width: "128rpx",
       },
-      eventNameForm: { // 事件名称form数据
+      eventNameForm: {
+        // 事件名称form数据
         editStatus: false,
         form: {
-          eventName: '',
-          isRelation: false
-        }
+          eventName: "",
+          isRelation: false,
+        },
       },
-      baseInfoForm: { // 基本信息
+      baseInfoForm: {
+        // 基本信息
         editStatus: false,
         form: {
-          eventSource: '',
+          eventSource: "",
           eventType: 30,
-          releaseDate: ''
-        }
+          releaseDate: "",
+        },
       },
-      targetForm: { // 指标
+      targetForm: {
+        // 指标
         editStatus: false,
         form: {
-          target: 0
-        }
+          target: 0,
+        },
       },
-      executionTime: { // 执行时间
+      executionTime: {
+        // 执行时间
         editStatus: false,
         form: {
-          startDate: '',
-          lastDate: ''
-        }
+          startDate: "",
+          lastDate: "",
+        },
       },
       eventDesForm: {
         editStatus: false,
         form: {
-          des: ''
-        }
+          des: "",
+        },
       },
-      typeIndex: 0
+      typeIndex: 0,
+      responseTarget: 0,
+      subsidy: 0
     };
   },
   computed: {
     currentEventTypeName() {
-      const item = this.typeList.find((c) => c.value == this.baseInfoForm.form.eventType) || {}
+      const item =
+        this.typeList.find(
+          (c) => c.value == this.baseInfoForm.form.eventType
+        ) || {};
       return item.name;
     },
   },
   onReady() {
-    this.getDetail()
+    this.getDetail();
     if (this.eventInfo.status === 4) {
-      this.queryChartData()
+      this.queryChartData();
+      this.querySubsidyBenefits()
     }
   },
   mounted() {},
   methods: {
+    async querySubsidyBenefits() {
+      const { resultCode, resultData } = await querySubsidyBenefits({
+        eventId: this.eventInfo.eventID,
+      })
+      if (!resultCode) {
+        const { responseTarget, subsidy } = resultData
+        this.responseTarget = responseTarget
+        this.subsidy = subsidy
+      }
+    },
     // 更新接口
     async update(currentForm) {
-      const { form: { eventName }} = this.eventNameForm
-      const { form: { releaseDate, eventType, eventSource }} = this.baseInfoForm
-      const { form: { target} } = this.targetForm
-      const { form: { startDate, lastDate }} = this.executionTime
-      const { form: { desc }} = this.eventDesForm
+      const {
+        form: { eventName },
+      } = this.eventNameForm;
+      const {
+        form: { releaseDate, eventType, eventSource },
+      } = this.baseInfoForm;
+      const {
+        form: { target },
+      } = this.targetForm;
+      const {
+        form: { startDate, lastDate },
+      } = this.executionTime;
+      const {
+        form: { desc },
+      } = this.eventDesForm;
       const params = {
         eventID: this.eventInfo.eventID,
         eventName,
@@ -311,112 +404,146 @@ export default {
         target,
         startDate,
         lastDate,
-        desc
-      }
-      const { resultCode } = await updateEvent(params)
+        desc,
+      };
+      const { resultCode } = await updateEvent(params);
       if (!resultCode) {
-        currentForm.editStatus = false
+        currentForm.editStatus = false;
         uni.showToast({ title: "更新事件成功", icon: "none" });
       }
     },
     // 编辑事件名称
     editEventName() {
       if (!this.eventNameForm.editStatus) {
-        if (this.baseInfoForm.editStatus || this.targetForm.editStatus ||this.executionTime.editStatus || this.eventDesForm.editStatus) {
+        if (
+          this.baseInfoForm.editStatus ||
+          this.targetForm.editStatus ||
+          this.executionTime.editStatus ||
+          this.eventDesForm.editStatus
+        ) {
           uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
         } else {
-          this.eventNameForm.editStatus = !this.eventNameForm.editStatus
+          this.eventNameForm.editStatus = !this.eventNameForm.editStatus;
         }
       } else {
-        this.update(this.eventNameForm)
+        this.update(this.eventNameForm);
       }
     },
     // 编辑基础信息
     editBaseInfo() {
       if (!this.baseInfoForm.editStatus) {
-        if (this.eventNameForm.editStatus || this.targetForm.editStatus ||this.executionTime.editStatus || this.eventDesForm.editStatus) {
+        if (
+          this.eventNameForm.editStatus ||
+          this.targetForm.editStatus ||
+          this.executionTime.editStatus ||
+          this.eventDesForm.editStatus
+        ) {
           uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
         } else {
-          this.baseInfoForm.editStatus = !this.baseInfoForm.editStatus
+          this.baseInfoForm.editStatus = !this.baseInfoForm.editStatus;
           this.typeIndex = this.typeList.findIndex(
             (c) => c.value === this.baseInfoForm.form.eventType
           );
         }
       } else {
-         // 编辑接口
-        this.update(this.baseInfoForm)
+        // 编辑接口
+        this.update(this.baseInfoForm);
       }
     },
     // 编辑指标
     editTarget() {
-      
       if (!this.targetForm.editStatus) {
-        if (this.eventNameForm.editStatus || this.baseInfoForm.editStatus ||this.executionTime.editStatus || this.eventDesForm.editStatus) {
+        if (
+          this.eventNameForm.editStatus ||
+          this.baseInfoForm.editStatus ||
+          this.executionTime.editStatus ||
+          this.eventDesForm.editStatus
+        ) {
           uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
         } else {
-          this.targetForm.editStatus = !this.targetForm.editStatus
+          this.targetForm.editStatus = !this.targetForm.editStatus;
         }
       } else {
         // 编辑接口
-        this.update(this.targetForm)
-        
+        this.update(this.targetForm);
       }
     },
     // 执行时间
     editExecutionTime() {
       if (!this.executionTime.editStatus) {
-        if (this.eventNameForm.editStatus || this.baseInfoForm.editStatus ||this.targetForm.editStatus || this.eventDesForm.editStatus) {
+        if (
+          this.eventNameForm.editStatus ||
+          this.baseInfoForm.editStatus ||
+          this.targetForm.editStatus ||
+          this.eventDesForm.editStatus
+        ) {
           uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
         } else {
-          this.executionTime.editStatus = !this.executionTime.editStatus
+          this.executionTime.editStatus = !this.executionTime.editStatus;
         }
       } else {
         // 编辑接口
-        this.update(this.executionTime)
+        this.update(this.executionTime);
       }
     },
     // 事件描述
     editEventDes() {
-      
       if (!this.eventDesForm.editStatus) {
-        if (this.eventNameForm.editStatus || this.baseInfoForm.editStatus ||this.targetForm.editStatus || this.executionTime.editStatus) {
+        if (
+          this.eventNameForm.editStatus ||
+          this.baseInfoForm.editStatus ||
+          this.targetForm.editStatus ||
+          this.executionTime.editStatus
+        ) {
           uni.showToast({ title: "当前有未保存内容，请先保存", icon: "none" });
         } else {
-          this.eventDesForm.editStatus = !this.eventDesForm.editStatus
+          this.eventDesForm.editStatus = !this.eventDesForm.editStatus;
         }
       } else {
         // 编辑接口
-        this.update(this.eventDesForm)
+        this.update(this.eventDesForm);
       }
     },
     bindTextAreaBlur(e) {
-      this.eventDesForm.form.desc = e.detail.value
+      this.eventDesForm.form.desc = e.detail.value;
     },
     // 查询事件详情
     async getDetail() {
       const { resultData, resultCode } = await queryEventByID({
-        eventId: this.eventInfo.eventID
-      })
+        eventId: this.eventInfo.eventID,
+      });
       if (!resultCode) {
-        const { isRelation, eventName, eventSource, eventType, lastDate, startDate, target, desc, releaseDate  } = resultData
-        this.eventNameForm.form = { isRelation, eventName }
-        this.baseInfoForm.form = { eventSource, eventType, releaseDate }
-        this.targetForm.form = { target }
-        this.executionTime.form = { startDate, lastDate }
-        this.eventDesForm.form = { desc }
+        const {
+          isRelation,
+          eventName,
+          eventSource,
+          eventType,
+          lastDate,
+          startDate,
+          target,
+          desc,
+          releaseDate,
+        } = resultData;
+        this.eventNameForm.form = { isRelation, eventName };
+        this.baseInfoForm.form = { eventSource, eventType, releaseDate };
+        this.targetForm.form = { target };
+        this.executionTime.form = { startDate, lastDate };
+        this.eventDesForm.form = { desc };
       }
     },
     // 获取曲线数据
     async queryChartData() {
-      const { resultCode, resultData } = await queryRespCurve({ eventId: this.eventInfo.eventID })
+      const { resultCode, resultData } = await queryRespCurve({
+        eventId: this.eventInfo.eventID,
+      });
       if (!resultCode) {
         if (resultData && resultData.length) {
-          const xAxisData = []
-          const data = []
-          resultData.forEach(c => {
-            xAxisData.push(c.responseTime.slice(-5))
-            data.push(c.responseLoad)
-          })
+          const xAxisData = [];
+          const data = [];
+          resultData.forEach((c) => {
+            xAxisData.push(c.responseTime.slice(-5));
+            data.push(c.responseLoad);
+          });
           let res = {
             categories: xAxisData,
             series: [
@@ -449,15 +576,15 @@ export default {
                   shadowOffsetY: 2,
                   shadowOffsetX: 2,
                 },
-              }
+              },
             ],
           };
           setTimeout(() => {
             this.chartData = JSON.parse(JSON.stringify(res));
-          }, 500)
+          }, 500);
         } else {
           let res = {
-            categories: [' '],
+            categories: [" "],
             series: [
               {
                 name: "目标值",
@@ -488,12 +615,12 @@ export default {
                   shadowOffsetY: 2,
                   shadowOffsetX: 2,
                 },
-              }
+              },
             ],
           };
           setTimeout(() => {
             this.chartData = JSON.parse(JSON.stringify(res));
-          }, 500)
+          }, 500);
         }
       }
     },
@@ -531,7 +658,8 @@ export default {
     // 用户类型选择
     handleTypeChange(e) {
       this.typeIndex = e.detail.value;
-      this.baseInfoForm.form.eventType = this.typeList[Number(this.typeIndex)].value;
+      this.baseInfoForm.form.eventType =
+        this.typeList[Number(this.typeIndex)].value;
     },
   },
 };
@@ -556,7 +684,6 @@ export default {
   margin: 0;
 }
 .card-content {
-  
   // padding-left: 70rpx;
   .uni-form-item {
     margin-bottom: 16rpx;
@@ -651,6 +778,62 @@ export default {
     width: 568rpx;
     height: 350rpx;
   }
+  .left {
+    width: 260rpx;
+    height: 100rpx;
+    border-radius: 16rpx;
+    border: 2rpx solid rgba(0, 200, 255, 0.3);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 12px;
+    font-family: MicrosoftYaHei;
+    color: #9fa6af;
+    line-height: 16px;
+    margin-right: 28rpx;
+    .value {
+      font-size: 40rpx;
+      font-family: Square721BT-Roman, Square721BT;
+      font-weight: normal;
+      color: #0dff9a;
+      line-height: 50rpx;
+    }
+    .suffix {
+      font-size: 32rpx;
+      font-family: MicrosoftYaHei;
+      color: #9fa6af;
+      line-height: 42rpx;
+    }
+  }
+  .right {
+    font-size: 24rpx;
+    font-family: MicrosoftYaHei;
+    color: #9fa6af;
+    line-height: 59rpx;
+    .item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6rpx;
+    }
+    .border {
+      height: 48rpx;
+      border-radius: 16rpx;
+      border: 2rpx solid rgba(230, 241, 255, 0.2);
+      width: 92rpx;
+      display: inline-block;
+      text-align: center;
+      line-height: 48rpx;
+      margin: 0 16rpx 0 6rpx;
+      font-family: MicrosoftYaHei;
+      color: #19d8ff;
+    }
+    .w-95 {
+      width: 92rpx;
+    }
+    .w-120 {
+      width: 120rpx;
+    }
+  }
 }
 .bottom {
   margin-top: 50rpx;
@@ -668,24 +851,24 @@ export default {
   }
 }
 .form-box ::v-deep .u-border {
-    border-color: #e6f1ff33 !important;
-    padding: 2rpx 9rpx !important;
-    width: 380rpx;
-    margin-left: 70rpx;
-    background: none !important;
-  }
-  ::v-deep input {
-    color: #00c8ff !important;
-  }
+  border-color: #e6f1ff33 !important;
+  padding: 2rpx 9rpx !important;
+  width: 380rpx;
+  margin-left: 70rpx;
+  background: none !important;
+}
+::v-deep input {
+  color: #00c8ff !important;
+}
 .form-item-time {
   margin-left: 70rpx;
-    border: 1px solid;
-    width: 398rpx;
-    border-color: #e6f1ff33 !important;
-    height: 48rpx;
-    line-height: 48rpx;
-    border-radius: 8rpx;
-    padding-left: 10rpx;
+  border: 1px solid;
+  width: 398rpx;
+  border-color: #e6f1ff33 !important;
+  height: 48rpx;
+  line-height: 48rpx;
+  border-radius: 8rpx;
+  padding-left: 10rpx;
 }
 .formItemAndUnit {
   display: flex;
@@ -693,14 +876,14 @@ export default {
   width: 80% !important;
   .unit {
     padding: 40rpx;
-    color: #ffffff80
+    color: #ffffff80;
   }
 }
 ::v-deep .u-border {
-    border-color: #e6f1ff33 !important;
-    // padding: 2rpx 9rpx !important;
-    // width: 380rpx;
-    // margin-left: 70rpx;
-    background: none !important;
-  }
+  border-color: #e6f1ff33 !important;
+  // padding: 2rpx 9rpx !important;
+  // width: 380rpx;
+  // margin-left: 70rpx;
+  background: none !important;
+}
 </style>

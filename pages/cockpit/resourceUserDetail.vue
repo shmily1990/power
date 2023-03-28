@@ -288,6 +288,7 @@ export default {
         display: inline-block;
         text-overflow: ellipsis;
         white-space: nowrap;
+        font-size: 24rpx;
       }
     }
   }
@@ -331,6 +332,7 @@ export default {
         border-radius: 16rpx;
         border: 2rpx solid rgba(230, 241, 255, 0.2);
         line-height: 40rpx;
+        font-size: 24rpx;
       }
       .order {
         width: 10%;

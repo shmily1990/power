@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3870914 */
-  src: url('~@/assets/iconfonts/iconfont.woff2?t=1678892781729') format('woff2'),
-       url('~@/assets/iconfonts/iconfont.woff?t=1678892781729') format('woff'),
-       url('~@/assets/iconfonts/iconfont.ttf?t=1678892781729') format('truetype'),
-       url('~@/assets/iconfonts/iconfont.svg?t=1678892781729#iconfont') format('svg');
+  src: url('~@/assets/iconfonts/iconfont.woff2?t=1680009342307') format('woff2'),
+       url('~@/assets/iconfonts/iconfont.woff?t=1680009342307') format('woff'),
+       url('~@/assets/iconfonts/iconfont.ttf?t=1680009342307') format('truetype'),
+       url('~@/assets/iconfonts/iconfont.svg?t=1680009342307#iconfont') format('svg');
 }
 
 .iconfont {
@@ -12,6 +12,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-iconUser-PZGL-money2:before {
+  content: "\e669";
+}
+
+.icon-iconUser-PZGL-money1:before {
+  content: "\e66a";
 }
 
 .icon-iconUser-JSC-3-1:before {

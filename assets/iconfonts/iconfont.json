@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "34763076",
+      "name": "iconUser-PZGL-money2",
+      "font_class": "iconUser-PZGL-money2",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "34763077",
+      "name": "iconUser-PZGL-money1",
+      "font_class": "iconUser-PZGL-money1",
+      "unicode": "e66a",
+      "unicode_decimal": 58986
+    },
+    {
       "icon_id": "34606640",
       "name": "iconUser-JSC-3-1",
       "font_class": "iconUser-JSC-3-1",
