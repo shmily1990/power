@@ -43,6 +43,10 @@
                 <view class="value">{{ form.phone }}</view>
               </view>
               <view class="form-item">
+                <view class="label">电压等级</view>
+                <view class="value">{{ form.level || 10 }} kV</view>
+              </view>
+              <view class="form-item">
                 <view class="label">所属区域</view>
                 <view class="value">{{ currentUserRegionName }}</view>
               </view>

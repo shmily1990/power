@@ -51,6 +51,13 @@
               <u-form-item label="手机号" prop="phone"
                 ><u-input v-model="form.phone" type="number"
               /></u-form-item>
+              <u-form-item label="电压等级" prop="voltageGrade"
+                ><u-input v-model="form.voltageGrade" type="number">
+                  <template slot="suffix">
+                    <text style="color: #0094b3;">kV</text>
+                  </template>
+                  </u-input>
+              </u-form-item>
               <u-form-item label="所属区域">
                 <picker
                   @change="handleRegionChange"
@@ -162,7 +169,7 @@
               <picker
                 @change="(e) => bindPickerChange(e, index)"
                 :value="item.deviceTypeIndex || 0"
-                :range="devicesList"
+                :range="tabs[currentTab].rangeList"
                 range-key="deviceName"
               >
                 <u-input
@@ -280,7 +287,8 @@ export default {
       // title: "picker",
       currentTabIndex: 0, // tab
       form: {
-        partake: 2 // 默认参于
+        partake: 2, // 默认参于
+        voltageGrade: 10
       },
       style: {
         color: "#9FA6AF",
@@ -340,6 +348,7 @@ export default {
           type: 10,
           sum: 0,
           list: [{ volume: 0, id: new Date()}],
+          rangeList: [],
           icon: "icon-iconDR_quick_active",
         },
         {
@@ -347,6 +356,7 @@ export default {
           type: 20,
           sum: 0,
           list: [{ volume: 0, id: new Date()}],
+          rangeList: [],
           icon: "icon-iconDR_day_active",
         },
         {
@@ -354,6 +364,7 @@ export default {
           type: 30,
           sum: 0,
           list: [{ volume: 0, id: new Date()}],
+          rangeList: [],
           icon: "icon-iconDR_long_active",
         },
       ],
@@ -396,7 +407,13 @@ export default {
           message: "请输入手机号码",
           trigger: ["blur", "change"],
         },
-        {validator: /^1[3456789]\d{9}$/, message: '请输入正确的手机号码'}]
+        {validator: /^1[3456789]\d{9}$/, message: '请输入正确的手机号码'}],
+        voltageGrade: {
+          type: "string",
+          required: true,
+          message: "请输入电压等级",
+          trigger: ["blur", "change"],
+        }
       },
     };
   },
@@ -486,6 +503,7 @@ export default {
             type: 10,
             sum: 0,
             list: list1.length ? list1 : [{ volume: 0, id: new Date()}],
+            rangeList: [],
             icon: "icon-iconDR_quick_active",
           },
           {
@@ -493,6 +511,7 @@ export default {
             type: 20,
             sum: 0,
             list: list2.length ? list2 : [{ volume: 0, id: new Date()}],
+            rangeList: [],
             icon: "icon-iconDR_day_active",
           },
           {
@@ -500,6 +519,7 @@ export default {
             type: 30,
             sum: 0,
             list: list3.length ? list3 : [{ volume: 0, id: new Date()}],
+            rangeList: [],
             icon: "icon-iconDR_long_active",
           }
         ]
@@ -544,6 +564,7 @@ export default {
             strategyId: 3
           }]
         }
+        this.queryDeviceData()
       }
     },
     // 获取用户类型列表
@@ -577,20 +598,31 @@ export default {
       this.currentTabIndex = e.index
     },
     bindPickerChange(e, index) {
+      console.log(index, 12123)
       const value = e.detail.value
-      const selectDeviceId = this.devicesList[value].deviceId
+      console.log(value)
+      const selectDeviceId = this.tabs[this.currentTab].rangeList[value].deviceId
       const isFind = this.tabs[this.currentTab].list.find(c => c.deviceId === selectDeviceId)
+      const { deviceId, deviceName, volume } = this.tabs[this.currentTab].list[index]
+      console.log(deviceId)
       if (isFind) {
         uni.showToast({ title: "同一响应配置设备不能重复添加", icon: "none" });
         return
       }
       this.$set(this.tabs[this.currentTab].list, index, {
         deviceTypeIndex: Number(value),
-        deviceId: this.devicesList[value].deviceId,
-        deviceName: this.devicesList[value].deviceName,
-        volume: this.devicesList[value].volume,
+        deviceId: this.tabs[this.currentTab].rangeList[value].deviceId,
+        deviceName: this.tabs[this.currentTab].rangeList[value].deviceName,
+        volume: this.tabs[this.currentTab].rangeList[value].volume,
         id: this.tabs[this.currentTab].list[index].id
       });
+
+      console.log(this.tabs[this.currentTab].rangeList)
+      if (deviceId) {
+          this.tabs[this.currentTab].rangeList.splice(value, 1, {deviceId, deviceName, volume})
+      } else {
+          this.tabs[this.currentTab].rangeList.splice(value, 1)
+      }
     },
     cancel() {
       this.$emit("update:currentType", "index");
@@ -788,12 +820,26 @@ export default {
       })
       if (!resultCode) {
         this.devicesList = resultData
+        this.tabs.forEach(item => {
+          item.rangeList = this.devicesList.filter((c) => {
+            return !item.list.some(cItem => cItem.deviceName === c.deviceName)
+          })
+        })
       }
     },
     add(currentIndex, item) {
-      this.tabs[this.currentTab].list.splice(currentIndex, 0, {volume: 0, id: new Date()});
+      this.tabs[this.currentTab].list.push({volume: 0, id: new Date()});
     },
     reduce(currentIndex) {
+      
+      const { deviceId, deviceName, volume } = this.tabs[this.currentTab].list[currentIndex]
+      if (deviceId) {
+        this.tabs[this.currentTab].rangeList.push({
+          deviceName,
+          deviceId,
+          volume
+        })
+      }
       this.tabs[this.currentTab].list.splice(currentIndex, 1);
     },
   },

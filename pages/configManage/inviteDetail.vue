@@ -33,10 +33,33 @@
                 <text class="unit">分钟</text>
               </view>
             </view>
+            <view class="label-value">
+              <text class="title">邀约截止日期</text>
+              <view class="value">
+                <text class="count">{{ basicInfo.inviteDate }}</text>
+              </view>
+            </view>
+            <view class="label-value">
+              <text class="title">补贴金额</text>
+              <view class="value">
+                <text class="count" style="width: 132rpx">{{ basicInfo.subsidy }}</text>
+                <text class="unit">元</text>
+              </view>
+            </view>
           </view>
         </view>
       </List>
       <List titleTxt="用户响应情况" fontClass="icon-iconKSYY_YYGL_3-0-title">
+        <template slot="optBtn">
+          <button
+            class="mini-btn"
+            type="default"
+            size="mini"
+            @click="getInviteDetail"
+          >
+            刷新
+          </button>
+        </template>
         <view class="card-body">
           <overview :data="data" />
           <u-divider color="#E6F1FF"></u-divider>
@@ -98,7 +121,7 @@
         </view>
         <view class="btns" v-if="inviteInfo.inviteState == 10">
           <text class="btn" @click="opeartInvite(20)">放弃邀约</text>
-          <text class="btn" @click="opeartInvite(30)">完成邀约</text>
+          <text class="btn" @click="opeartInvite(30)">确定邀约</text>
         </view>
       </view>
     </template>
@@ -302,7 +325,13 @@ export default {
   color: #d7d8e0;
   font-size: 24rpx;
 }
-
+.mini-btn {
+  background: rgba(0, 200, 255, 0.3);
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  color: #e6f1ff;
+  margin: 0;
+}
 .uni-checkbox .uni-checkbox-input {
   background: #0060a9;
   border-radius: 4rpx;

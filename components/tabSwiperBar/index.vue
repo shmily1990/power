@@ -70,9 +70,7 @@ export default {
   onLoad: function (options) {},
   watch: {
     isChangeScrollTop(val) {
-      console.log(val)
-      this.scrollTop = 0
-      uniScrollTop();
+      this.scrollTop = this.scrollTop ? 0 : -1
     }
   },
   onShow() {},

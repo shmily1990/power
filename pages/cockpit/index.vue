@@ -105,8 +105,11 @@ export default {
   onReady() {},
   async onPullDownRefresh() {
     if (this.$refs.child) {
-      await this.$refs.child.getData()
-      uni.stopPullDownRefresh();
+      setTimeout(async () => {
+        await this.$refs.child.getData()
+        uni.stopPullDownRefresh();
+      }, 1000)
+      
     }
   },
 

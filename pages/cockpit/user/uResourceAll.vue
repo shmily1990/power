@@ -1,5 +1,5 @@
 <template>
-  <view class="resource-all">
+  <view class="resource-all"  @click="isShowTooltips = false">
     <view class="lists">
       <List titleTxt="我的响应设备" fontClass="icon-iconJSC_2_0-title">
         <view class="ul indent">
@@ -24,7 +24,7 @@
           <view class="li">
             <image class="jsc-icon" src="/static/jsc-icon1.png" alt="" />
             <view class="txt">
-              <view>快速响应</view>
+              <view @click.stop="showToolTips(10)">快速响应</view>
               <view class="num">
                 {{ responsivenessOverview.adjustableReview
                 }}<text>kW</text></view
@@ -34,7 +34,7 @@
           <view class="li">
             <image class="jsc-icon" src="/static/jsc-icon2.png" alt="" />
             <view class="txt">
-              <view>日内响应</view>
+              <view @click.stop="showToolTips(20)">日内响应</view>
               <view class="num"
                 >{{ responsivenessOverview.intradayResponse
                 }}<text>kW</text></view
@@ -44,11 +44,15 @@
           <view class="li">
             <image class="jsc-icon" src="/static/jsc-icon3.png" alt="" />
             <view class="txt">
-              <view>中长期响应</view>
+              <view @click.stop="showToolTips(30)">中长期响应</view>
               <view class="num"
                 >{{ responsivenessOverview.maxResponse }}<text>kW</text></view
               >
             </view>
+          </view>
+          <view class="tool-tip" v-if="isShowTooltips">
+            <view class="tool-tip-title">{{ toolTipsTitle }}规则</view>
+            <view class="tool-tip-content">{{ toolTipsContent }}</view>
           </view>
         </view>
       </List>
@@ -120,6 +124,9 @@ export default {
   props: {},
   data() {
     return {
+      toolTipsTitle: '',
+      toolTipsContent: '',
+      isShowTooltips: false,
       opts2: {
         color: [
           "#00f8ec",
@@ -242,6 +249,22 @@ export default {
     };
   },
   methods: {
+    showToolTips(type) {
+      this.isShowTooltips = true
+      switch(type) {
+        case 10:
+          this.toolTipsContent = '提前1个自然日邀约，提前通知时间2小时以内，其中不通知响应为实时响应。'
+          this.toolTipsTitle = '快速响应'
+          break
+        case 20:
+          this.toolTipsContent = '提前1个自然日邀约，日内通知响应,最小提前通知时间2小时。'
+          this.toolTipsTitle = '日内响应'
+          break
+        case 30:
+          this.toolTipsContent = '提前1个自然日及以上邀约与通知。'
+          this.toolTipsTitle = '中长期响应'
+      }
+    },
     logout() {
       uni.clearStorageSync();
       uni.redirectTo({
@@ -370,6 +393,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tool-tip {
+  position: absolute;
+  background: red;
+  width: 500rpx;
+  /* height: 160rpx; */
+  background: #071B2D;
+  border-radius: 16rpx;
+  padding: 16rpx 24rpx;
+  font-size: 24rpx;
+  left: 40rpx;
+  top: 40rpx;
+  z-index: 9999;
+  &-title {
+    font-size: 28rpx;
+    font-family: MicrosoftYaHei;
+    color: #00C8FF;
+    line-height: 38rpx;
+  }
+  &-content {
+    color: #9FA6AF;
+    line-height: 32rpx;
+    margin-top: 14rpx;
+  }
+}
 .shadow {
   width: 100px;
   height: 100px;
@@ -409,6 +456,7 @@ export default {
   .ul {
     display: flex;
     justify-content: space-between;
+    position: relative;
     &.indent {
       padding-left: 66rpx;
     }

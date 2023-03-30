@@ -77,6 +77,7 @@
         </u-form>
       </view>
     </List>
+    
     <List titleTxt="调控指标" fontClass="icon-iconKSYY_SJXQ_2-0-title">
       <template slot="optBtn" v-if="eventInfo.status == 1">
         <button class="mini-btn" type="default" size="mini" @click="editTarget">
@@ -163,12 +164,12 @@
             :chartData="chartData"
             :inScrollView="true"
             :canvas2d="true"
-            canvasId="canvasId85755"
-            :pageScrollTop="900"
+            :pageScrollTop="70"
+            :background="color"
           />
         </view>
       </view>
-      <view class="chart-content bottom">
+      <view class="chart-content bottom"  v-if="eventInfo.status === 4">
         <view class="chart-title flex">
           <text class="iconfont icon-iconUser-PZGL-money1"></text>
           <text>预计补贴收益</text>
@@ -176,12 +177,12 @@
         <view class="flex">
           <view class="left">
             <text class="iconfont icon-iconUser-PZGL-money2"></text>
-            <text class="value">77</text>
+            <text class="value">{{ subsidyCount }}</text>
             <text class="suffix">元</text>
           </view>
           <view class="right">
             <view class="item"
-              >补贴额度<text class="border w-92">{{ subsidy}}</text>元/千瓦</view
+              >补贴额度<text class="border w-92">{{ subsidy }}</text>元/千瓦</view
             >
             <view class="item"
               >响应额度<text class="border w-120">{{ responseTarget }}</text>千瓦</view
@@ -223,6 +224,7 @@ export default {
     return {
       typeList: eventTypeList,
       opts: {
+        animation: true,
         color: [
           "#19D8FF",
           "#0DFF9A",
@@ -234,7 +236,11 @@ export default {
           "#000000",
           "#000000",
         ],
-        padding: [15, 0, 0, 5],
+        padding: [15, 0, 10, 15],
+        // height: 350,
+        // width: 300,
+        // touchMoveLimit: 60,
+        //  enableScroll: true,
         // enableScroll: false,
         legend: {
           position: "top",
@@ -249,9 +255,11 @@ export default {
           // title: "单位：年"
           axisLineColor: "#0D6798",
           fontColor: "rgba(0,200,255,0.3)",
-          fontSize: 12,
           itemCount: 4,
           rotateLabel: true,
+          fontSize: 10,
+          // formatter: null
+          format: "xAxisDemo3"
         },
         yAxis: {
           disabled: false,
@@ -264,7 +272,7 @@ export default {
           data: [
             {
               position: "left",
-              title: "负荷 kWh",
+              title: "负荷 kW",
               axisLineColor: "#0D6798",
               fontColor: "rgba(0,200,255,0.3)",
               fontSize: 12,
@@ -347,10 +355,14 @@ export default {
       },
       typeIndex: 0,
       responseTarget: 0,
-      subsidy: 0
+      subsidy: 0,
+      color: 'rgba(0,0,0, 0)'
     };
   },
   computed: {
+    subsidyCount() {
+      return (parseFloat(this.subsidy) * parseFloat(this.responseTarget)).toFixed(2)
+    },
     currentEventTypeName() {
       const item =
         this.typeList.find(
@@ -541,14 +553,14 @@ export default {
           const xAxisData = [];
           const data = [];
           resultData.forEach((c) => {
-            xAxisData.push(c.responseTime.slice(-5));
+            xAxisData.push(c.responseTime);
             data.push(c.responseLoad);
           });
           let res = {
             categories: xAxisData,
             series: [
               {
-                name: "目标值",
+                name: "负荷",
                 textSize: 1,
                 data,
                 lineStyle: {

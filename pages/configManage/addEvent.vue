@@ -77,7 +77,7 @@
         </view>
       </view>
     </List>
-
+    <u-back-top :scroll-top="scrollTop"></u-back-top>
     <view class="bottom flex around">
       <text @click="onBack" class="btn">取消事件</text>
       <text @click="add" class="btn">保存事件</text>
@@ -101,6 +101,7 @@ export default {
   },
   data() {
     return {
+      scrollTop: 0,
       typeList: eventTypeList,
       eventDetail: {},
       style: {
@@ -180,6 +181,9 @@ export default {
       },
     };
   },
+  onPageScroll(e) {
+		this.scrollTop = e.scrollTop;
+	},
   computed: {
     currentEventTypeName() {
       return (
