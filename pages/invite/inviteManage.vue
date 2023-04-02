@@ -105,7 +105,7 @@
           <view class="user flex">
             <text class="iconfont icon-iconKSYY_YYGL_3-2 curr-img"></text>
             <view class="uni-form-item">
-              <text class="itemtext title">总日内响应</text>
+              <text class="itemtext title">总{{ eventNameMap[targetObj.eventType] }}</text>
               <view class="title">
                 <text class="numcount">{{ userMsg.responseTotal }}</text
                 >kw

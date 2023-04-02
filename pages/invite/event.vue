@@ -27,7 +27,7 @@
               <view class="label-value">
                 <text class="title">事件名称</text>
                 <view class="value">
-                  <text class="count">{{ item.eventName }}</text>
+                  <text class="count m-w270">{{ item.eventName }}</text>
                 </view>
               </view>
               <template v-if="selectOrder === item.inviteId">
@@ -101,6 +101,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.m-w270 {
+  max-width: 270rpx;
+}
 .invite-event-info {
   .card-head {
     margin-bottom: 22rpx;
