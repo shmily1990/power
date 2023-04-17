@@ -88,6 +88,21 @@
                   />
                 </picker>
               </u-form-item>
+              <u-form-item label="用电属性">
+                <picker
+                  @change="handleElectricTypeChange"
+                  :value="electricType"
+                  :range="electricTypeList"
+                  range-key="name"
+                >
+                  <u-input
+                    :value="electricTypeList[electricType].name"
+                    disabled
+                    suffixIcon="arrow-down-fill"
+                    suffixIconStyle="color: #909399;font-size: 12px;"
+                  />
+                </picker>
+              </u-form-item>
             </u-form>
         </view>
       </scroll-view>
@@ -257,7 +272,7 @@
 </template>
 <script>
 import List from "@/components/list.vue";
-import { getUserInfo, getTypeList, getRegionList, getUserDevice, addUser, updateUser } from "@/api/user/index.js";
+import { getUserInfo, getTypeList, getRegionList, getUserDevice, addUser, updateUser, qualityList } from "@/api/user/index.js";
 import { uniScrollTop } from "@/utils/common.js";
 export default {
   options: {
@@ -276,6 +291,11 @@ export default {
     jumpTabIndex: {
       type: Number,
       default: 0
+    },
+    // 用户性持
+    electricTypeList: {
+      type: Array,
+      default: []
     }
   },
   data() {
@@ -288,7 +308,8 @@ export default {
       currentTabIndex: 0, // tab
       form: {
         partake: 2, // 默认参于
-        voltageGrade: 10
+        voltageGrade: 10,
+        userQuality: 10
       },
       style: {
         color: "#9FA6AF",
@@ -408,13 +429,14 @@ export default {
           trigger: ["blur", "change"],
         },
         {validator: /^1[3456789]\d{9}$/, message: '请输入正确的手机号码'}],
-        voltageGrade: {
+        'form.voltageGrade': {
           type: "string",
           required: true,
           message: "请输入电压等级",
           trigger: ["blur", "change"],
         }
       },
+      electricType: 0
     };
   },
   computed: {
@@ -452,10 +474,12 @@ export default {
     }
   },
   onReady() {
-    // 初始化数据
+    // 初始化数
     this.initData()
-     this.getTypeList();
+    this.getTypeList();
     this.getRegionList();
+    // 查询用户性质
+    
   },
   methods: {
     initData() {
@@ -467,11 +491,13 @@ export default {
     },
     // 查询用户信息
     async queryUserInfo() {
+      console.log(this.electricTypeList)
       const { resultCode, resultData } = await getUserInfo({ userId: this.userId })
       if (!resultCode) {
         const { user, device, response, strategy } = resultData
         this.userInfo = resultData
         this.responseIndex = user.partake - 1
+        this.electricType = this.electricTypeList.findIndex(item => item.value === user.userQuality)
         this.form = { ...user }
         if (device.length) this.devicesList = device // 如果设备没数据不赋值
         const list1 = [], list2 = [], list3 = []
@@ -841,6 +867,11 @@ export default {
         })
       }
       this.tabs[this.currentTab].list.splice(currentIndex, 1);
+    },
+    handleElectricTypeChange(e) {
+      this.electricType = Number(e.detail.value);
+      this.form.userQuality = this.electricTypeList[this.electricType].value;
+      console.log(this.form)
     },
   },
 };

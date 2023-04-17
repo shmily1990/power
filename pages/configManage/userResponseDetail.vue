@@ -50,6 +50,10 @@
                 <view class="label">所属区域</view>
                 <view class="value">{{ currentUserRegionName }}</view>
               </view>
+              <view class="form-item">
+                <view class="label">用户性质</view>
+                <view class="value">{{ currentUserQualityName }}</view>
+              </view>
             </view>
           </scroll-view>
       </view>
@@ -242,7 +246,7 @@ export default {
   components: {
     List,
   },
-  props: ["userId"],
+  props: ["userId", "electricTypeList"],
   data() {
     return {
       currentTab: 0,
@@ -314,6 +318,10 @@ export default {
       return this.regionList.find((c) => c.regionId === this.form.regionId)
         ?.regionName;
     },
+    currentUserQualityName() {
+      console.log()
+      return this.electricTypeList.find(c => c.value === this.form.userQuality)?.name || ''
+    }
   },
   methods: {
     // 获取用户设备列表
@@ -352,7 +360,8 @@ export default {
           userType,
           regionId,
           phone,
-          userNumber
+          userNumber,
+          userQuality
         } = user;
         this.form = {
           address,
@@ -362,7 +371,8 @@ export default {
           userType,
           regionId,
           phone,
-          userNumber
+          userNumber,
+          userQuality
         };
         const type10 = [], type20 = [], type30 = []
         response.forEach(c => {

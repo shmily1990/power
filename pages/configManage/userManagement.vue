@@ -18,12 +18,14 @@
       v-if="currentType === 'create'"
       :parentId="userId"
       :jumpTabIndex="jumpTabIndex"
+      :electricTypeList="electricTypeList"
     />
     <userResponseDetail
       :currentType.sync="currentType"
       v-if="currentType === 'detail'"
       :userId="userId"
       :jumpTabIndex.sync="jumpTabIndex"
+      :electricTypeList="electricTypeList"
     />
   </view>
 </template>
@@ -33,7 +35,7 @@ import overview from "@/components/overview";
 import userList from "@/components/userList";
 import createUserForm from "./component/createUser.vue";
 import userResponseDetail from "./userResponseDetail.vue";
-import { getUserList } from "@/api/user/index.js";
+import { getUserList, qualityList } from "@/api/user/index.js";
 import { uniScrollTop } from "@/utils/common.js";
 export default {
   data() {
@@ -66,7 +68,8 @@ export default {
       ],
       visableCreateModal: true,
       userId: null,
-      jumpTabIndex: 0
+      jumpTabIndex: 0,
+      electricTypeList: []
     };
   },
   components: {
@@ -77,6 +80,8 @@ export default {
   },
   onReady() {
     this.queryUserList();
+    // 查询用户性质
+    this.qualityList()
   },
   watch: {
     currentType(val) {
@@ -84,6 +89,17 @@ export default {
     }
   },
   methods: {
+    async qualityList() {
+      const { resultData, resultCode } = await qualityList()
+      if (!resultCode) {
+        this.electricTypeList = resultData.map(item => {
+          return {
+            name: item.qualityName,
+            value: item.qualityId
+          }
+        })
+      }
+    },
     getData() {
       this.queryUserList();
     },

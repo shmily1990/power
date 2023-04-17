@@ -35,3 +35,7 @@ export function addUser(data) { // 新建用户
 export function updateUser(data) { // 更新用户
   return http.post('/api/keeper/UserManage/updateInfo', data)
 }
+
+export function qualityList(data) { // 用户性质列表
+  return http.post('/api/keeper/UserManage/qualityList', data)
+}

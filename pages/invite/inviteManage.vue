@@ -65,9 +65,14 @@
       </view>
       <view class="card-content">
         <view class="uni-form-item flex">
-          <view class="title">补贴额度</view>
+          <view class="title">电网用户补贴</view>
           <input class="uni-input account" v-model="targetObj.subsidy"  type="digit" />
-          <text class="itemtext">元/千瓦时</text>
+          <text class="itemtext">元/千瓦</text>
+        </view>
+        <view class="uni-form-item flex">
+          <view class="title">非电网用户补贴</view>
+          <input class="uni-input account" v-model="targetObj.subsidy2"  type="digit" />
+          <text class="itemtext">元/千瓦</text>
         </view>
         <!-- <view class="uni-form-item flex">
           <view class="title">申报截止</view>
@@ -214,6 +219,7 @@ export default {
         lastDate: undefined,
         declareTime: "",
         subsidy: undefined,
+        subsidy2: undefined
       },
       inviteTime: "",
       userMsg: {
@@ -268,6 +274,7 @@ export default {
           lastDate,
           declareTime: "",
           subsidy: undefined,
+          subsidy2: undefined
         };
         this.getUserInfo(resultData.eventType);
       }
@@ -297,13 +304,14 @@ export default {
      * @description 发起邀约
      */
     async createInvite() {
-      const { eventID, eventType, declareTime, subsidy } = this.targetObj;
+      const { eventID, eventType, declareTime, subsidy, subsidy2 } = this.targetObj;
       const param = {
         eventId: eventID,
         eventType,
         declareTime, // 申报截止时间不能大于开始时间this.targetObj.startDate
         inviteTime: this.inviteTime, // 邀约截止 不能大于申报截止
         subsidy,
+        subsidy2,
         user: this.userCheckList,
       };
       const time1 = new Date(declareTime)?.getTime()

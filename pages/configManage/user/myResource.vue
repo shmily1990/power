@@ -51,6 +51,10 @@
                 <view class="label">所属区域</view>
                 <view class="value">{{ currentUserRegionName }}</view>
               </view>
+              <view class="form-item">
+                <view class="label">用户性质</view>
+                <view class="value">{{ currentUserQualityName }}</view>
+              </view>
             </view>
           </scroll-view>
         </view>
@@ -225,12 +229,13 @@
       :currentType.sync="currentType"
       :parentId="userId"
       :jumpTabIndex="jumpTabIndex"
+      :electricTypeList="electricTypeList"
     />
   </view>
 </template>
 <script>
 import List from "@/components/list.vue";
-import { getUserInfo, getTypeList, getRegionList, getUserDevice } from "@/api/user/index.js";
+import { getUserInfo, getTypeList, getRegionList, getUserDevice, qualityList } from "@/api/user/index.js";
 import { seeInfo } from "@/api/customer/index.js"
 import createUserForm from "../component/createUser.vue";
 import { uniScrollTop } from "@/utils/common.js";
@@ -301,14 +306,23 @@ export default {
       ],
       deviceTypeList: [], // 设备类型
       currentType: "index",
-      jumpTabIndex: 0
+      jumpTabIndex: 0,
+      electricTypeList: []
     };
   },
   onReady() {
     this.getTypeList();
     this.getRegionList();
     this.queryUserDetail();
-    this.queryDeviceList()
+    this.queryDeviceList();
+    this.qualityList()
+  },
+  watch: {
+    currentType(val) {
+      if (val === 'index') {
+        this.queryUserDetail()
+      }
+    }
   },
   computed: {
     ...mapState([
@@ -327,8 +341,23 @@ export default {
       return this.regionList.find((c) => c.regionId === this.form.regionId)
         ?.regionName;
     },
+    currentUserQualityName() {
+      console.log()
+      return this.electricTypeList.find(c => c.value === this.form.userQuality)?.name || ''
+    }
   },
   methods: {
+    async qualityList() {
+      const { resultData, resultCode } = await qualityList()
+      if (!resultCode) {
+        this.electricTypeList = resultData.map(item => {
+          return {
+            name: item.qualityName,
+            value: item.qualityId
+          }
+        })
+      }
+    },
     // 获取用户设备列表
     async queryDeviceList() {
       const { resultCode, resultData } = await getUserDevice({ userId: this.userId })
@@ -365,7 +394,9 @@ export default {
           userType,
           regionId,
           phone,
-          userNumber
+          userNumber,
+          userQuality,
+          voltageGrade
         } = user;
         this.form = {
           address,
@@ -375,7 +406,9 @@ export default {
           userType,
           regionId,
           phone,
-          userNumber
+          userNumber,
+          userQuality,
+          voltageGrade
         };
         const type10 = [], type20 = [], type30 = []
         response.forEach(c => {

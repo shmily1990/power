@@ -2,6 +2,7 @@ import request from '../js_sdk/luch-request/luch-request/index.js'
 import {
 	domain
 } from '@/static/config.js'
+import { sign, stringParamsFun } from '../utils/common'
 const http = new request()
 const apiWhiteList = ['/api/auth/account/login']
 const noMessage = ['/api/erp/Mobile/Information']
@@ -23,6 +24,17 @@ http.setConfig((config) => {
 })
 //请求拦截
 http.interceptors.request.use((config) => {
+	const timeStamp = new Date().getTime()
+	const signData = sign({ ...config.params, timestamp: timeStamp }, config.data)
+	config.header = {
+		...config.header,
+		'power-param-name': stringParamsFun(config.params),
+		'power-data-sign': signData
+	}
+	config.params = {
+		timestamp: timeStamp,
+		...config.params
+	}
 	const userToken = uni.getStorageSync('token')
 	if (userToken) {
 		if (!apiWhiteList.includes(config.url)) { // 不再白名单加上token

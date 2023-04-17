@@ -40,9 +40,16 @@
               </view>
             </view>
             <view class="label-value">
-              <text class="title">补贴金额</text>
+              <text class="title">电网用户补贴金额</text>
               <view class="value">
                 <text class="count" style="width: 132rpx">{{ basicInfo.subsidy }}</text>
+                <text class="unit">元</text>
+              </view>
+            </view>
+            <view class="label-value">
+              <text class="title">非电网用户补贴金额</text>
+              <view class="value">
+                <text class="count" style="width: 132rpx">{{ basicInfo.subsidy2 }}</text>
                 <text class="unit">元</text>
               </view>
             </view>

@@ -170,7 +170,7 @@
               <picker
                 @change="(e) => bindPickerChange(e, index)"
                 :value="item.deviceTypeIndex || 0"
-                :range="devicesList"
+                :range="tabs[currentTab].rangeList"
                 range-key="deviceName"
               >
                 <u-input
@@ -290,6 +290,7 @@ export default {
             type: 10,
             sum: 0,
             list: [],
+            rangeList: [],
             icon: "icon-iconDR_quick_active",
           },
           {
@@ -297,6 +298,7 @@ export default {
             type: 20,
             sum: 0,
             list: [],
+            rangeList: [],
             icon: "icon-iconDR_day_active",
           },
           {
@@ -304,6 +306,7 @@ export default {
             type: 30,
             sum: 0,
             list: [],
+            rangeList: [],
             icon: "icon-iconDR_long_active",
           },
         ],
@@ -318,10 +321,10 @@ export default {
       default: {}
     }
   },
-  onReady() {
+  async onReady() {
     // this.queryEventByID(this.eventID);
-    this.queryInviteDetail()
-    this.queryDeviceData()
+    await this.queryInviteDetail()
+    await this.queryDeviceData()
   },
   computed: {
     ...mapState([
@@ -349,6 +352,16 @@ export default {
       const sum2 = this.tabs[1].list.reduce((pre, cur) => pre + Number(cur.deviceVolume), 0)
       const sum3 = this.tabs[2].list.reduce((pre, cur) => pre + Number(cur.deviceVolume), 0)
       return [sum1, sum2, sum3]
+    }
+  },
+  watch: {
+    devicesList(val) {
+      this.tabs.forEach(item => {
+        item.rangeList = this.devicesList.filter((c) => {
+          return !item.list.some(cItem => cItem.deviceName === c.deviceName)
+        })
+      })
+      console.log(this.tabs)
     }
   },
   methods: {
@@ -382,6 +395,7 @@ export default {
             type: 10,
             sum: tab0.total,
             list: tab0.devices,
+            rangeList: [],
             icon: "icon-iconDR_quick_active",
           },
           {
@@ -389,13 +403,15 @@ export default {
             type: 20,
             sum: tab1.total,
             list: tab1.devices,
+            rangeList: [],
             icon: "icon-iconDR_day_active",
           },
           {
             title: "中长期响应",
             type: 30,
-           sum: tab2.total,
+            sum: tab2.total,
             list: tab2.devices,
+            rangeList: [],
             icon: "icon-iconDR_long_active",
           },
         ]
@@ -526,24 +542,40 @@ export default {
     },
      bindPickerChange(e, index) {
       const value = e.detail.value
-      const selectDeviceId = this.devicesList[value].deviceId
+      const selectDeviceId = this.tabs[this.currentTab].rangeList[value].deviceId
       const isFind = this.tabs[this.currentTab].list.find(c => c.deviceId === selectDeviceId)
+      const { deviceId, deviceName, deviceVolume} = this.tabs[this.currentTab].list[index]
       if (isFind) {
         uni.showToast({ title: "同一响应配置设备不能重复添加", icon: "none" });
         return
       }
       this.$set(this.tabs[this.currentTab].list, index, {
         deviceTypeIndex: Number(value),
-        deviceId: this.devicesList[value].deviceId,
-        deviceName: this.devicesList[value].deviceName,
-        deviceVolume: this.devicesList[value].volume
+        deviceId: this.tabs[this.currentTab].rangeList[value].deviceId,
+        deviceName: this.tabs[this.currentTab].rangeList[value].deviceName,
+        deviceVolume: this.tabs[this.currentTab].rangeList[value].deviceVolume,
         // id: this.tabs[this.currentTab].list[index].id
       });
+
+      if (deviceName) {
+          this.tabs[this.currentTab].rangeList.splice(value, 1, {deviceId, deviceName, deviceVolume})
+      } else {
+          this.tabs[this.currentTab].rangeList.splice(value, 1)
+      }
     },
      add(currentIndex, item) {
       this.tabs[this.currentTab].list.splice(currentIndex, 0, {deviceVolume: 0, deviceId: new Date()});
     },
     reduce(currentIndex) {
+      // this.tabs[this.currentTab].list.splice(currentIndex, 1);
+      const { deviceId, deviceName, deviceVolume } = this.tabs[this.currentTab].list[currentIndex]
+      if (deviceId) {
+        this.tabs[this.currentTab].rangeList.push({
+          deviceName,
+          deviceId,
+          deviceVolume
+        })
+      }
       this.tabs[this.currentTab].list.splice(currentIndex, 1);
     },
     async queryDeviceData() {
@@ -552,7 +584,12 @@ export default {
         userId: this.userId
       })
       if (!resultCode) {
-        this.devicesList = resultData
+        this.devicesList = resultData.map(item => {
+          return {
+            ...item,
+            deviceVolume: item.volume
+          }
+        })
       }
     },
   },

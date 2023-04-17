@@ -129,7 +129,7 @@
       </view>
     </List>
     <List titleTxt="事件描述" fontClass="icon-iconKSYY_SJXQ_4-0-title">
-      <template slot="optBtn" v-if="eventInfo.status == 1">
+      <template slot="optBtn" v-if="eventInfo.status === 1">
         <button
           class="mini-btn"
           type="default"
@@ -152,7 +152,7 @@
           />
         </view>
       </view>
-      <view class="chart-content" v-if="eventInfo.status === 4">
+      <view class="chart-content" v-if="eventInfo.status !== 1">
         <view class="chart-title flex">
           <text class="iconfont icon-iconDR_day_inactive"></text>
           <text>响应结果曲线</text>
@@ -164,12 +164,11 @@
             :chartData="chartData"
             :inScrollView="true"
             :canvas2d="true"
-            :pageScrollTop="70"
             :background="color"
           />
         </view>
       </view>
-      <view class="chart-content bottom"  v-if="eventInfo.status === 4">
+      <view class="chart-content bottom"  v-if="eventInfo.status !== 1 && loginUserInfo.userType != 30">
         <view class="chart-title flex">
           <text class="iconfont icon-iconUser-PZGL-money1"></text>
           <text>预计补贴收益</text>
@@ -180,16 +179,55 @@
             <text class="value">{{ subsidyCount }}</text>
             <text class="suffix">元</text>
           </view>
-          <view class="right">
+          <view class="left f1 mr-0">
+            <text>总响应</text>
+            <text class="value sumResponse">{{ subsidyCount2 }}</text>
+            <text class="suffix">kW</text>
+          </view>
+          <!-- <view class="right">
             <view class="item"
               >补贴额度<text class="border w-92">{{ subsidy }}</text>元/千瓦</view
             >
             <view class="item"
               >响应额度<text class="border w-120">{{ responseTarget }}</text>千瓦</view
             >
+          </view> -->
+        </view>
+        <view class="user-bt">
+          <view class="item">
+            <view class="right">电网用户补贴<text class="border w-62">{{ elUser.subsidy }}</text> 元/千瓦</view>
+            <view class="right">响应<text class="border w-120 sumResponse">{{ elUser.responseTarget }}</text>千瓦</view>
+          </view>
+          <view class="item">
+            <view class="right">非电网用户补贴<text class="border w-62 ">{{ noElUser.subsidy }}</text> 元/千瓦</view>
+            <view class="right">响应<text class="border w-120 sumResponse">{{ noElUser.responseTarget }}</text>千瓦</view>
           </view>
         </view>
       </view>
+      <view class="chart-content bottom"  v-if="eventInfo.status !== 1 && loginUserInfo.userType === 30">
+        <view class="chart-title flex">
+          <text class="iconfont icon-iconUser-PZGL-money1"></text>
+          <text>预计补贴收益</text>
+        </view>
+        <view class="flex">
+          <view class="left">
+            <text class="iconfont icon-iconUser-PZGL-money2"></text>
+            <text class="value">{{ userQuality === 10 ? subsidyCount : subsidyCount2 }}</text>
+            <text class="suffix">元</text>
+          </view>
+          <view class="right">
+            <view class="item"
+              >补贴额度<text class="border w-92">{{ userQuality === 10 ? elUser.subsidy : noElUser.subsidy }}</text>元/千瓦</view
+            >
+            <view class="item"
+              >响应额度<text class="border w-120">{{ userQuality === 10 ? elUser.responseTarget : noElUser.responseTarget }}</text>千瓦</view
+            >
+          </view>
+        </view>
+      </view>
+       <view class="tips">
+          <text>注：具体补贴收益以电力公司实际出具为准</text>
+        </view>
     </List>
 
     <view class="bottom flex center" @click="onBack">
@@ -205,6 +243,7 @@ import datapicker from "@/components/datePicker";
 import { queryEventByID, updateEvent, querySubsidyBenefits } from "@/api/event/index.js";
 import { queryRespCurve } from "@/api/cockpit/index.js";
 import { uniScrollTop, eventTypeList } from "@/utils/common.js";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   options: {
@@ -224,7 +263,6 @@ export default {
     return {
       typeList: eventTypeList,
       opts: {
-        animation: true,
         color: [
           "#19D8FF",
           "#0DFF9A",
@@ -236,19 +274,14 @@ export default {
           "#000000",
           "#000000",
         ],
-        padding: [15, 0, 10, 15],
-        // height: 350,
-        // width: 300,
-        // touchMoveLimit: 60,
-        //  enableScroll: true,
-        // enableScroll: false,
+        padding: [0, 0, 0, 5],
+        enableScroll: false,
         legend: {
           position: "top",
           float: "right",
           fontColor: "#9FA6AF",
           fontSize: 12,
-          lineHeight: 60,
-          show: false,
+          lineHeight: 0
         },
         xAxis: {
           disableGrid: true,
@@ -354,14 +387,27 @@ export default {
         },
       },
       typeIndex: 0,
-      responseTarget: 0,
-      subsidy: 0,
+      elUser: {
+        responseTarget: 0,
+        subsidy: 0
+      },
+      noElUser: {
+        responseTarget: 0,
+        subsidy: 0
+      },
+      userQuality: 10,
       color: 'rgba(0,0,0, 0)'
     };
   },
   computed: {
+    ...mapState([
+      "loginUserInfo"
+    ]),
     subsidyCount() {
-      return (parseFloat(this.subsidy) * parseFloat(this.responseTarget)).toFixed(2)
+      return (parseFloat(this.elUser.subsidy) * parseFloat(this.elUser.responseTarget)).toFixed(2)
+    },
+    subsidyCount2() {
+      return (parseFloat(this.noElUser.subsidy) * parseFloat(this.noElUser.responseTarget)).toFixed(2)
     },
     currentEventTypeName() {
       const item =
@@ -373,7 +419,7 @@ export default {
   },
   onReady() {
     this.getDetail();
-    if (this.eventInfo.status === 4) {
+    if (this.eventInfo.status !== 1) {
       this.queryChartData();
       this.querySubsidyBenefits()
     }
@@ -385,9 +431,12 @@ export default {
         eventId: this.eventInfo.eventID,
       })
       if (!resultCode) {
-        const { responseTarget, subsidy } = resultData
-        this.responseTarget = responseTarget
-        this.subsidy = subsidy
+        const { elUser, noElUser, userQuality } = resultData
+        this.elUser = elUser || { responseLoad: 0, subsidy: 0 }
+        this.noElUser = noElUser || { responseLoad: 0, subsidy: 0 }
+        if (this.loginUserInfo.userType === 30) {
+          this.userQuality = userQuality
+        }
       }
     },
     // 更新接口
@@ -549,20 +598,45 @@ export default {
         eventId: this.eventInfo.eventID,
       });
       if (!resultCode) {
-        if (resultData && resultData.length) {
-          const xAxisData = [];
-          const data = [];
-          resultData.forEach((c) => {
-            xAxisData.push(c.responseTime);
-            data.push(c.responseLoad);
-          });
+        const { eventCurve = [] ,standCurve =[] } = resultData
+        if (!eventCurve.length && !standCurve.length) {
           let res = {
-            categories: xAxisData,
+            categories: [" "],
             series: [
               {
-                name: "负荷",
+                name: "实测数据",
                 textSize: 1,
-                data,
+                data: [],
+                lineStyle: {
+                  normal: {
+                    //线的颜色
+                    color: "#f00",
+                    shadowColor: "rgba(0, 0, 0, 1)",
+                    shadowBlur: 0,
+                    shadowOffsetY: 5,
+                    shadowOffsetX: 5,
+                  },
+                },
+                itemStyle: {
+                  //面积图里的颜色和圆点里的颜色
+                  color: "#00ca95",
+                  //圆点外的颜色
+                  borderColor: "#fff",
+                  //圆点的宽度
+                  borderWidth: 10,
+                  //圆点影子的颜色
+                  shadowColor: "rgba(0, 0, 0, 1)",
+                  //阴影的模糊级数
+                  shadowBlur: 0,
+                  //阴影的偏移效果
+                  shadowOffsetY: 2,
+                  shadowOffsetX: 2,
+                },
+              },
+              {
+                name: "基线数据",
+                textSize: 1,
+                data: [],
                 lineStyle: {
                   normal: {
                     //线的颜色
@@ -595,17 +669,56 @@ export default {
             this.chartData = JSON.parse(JSON.stringify(res));
           }, 500);
         } else {
+          const xAxisData = [];
+          const data = [], data2 = [];
+          eventCurve.forEach((c) => {
+            xAxisData.push(c.responseTime);
+            data.push(c.responseLoad);
+          });
+          standCurve.forEach((c) => {
+            data2.push(c.responseLoad);
+          });
           let res = {
-            categories: [" "],
+            categories: xAxisData,
             series: [
               {
-                name: "目标值",
+                name: "实测数据",
                 textSize: 1,
-                data: [],
+                data,
                 lineStyle: {
                   normal: {
                     //线的颜色
-                    color: "#f00",
+                    color: "#63d2f6",
+                    shadowColor: "rgba(0, 0, 0, 1)",
+                    shadowBlur: 0,
+                    shadowOffsetY: 5,
+                    shadowOffsetX: 5,
+                  },
+                },
+                itemStyle: {
+                  //面积图里的颜色和圆点里的颜色
+                  color: "#00ca95",
+                  //圆点外的颜色
+                  borderColor: "#fff",
+                  //圆点的宽度
+                  borderWidth: 10,
+                  //圆点影子的颜色
+                  shadowColor: "rgba(0, 0, 0, 1)",
+                  //阴影的模糊级数
+                  shadowBlur: 0,
+                  //阴影的偏移效果
+                  shadowOffsetY: 2,
+                  shadowOffsetX: 2,
+                },
+              },
+              {
+                name: "基线数据",
+                textSize: 1,
+                data: data2,
+                lineStyle: {
+                  normal: {
+                    //线的颜色
+                    color: "#74f69b",
                     shadowColor: "rgba(0, 0, 0, 1)",
                     shadowBlur: 0,
                     shadowOffsetY: 5,
@@ -678,6 +791,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tips {
+    font-size: 28rpx;
+    color: #00c8ff;
+    margin: 0 0 12rpx;
+}
 .detail-title {
   font-size: 40rpx;
   font-family: MicrosoftYaHei;
@@ -803,6 +921,7 @@ export default {
     color: #9fa6af;
     line-height: 16px;
     margin-right: 28rpx;
+    // padding: 0 10rpx;
     .value {
       font-size: 40rpx;
       font-family: Square721BT-Roman, Square721BT;
@@ -839,17 +958,36 @@ export default {
       font-family: MicrosoftYaHei;
       color: #19d8ff;
     }
-    .w-95 {
-      width: 92rpx;
+    .w-62 {
+      width: 62rpx;
     }
     .w-120 {
       width: 120rpx;
     }
   }
+  
 }
+.f1 {
+  flex: 1;
+}
+.mr-0 {
+  margin-right: 0 !important;
+  padding: 0 10rpx !important;
+}
+.user-bt {
+  .item {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16rpx;
+  }
+}
+.sumResponse {
+    color: #F7B500 !important;
+    font-family: square-font !important;
+  }
 .bottom {
   margin-top: 50rpx;
-  margin-bottom: 60rpx;
+  margin-bottom: 30rpx;
   .title {
     font-size: 32rpx;
     padding-left: 20rpx;
