@@ -176,12 +176,12 @@
         <view class="flex">
           <view class="left">
             <text class="iconfont icon-iconUser-PZGL-money2"></text>
-            <text class="value">{{ subsidyCount }}</text>
+            <text class="value">{{ parseFloat(subsidyCount) + parseFloat(subsidyCount2) }}</text>
             <text class="suffix">元</text>
           </view>
           <view class="left f1 mr-0">
             <text>总响应</text>
-            <text class="value sumResponse">{{ subsidyCount2 }}</text>
+            <text class="value sumResponse">{{ parseFloat(elUser.responseTarget) + parseFloat(noElUser.responseTarget) }}</text>
             <text class="suffix">kW</text>
           </view>
           <!-- <view class="right">
@@ -258,9 +258,11 @@ export default {
       type: Object,
       default: {},
     },
+
   },
   data() {
     return {
+      timeout: null,
       typeList: eventTypeList,
       opts: {
         color: [
@@ -276,6 +278,7 @@ export default {
         ],
         padding: [0, 0, 0, 5],
         enableScroll: false,
+        dataPointShape: false,
         legend: {
           position: "top",
           float: "right",
@@ -288,10 +291,12 @@ export default {
           // title: "单位：年"
           axisLineColor: "#0D6798",
           fontColor: "rgba(0,200,255,0.3)",
-          itemCount: 4,
+          labelCount: 8,
+          itemCount: 0,
           rotateLabel: true,
           fontSize: 10,
           // formatter: null
+          boundaryGap: "justify",
           format: "xAxisDemo3"
         },
         yAxis: {
@@ -319,7 +324,7 @@ export default {
           line: {
             type: "curve",
             width: 2,
-            activeType: "solid",
+            // activeType: "solid",
             onShadow: false,
           },
         },
@@ -422,6 +427,10 @@ export default {
     if (this.eventInfo.status !== 1) {
       this.queryChartData();
       this.querySubsidyBenefits()
+      this.timeout = setInterval(() => {
+        this.queryChartData();
+        // this.querySubsidyBenefits()
+      }, 60000)
     }
   },
   mounted() {},
@@ -599,7 +608,7 @@ export default {
       });
       if (!resultCode) {
         const { eventCurve = [] ,standCurve =[] } = resultData
-        if (!eventCurve.length && !standCurve.length) {
+        if (!eventCurve?.length && !standCurve?.length) {
           let res = {
             categories: [" "],
             series: [
@@ -671,13 +680,18 @@ export default {
         } else {
           const xAxisData = [];
           const data = [], data2 = [];
-          eventCurve.forEach((c) => {
-            xAxisData.push(c.responseTime);
-            data.push(c.responseLoad);
-          });
           standCurve.forEach((c) => {
+            xAxisData.push(c.responseTime);
             data2.push(c.responseLoad);
           });
+          xAxisData.forEach(item => {
+            const isFindIndex = eventCurve.findIndex(cItem => item === cItem.responseTime)
+            if (isFindIndex >= 0) {
+              data.push(eventCurve[isFindIndex]?.responseLoad)
+            } else {
+              data.push(null)
+            }
+          })
           let res = {
             categories: xAxisData,
             series: [
@@ -787,6 +801,13 @@ export default {
         this.typeList[Number(this.typeIndex)].value;
     },
   },
+  beforeDestroy() {
+    console.log(878787)
+    if (this.timeout) {
+      clearInterval(this.timeout)
+      this.timeout = null
+    }
+  }
 };
 </script>
 

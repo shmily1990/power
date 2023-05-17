@@ -344,14 +344,18 @@ export default {
       ],
       userId: null,
       responseList: [
-        {
-          name: '不参与',
-          value: 1
-        },
+        // {
+        //   name: '不参与',
+        //   value: 1
+        // },
         {
           name: '参与',
           value: 2
         },
+        {
+          name: '不参与',
+          value: 1
+        }
       ],
       responseIndex: 0,
       // 设备
@@ -496,7 +500,7 @@ export default {
       if (!resultCode) {
         const { user, device, response, strategy } = resultData
         this.userInfo = resultData
-        this.responseIndex = user.partake - 1
+        this.responseIndex = user.partake ? 2 - user.partake : 0
         this.electricType = this.electricTypeList.findIndex(item => item.value === user.userQuality)
         this.form = { ...user }
         if (device.length) this.devicesList = device // 如果设备没数据不赋值
@@ -845,7 +849,9 @@ export default {
         userId: this.userId
       })
       if (!resultCode) {
-        this.devicesList = resultData
+        if (resultData.length) {
+          this.devicesList = resultData // 如果有device配置过有数据就赋值
+        }
         this.tabs.forEach(item => {
           item.rangeList = this.devicesList.filter((c) => {
             return !item.list.some(cItem => cItem.deviceName === c.deviceName)

@@ -27,7 +27,7 @@
               <view class="label-value">
                 <text class="title">事件名称</text>
                 <view class="value">
-                  <text class="count m-w270">{{ item.eventName }}</text>
+                  <text class="count m-w270 ellipsis">{{ item.eventName }}</text>
                 </view>
               </view>
               <template v-if="selectOrder === item.inviteId">
@@ -196,5 +196,10 @@ export default {
       }
     }
   }
+}
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
