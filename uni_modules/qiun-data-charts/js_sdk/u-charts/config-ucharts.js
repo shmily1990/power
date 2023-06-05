@@ -59,6 +59,13 @@ const cfu = {
 		"xAxisDemo1": function (val, index, opts) { return val + '年'; },
 		"xAxisDemo2": function (val, index, opts) { return formatDateTime(val, 'h:m') },
 		"xAxisDemo3": function (val, index, opts) { return val.slice(-5) },
+		"xAxisDemo4": function (val, index, opts) {
+			if (index === 2) {
+				return '8888'
+			} else {
+				return ''
+			}
+		},
 		"seriesDemo1": function (val, index, series, opts) { return val + '元' },
 		"tooltipDemo1": function (item, category, index, opts) {
 			if (index == 0) {

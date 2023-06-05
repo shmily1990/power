@@ -81,6 +81,7 @@
             <datePicker
               :timeValue.sync="eventObj.releaseDate"
               :disabled="operateDisable.card1"
+              :key="eventID + 1"
             />
           </view>
         </view>
@@ -140,6 +141,7 @@
             <datePicker
               :timeValue.sync="eventObj.startDate"
               :disabled="operateDisable.card3"
+              :key="eventID + 2"
             />
           </view>
         </view>
@@ -216,7 +218,7 @@ export default {
       lists: ["select1", "select2", "select3", "select4"],
       show: false,
       target: "",
-      eventId: null,
+      eventID: null,
       value: "2021-02-03 12:22",
       operateDisable: {
         card1: true,

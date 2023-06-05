@@ -27,6 +27,10 @@
                 <view class="value">{{ form.userNumber }}</view>
               </view>
               <view class="form-item">
+                <view class="label">用户地址</view>
+                <view class="value">{{ form.address }}</view>
+              </view>
+              <view class="form-item">
                 <view class="label">用户类型</view>
                 <view class="value">{{ currentUserTypeName }}</view>
               </view>
@@ -44,7 +48,7 @@
               </view>
               <view class="form-item">
                 <view class="label">电压等级</view>
-                <view class="value">{{ form.level || 10 }} kV</view>
+                <view class="value">{{ form.voltageGrade || 10 }} kV</view>
               </view>
               <view class="form-item">
                 <view class="label">所属区域</view>
@@ -361,7 +365,8 @@ export default {
           regionId,
           phone,
           userNumber,
-          userQuality
+          userQuality,
+          voltageGrade
         } = user;
         this.form = {
           address,
@@ -372,7 +377,8 @@ export default {
           regionId,
           phone,
           userNumber,
-          userQuality
+          userQuality,
+          voltageGrade
         };
         const type10 = [], type20 = [], type30 = []
         response.forEach(c => {

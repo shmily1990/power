@@ -20,3 +20,7 @@ export function quertyRegulatoryAbilityDistribute(data) { // 查询调控能力�
 export function queryRespCurve(data) { // 查询事件曲线
   return http.post('/api/keeper/Cockpit/QueryRespCurve', data)
 }
+
+export function queryVolgateGrade(data) { // 查询电压等级列表
+  return http.post('/api/keeper/Cockpit/QueryVolgateGrade', data)
+}

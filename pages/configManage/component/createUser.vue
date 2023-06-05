@@ -52,11 +52,25 @@
                 ><u-input v-model="form.phone" type="number"
               /></u-form-item>
               <u-form-item label="电压等级" prop="voltageGrade"
-                ><u-input v-model="form.voltageGrade" type="number">
+                >
+                <!-- <u-input v-model="form.voltageGrade" type="number">
                   <template slot="suffix">
                     <text style="color: #0094b3;">kV</text>
                   </template>
-                  </u-input>
+                </u-input> -->
+                <picker
+                  @change="handleVoltageGradeChange"
+                  :value="voltageGradeType"
+                  :range="voltageGradeList"
+                  range-key="name"
+                >
+                  <u-input
+                    :value="voltageGradeList[voltageGradeType].name"
+                    disabled
+                    suffixIcon="arrow-down-fill"
+                    suffixIconStyle="color: #909399;font-size: 12px;"
+                  />
+                </picker>
               </u-form-item>
               <u-form-item label="所属区域">
                 <picker
@@ -273,6 +287,7 @@
 <script>
 import List from "@/components/list.vue";
 import { getUserInfo, getTypeList, getRegionList, getUserDevice, addUser, updateUser, qualityList } from "@/api/user/index.js";
+import { queryVolgateGrade } from "@/api/cockpit/index.js";
 import { uniScrollTop } from "@/utils/common.js";
 export default {
   options: {
@@ -308,7 +323,7 @@ export default {
       currentTabIndex: 0, // tab
       form: {
         partake: 2, // 默认参于
-        voltageGrade: 10,
+        voltageGrade: '',
         userQuality: 10
       },
       style: {
@@ -440,7 +455,9 @@ export default {
           trigger: ["blur", "change"],
         }
       },
-      electricType: 0
+      electricType: 0,
+      voltageGradeList: [],
+      voltageGradeType: 0
     };
   },
   computed: {
@@ -477,11 +494,13 @@ export default {
       }
     }
   },
-  onReady() {
+  async onReady() {
+    await this.getVolgateGradeList(); // 查询电压等级
     // 初始化数
     this.initData()
     this.getTypeList();
     this.getRegionList();
+    
     // 查询用户性质
     
   },
@@ -495,13 +514,13 @@ export default {
     },
     // 查询用户信息
     async queryUserInfo() {
-      console.log(this.electricTypeList)
       const { resultCode, resultData } = await getUserInfo({ userId: this.userId })
       if (!resultCode) {
         const { user, device, response, strategy } = resultData
         this.userInfo = resultData
         this.responseIndex = user.partake ? 2 - user.partake : 0
         this.electricType = this.electricTypeList.findIndex(item => item.value === user.userQuality)
+        this.voltageGradeType = this.voltageGradeList.findIndex(item => item.id === user.voltageGrade) // 电压等级
         this.form = { ...user }
         if (device.length) this.devicesList = device // 如果设备没数据不赋值
         const list1 = [], list2 = [], list3 = []
@@ -613,6 +632,21 @@ export default {
         this.form.regionId = this.regionList[this.regionIndex]?.regionId || null
       }
     },
+    // 获取电压等级
+    async getVolgateGradeList() {
+      const { resultCode, resultData } = await queryVolgateGrade({});
+      if (!resultCode) {
+        this.voltageGradeList = resultData;
+        if (!this.parentId) {
+          this.form.voltageGrade = this.voltageGradeList[this.voltageGradeType]?.id || null
+        }
+      }
+    },
+    // 用户电压等级选择
+    handleVoltageGradeChange(e) {
+      this.voltageGradeType = e.detail.value
+      this.form.voltageGrade = this.voltageGradeList[Number(this.voltageGradeType)].id;
+    },
     // 区域选择
     handleRegionChange(e) {
       this.regionIndex = e.detail.value;
@@ -628,13 +662,10 @@ export default {
       this.currentTabIndex = e.index
     },
     bindPickerChange(e, index) {
-      console.log(index, 12123)
       const value = e.detail.value
-      console.log(value)
       const selectDeviceId = this.tabs[this.currentTab].rangeList[value].deviceId
       const isFind = this.tabs[this.currentTab].list.find(c => c.deviceId === selectDeviceId)
       const { deviceId, deviceName, volume } = this.tabs[this.currentTab].list[index]
-      console.log(deviceId)
       if (isFind) {
         uni.showToast({ title: "同一响应配置设备不能重复添加", icon: "none" });
         return
@@ -646,8 +677,6 @@ export default {
         volume: this.tabs[this.currentTab].rangeList[value].volume,
         id: this.tabs[this.currentTab].list[index].id
       });
-
-      console.log(this.tabs[this.currentTab].rangeList)
       if (deviceId) {
           this.tabs[this.currentTab].rangeList.splice(value, 1, {deviceId, deviceName, volume})
       } else {
@@ -877,7 +906,6 @@ export default {
     handleElectricTypeChange(e) {
       this.electricType = Number(e.detail.value);
       this.form.userQuality = this.electricTypeList[this.electricType].value;
-      console.log(this.form)
     },
   },
 };

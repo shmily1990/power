@@ -225,7 +225,7 @@
           </view>
         </view>
       </view>
-       <view class="tips">
+       <view class="tips"  v-if="eventInfo.status !== 1">
           <text>注：具体补贴收益以电力公司实际出具为准</text>
         </view>
     </List>
@@ -266,8 +266,8 @@ export default {
       typeList: eventTypeList,
       opts: {
         color: [
-          "#19D8FF",
           "#0DFF9A",
+          "#00C8FF",
           "#FFD76A",
           "#000000",
           "#000000",
@@ -696,13 +696,13 @@ export default {
             categories: xAxisData,
             series: [
               {
-                name: "实测数据",
+                name: "基线数据",
                 textSize: 1,
-                data,
+                data: data2,
                 lineStyle: {
                   normal: {
                     //线的颜色
-                    color: "#63d2f6",
+                    color: "#74f69b",
                     shadowColor: "rgba(0, 0, 0, 1)",
                     shadowBlur: 0,
                     shadowOffsetY: 5,
@@ -726,13 +726,13 @@ export default {
                 },
               },
               {
-                name: "基线数据",
+                name: "实测数据",
                 textSize: 1,
-                data: data2,
+                data,
                 lineStyle: {
                   normal: {
                     //线的颜色
-                    color: "#74f69b",
+                    color: "#63d2f6",
                     shadowColor: "rgba(0, 0, 0, 1)",
                     shadowBlur: 0,
                     shadowOffsetY: 5,

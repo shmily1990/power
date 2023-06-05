@@ -46,7 +46,7 @@ export default {
   watch: {
     timeValue(val, old) {
       this.timeStr = val;
-      !old && this.initTime();
+      this.initTime();
     },
   },
   methods: {
@@ -62,9 +62,8 @@ export default {
       this.dateTime = obj.dateTime;
       this.timeStr = !this.timeValue
         ? "请选择日期"
-        : (this.timeValue && this.timeValue.replace(/-/g, ".")) ||
+        : this.timeValue  ||
           this.createTimeStr(this.dateTimeArray, this.dateTime);
-      console.log(this.timeValue, "333", obj);
     },
 
     changeDateTime(e, type) {
@@ -95,9 +94,9 @@ export default {
     createTimeStr(dateTimeArray, dateTime) {
       let timeStr =
         dateTimeArray[0][dateTime[0]] +
-        "." +
+        "-" +
         dateTimeArray[1][dateTime[1]] +
-        "." +
+        "-" +
         dateTimeArray[2][dateTime[2]] +
         " " +
         dateTimeArray[3][dateTime[3]] +
