@@ -121,7 +121,7 @@ export default {
       this.data = [
         {
           name: "用户总数",
-          value: userTotal || 20,
+          value: userTotal,
           unit: "家",
           icon: "icon-iconPZGL_YHGL_1-1",
         },

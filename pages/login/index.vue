@@ -125,30 +125,56 @@ export default {
     },
     // 用户登录
     loginConfirm() {
-      this.$refs.form.validate().then(async (res) => {
-        const { loginName, loginPwd } = this.form;
-        this.loading = true;
-        try {
-          const res = await login({
-            loginName,
-            loginPwd,
-          });
-          this.loading = false;
-          if (res.resultCode == 0) {
-            uni.setStorageSync("token", res.userToken);
-            uni.setStorageSync("userInfo", res);
-            this.$store.commit('setLoginUserInfo', res)
-            uni.switchTab({
-              url: "/pages/cockpit/index",
-            });
-          }
-        } catch (e) {
-          this.loading = false;
-        }
-      });
-      // uni.switchTab({
+      // this.$refs.form.validate().then(async (res) => {
+      //   const { loginName, loginPwd } = this.form;
+      //   this.loading = true;
+      //   try {
+      //     const res = await login({
+      //       loginName,
+      //       loginPwd,
+      //     });
+      //     this.loading = false;
+      //     if (res.resultCode == 0) {
+      //       uni.setStorageSync("token", res.userToken);
+      //       uni.setStorageSync("userInfo", res);
+      //       this.$store.commit('setLoginUserInfo', res)
+      //       uni.switchTab({
       //         url: "/pages/cockpit/index",
       //       });
+      //     }
+      //   } catch (e) {
+      //     this.loading = false;
+      //   }
+      // });
+      // // uni.switchTab({
+      // //         url: "/pages/cockpit/index",
+      // //       });
+      // uni.chooseVideo({
+      //   sourceType: ["camera"],
+      //   compressed: true,
+      //   maxDuration: 10,
+      //   camera: "back",
+      //   success: res => {
+      //     console.log(res)
+      //   },
+      //   fail: e => {
+      //     console.log(e)
+      //   }
+      // })
+      uni.chooseMedia({
+        mediaType: ['video'],
+        success: function (res) {
+          console.log(res)
+          // uni.uploadFile({
+          //   url: 'http://example.com/upload',
+          //   filePath: res.tempFiles[0].tempFilePath,
+          //   name: 'file',
+          //   success: function (res) {
+          //     console.log('upload success');
+          //   }
+          // });
+        }
+      });
     },
   }
 };

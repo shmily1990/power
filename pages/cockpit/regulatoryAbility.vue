@@ -326,6 +326,31 @@ export default {
           setTimeout(() => {
             this.chartData = JSON.parse(JSON.stringify(res));
           }, 500)
+        } else {
+          let res = {
+            categories: [" "],
+            series: [
+              {
+                name: "快速响应",
+                textSize: 1,
+                data: [],
+              },
+              {
+                name: "日内响应",
+                textSize: 1,
+                data: [],
+              },
+              {
+                name: "中长期响应",
+                textSize: 1,
+                data: [],
+              },
+            ]
+          }
+          // this.opts.xAxis.formatter = (val) => 'asdf'
+          setTimeout(() => {
+            this.chartData = JSON.parse(JSON.stringify(res));
+          }, 500)
         }
       }
     },
